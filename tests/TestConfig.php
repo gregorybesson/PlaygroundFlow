@@ -8,7 +8,7 @@ return array(
    		'Jhu\ZdtLoggerModule',
     	'AsseticBundle',
     	'ZfcBase',
-   		'AdfabCore',
+   		'PlaygroundCore',
     	'PlaygroundFlow',
     ),
     'module_listener_options' => array(

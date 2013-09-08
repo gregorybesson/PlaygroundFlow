@@ -32,7 +32,7 @@ class Object extends ProvidesEventsForm
         // having to fix a DoctrineModule bug :( https://github.com/doctrine/DoctrineModule/issues/180
         // so i've extended DoctrineHydrator ...
         $hydrator = new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphObject');
-        $hydrator->addStrategy('parent', new \AdfabCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
+        $hydrator->addStrategy('parent', new \PlaygroundCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
    		$this->setHydrator($hydrator);
 
         $this->setAttribute('enctype', 'multipart/form-data');

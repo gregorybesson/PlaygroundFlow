@@ -32,7 +32,7 @@ class StoryMapping extends ProvidesEventsForm
         // having to fix a DoctrineModule bug :( https://github.com/doctrine/DoctrineModule/issues/180
         // so i've extended DoctrineHydrator ...
         $hydrator = new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphStoryMapping');
-        $hydrator->addStrategy('story', new \AdfabCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
+        $hydrator->addStrategy('story', new \PlaygroundCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
    		$this->setHydrator($hydrator);
 
         $this->setAttribute('enctype', 'multipart/form-data');

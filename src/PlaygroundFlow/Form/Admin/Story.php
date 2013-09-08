@@ -29,8 +29,8 @@ class Story extends ProvidesEventsForm
         $entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
         
         $hydrator = new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphStory');
-        $hydrator->addStrategy('object', new \AdfabCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
-        $hydrator->addStrategy('action', new \AdfabCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
+        $hydrator->addStrategy('object', new \PlaygroundCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
+        $hydrator->addStrategy('action', new \PlaygroundCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
         $this->setHydrator($hydrator);
 
         $this->setAttribute('enctype', 'multipart/form-data');

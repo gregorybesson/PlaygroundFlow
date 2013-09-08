@@ -15,7 +15,7 @@ class Module
 
         $translator = $serviceManager->get('translator');
 
-        AbstractValidator::setDefaultTranslator($translator,'adfabcore');
+        AbstractValidator::setDefaultTranslator($translator,'playgroundcore');
     }
 
 
