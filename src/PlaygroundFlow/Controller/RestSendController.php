@@ -191,7 +191,7 @@ class RestSendController extends AbstractRestfulController
     public function getAdminGameService()
     {
     	if (!$this->adminGameService) {
-    		$this->adminGameService = $this->getServiceLocator()->get('adfabgame_treasurehunt_service');
+    		$this->adminGameService = $this->getServiceLocator()->get('playgroundgame_treasurehunt_service');
     	}
     
     	return $this->adminGameService;
