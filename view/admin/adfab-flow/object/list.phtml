@@ -1,0 +1,39 @@
+<?php $this->plugin('translate')->setTranslatorTextDomain('playgroundflow'); ?>
+<?php
+$fm = $this->flashMessenger()->setNamespace('playgroundflow')->getMessages();
+if (isset($fm[0]))
+{
+    print '<span class=>' . $fm[0] . '</span>';
+}
+?>
+<?php $addLink = $this->url('admin/playgroundflow/object/create', array('objectId' => 0)); ?>
+
+<ul class="liste-buttons">
+	<li class="btn-admin"><a href="<?php echo $addLink;?>"><?php echo $this->translate('Add new object'); ?></a></li>
+</ul>
+
+<h1>Liste des objects</h1>
+
+<table class="table">
+    <tr>
+        <th><?php echo $this->translate('Code'); ?></th>
+        <th><?php echo $this->translate('Label'); ?></th>
+        <th><?php echo $this->translate('Definition'); ?></th>
+        <th></th>
+    </tr>
+    <?php foreach ($this->objects as $object): ?>
+    	<?php $editLink = $this->url('admin/playgroundflow/object/edit', array('objectId' => $object->getId()));?>
+    	<?php $deleteLink = $this->url('admin/playgroundflow/object/remove', array('objectId' => $object->getId()));?>
+    	<?php $optionLink = $this->url('admin/playgroundflow/object/attribute', array('objectId' => $object->getId())); ?>
+        <tr>
+            <td><?php echo $object->getCode() ?></td>
+            <td><?php echo $object->getLabel() ?></td>
+            <td><?php echo $object->getDefinition() ?></td>
+            <td>
+                <a href='<?php echo $editLink ?>'><?php echo $this->translate('Edit'); ?></a> | <a href='<?php echo $deleteLink ?>'><?php echo $this->translate('Delete'); ?></a><?php if($optionLink != ''):?> | <a href='<?php echo $optionLink ?>'><?php echo $this->translate('Manage attributes'); ?></a><?php endif;?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
+<?php echo $this->paginationControl($this->objects, 'Sliding', 'playground-flow/admin/object/pagination_objectlist'); ?>

@@ -1,0 +1,34 @@
+<?php $this->plugin('translate')->setTranslatorTextDomain('playgroundflow');// Pour le texte ?>
+<?php
+$form = $this->form;
+$form->prepare();
+?>
+
+<div class="return"><a href="<?php echo $this->url('admin/playgroundflow/domain');?>"><?php echo $this->translate('Retour'); ?></a></div>
+
+<h1><?php echo $this->translate('Création'); ?></h1>
+
+<?php echo $this->form()->openTag($form) ?>
+<?php echo $this->formButton($form->get('submit')) ?>
+
+<div id="content">
+        <div>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('title')); ?>
+	            <?php echo $this->formInput($form->get('title')); ?>
+	            <?php echo $this->formElementErrors($form->get('title')) ?>
+			</div>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('domain')); ?>
+	            <?php echo $this->formInput($form->get('domain')); ?>
+	            <?php echo $this->formElementErrors($form->get('domain')) ?>
+			</div>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('description')); ?>
+	            <?php echo $this->formTextarea($form->get('description')); ?>
+	            <?php echo $this->formElementErrors($form->get('description')) ?>
+			</div>
+        </div>
+    </div>
+</div>
+<?php echo $this->form()->closeTag() ?>

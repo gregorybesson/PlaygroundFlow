@@ -1,0 +1,39 @@
+<?php $this->plugin('translate')->setTranslatorTextDomain('playgroundflow'); ?>
+<?php
+$fm = $this->flashMessenger()->setNamespace('playgroundflow')->getMessages();
+if (isset($fm[0]))
+{
+    print '<span class=>' . $fm[0] . '</span>';
+}
+?>
+<?php $addLink = $this->url('admin/playgroundflow/domain/create', array('domainId' => 0)); ?>
+
+<ul class="liste-buttons">
+	<li class="btn-admin"><a href="<?php echo $addLink;?>"><?php echo $this->translate('Add new domain'); ?></a></li>
+</ul>
+
+<h1>Liste des domains</h1>
+
+<table class="table">
+    <tr>
+        <th><?php echo $this->translate('Title'); ?></th>
+        <th><?php echo $this->translate('Domain'); ?></th>
+        <th><?php echo $this->translate('Description'); ?></th>
+        <th></th>
+    </tr>
+    <?php foreach ($this->domains as $domain): ?>
+    	<?php $editLink = $this->url('admin/playgroundflow/domain/edit', array('domainId' => $domain->getId()));?>
+    	<?php $deleteLink = $this->url('admin/playgroundflow/domain/remove', array('domainId' => $domain->getId()));?>
+    	<?php $optionLink = $this->url('admin/playgroundflow/domain/story', array('domainId' => $domain->getId())); ?>
+        <tr>
+            <td><?php echo $domain->getTitle() ?></td>
+            <td><?php echo $domain->getDomain() ?></td>
+            <td><?php echo $domain->getDescription() ?></td>
+            <td>
+                <a href='<?php echo $editLink ?>'><?php echo $this->translate('Edit'); ?></a> | <a href='<?php echo $deleteLink ?>'><?php echo $this->translate('Delete'); ?></a><?php if($optionLink != ''):?> | <a href='<?php echo $optionLink ?>'><?php echo $this->translate('Manage stories'); ?></a><?php endif;?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
+<?php echo $this->paginationControl($this->domains, 'Sliding', 'playground-flow/admin/domain/pagination_domainlist'); ?>

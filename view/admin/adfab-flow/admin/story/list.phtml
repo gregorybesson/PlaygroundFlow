@@ -1,0 +1,41 @@
+<?php $this->plugin('translate')->setTranslatorTextDomain('playgroundflow'); ?>
+<?php
+$fm = $this->flashMessenger()->setNamespace('playgroundflow')->getMessages();
+if (isset($fm[0]))
+{
+    print '<span class=>' . $fm[0] . '</span>';
+}
+?>
+<?php $addLink = $this->url('admin/playgroundflow/story/create', array('storyId' => 0)); ?>
+
+<ul class="liste-buttons">
+	<li class="btn-admin"><a href="<?php echo $addLink;?>"><?php echo $this->translate('Add new story'); ?></a></li>
+</ul>
+
+<h1>Liste des stories</h1>
+
+<table class="table">
+    <tr>
+        <th><?php echo $this->translate('Code'); ?></th>
+        <th><?php echo $this->translate('Label'); ?></th>
+        <th><?php echo $this->translate('Action'); ?></th>
+        <th><?php echo $this->translate('Object'); ?></th>
+        <th></th>
+    </tr>
+    <?php foreach ($this->stories as $story): ?>
+    	<?php $editLink = $this->url('admin/playgroundflow/story/edit', array('storyId' => $story->getId()));?>
+    	<?php $deleteLink = $this->url('admin/playgroundflow/story/remove', array('storyId' => $story->getId()));?>
+    	<?php $optionLink = '';//$this->url('admin/playgroundflow/story/attribute', array('storyId' => $story->getId())); ?>
+        <tr>
+            <td><?php echo $story->getCode() ?></td>
+            <td><?php echo $story->getLabel() ?></td>
+            <td><?php echo $story->getAction()->getLabel() ?></td>
+            <td><?php echo $story->getObject()->getLabel() ?></td>
+            <td>
+                <a href='<?php echo $editLink ?>'><?php echo $this->translate('Edit'); ?></a> | <a href='<?php echo $deleteLink ?>'><?php echo $this->translate('Delete'); ?></a><?php if($optionLink != ''):?> | <a href='<?php echo $optionLink ?>'><?php echo $this->translate('Add options'); ?></a><?php endif;?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
+<?php echo $this->paginationControl($this->stories, 'Sliding', 'playground-flow/admin/story/pagination_storylist'); ?>

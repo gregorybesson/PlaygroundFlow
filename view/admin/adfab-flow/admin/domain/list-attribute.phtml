@@ -1,0 +1,35 @@
+<?php $this->plugin('translate')->setTranslatorTextDomain('playgroundflow'); ?>
+<?php
+$fm = $this->flashMessenger()->setNamespace('playgroundflow')->getMessages();
+if (isset($fm[0]))
+{
+    print '<span class=>' . $fm[0] . '</span>';
+}
+?>
+
+<h1>Liste des attributs</h1>
+
+<table class="table">
+    <tr>
+        <th><?php echo $this->translate('Code'); ?></th>
+        <th><?php echo $this->translate('Label'); ?></th>
+        <th><?php echo $this->translate('Definition'); ?></th>
+        <th><?php echo $this->translate('Mapping'); ?></th>
+        <th></th>
+    </tr>
+    <?php foreach ($this->attributes as $attributeMapping): ?>
+    	<?php $editLink = $this->url('admin/playgroundflow/domain/story/attribute/edit', array('domainId' => $this->domainId, 'mappingId' => $this->mappingId, 'attributeId' => $attributeMapping->getId()));?>
+    	
+        <tr>
+            <td><?php echo $attributeMapping->getAttribute()->getCode() ?></td>
+            <td><?php echo $attributeMapping->getAttribute()->getLabel() ?></td>
+            <td><?php echo $attributeMapping->getAttribute()->getDefinition() ?></td>
+            <td><?php echo $attributeMapping->getXpath() ?></td>
+            <td>
+                <a href='<?php echo $editLink ?>'><?php echo $this->translate('Edit'); ?></a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
+<?php echo $this->paginationControl($this->attributes, 'Sliding', 'playground-flow/admin/domain/pagination_domainattributelist'); ?>

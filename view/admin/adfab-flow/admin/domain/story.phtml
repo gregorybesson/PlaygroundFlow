@@ -1,0 +1,55 @@
+<?php $this->plugin('translate')->setTranslatorTextDomain('playgroundflow');// Pour le texte ?>
+<?php
+$form = $this->form;
+$form->prepare();
+?>
+
+<div class="return"><a href="<?php echo $this->url('admin/playgroundflow/domain/story');?>"><?php echo $this->translate('Retour'); ?></a></div>
+
+<h1><?php echo $this->translate('Création'); ?></h1>
+
+<?php echo $this->form()->openTag($form) ?>
+<?php echo $this->formButton($form->get('submit')) ?>
+
+<div id="content">
+        <div>
+        	<?php echo $this->formInput($form->get('domainId')); ?>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('story')); ?>
+	            <?php echo $this->formSelect($form->get('story')); ?>
+	            <?php echo $this->formElementErrors($form->get('story')) ?>
+			</div>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('conditionsUrl')); ?>
+	            <?php echo $this->formInput($form->get('conditionsUrl')); ?>
+	            <?php echo $this->formElementErrors($form->get('conditionsUrl')) ?>
+			</div>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('conditionsXpath')); ?>
+	            <?php echo $this->formInput($form->get('conditionsXpath')); ?>
+	            <?php echo $this->formElementErrors($form->get('conditionsXpath')) ?>
+			</div>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('eventBeforeUrl')); ?>
+	            <?php echo $this->formInput($form->get('eventBeforeUrl')); ?>
+	            <?php echo $this->formElementErrors($form->get('eventBeforeUrl')) ?>
+			</div>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('eventBeforeXpath')); ?>
+	            <?php echo $this->formInput($form->get('eventBeforeXpath')); ?>
+	            <?php echo $this->formElementErrors($form->get('eventBeforeXpath')) ?>
+			</div>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('eventAfterUrl')); ?>
+	            <?php echo $this->formInput($form->get('eventAfterUrl')); ?>
+	            <?php echo $this->formElementErrors($form->get('eventAfterUrl')) ?>
+			</div>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('eventAfterXpath')); ?>
+	            <?php echo $this->formInput($form->get('eventAfterXpath')); ?>
+	            <?php echo $this->formElementErrors($form->get('eventAfterXpath')) ?>
+			</div>
+        </div>
+    </div>
+</div>
+<?php echo $this->form()->closeTag() ?>
