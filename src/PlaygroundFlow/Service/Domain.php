@@ -6,6 +6,8 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundFlow\Options\ModuleOptions;
+use PlaygroundCore\Filter\Sanitize;
+use Zend\Stdlib\ErrorHandler;
 
 class Domain extends EventProvider implements ServiceManagerAwareInterface
 {
@@ -77,6 +79,12 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     	$form  = $this->getServiceManager()->get('playgroundflow_storymapping_form');
     	$form->bind($mapping);
     	$form->setData($data);
+    	
+    	$path = $this->getOptions()->getMediaPath() . DIRECTORY_SEPARATOR;
+    	if (!is_dir($path)) {
+    	    mkdir($path,0777, true);
+    	}
+    	$media_url = $this->getOptions()->getMediaUrl() . '/';
     	 
     	$domain = $this->getDomainMapper()->findById($data['domainId']);
     
@@ -87,8 +95,17 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     	$mapping->setDomain($domain);
     	 
     	$this->getEventManager()->trigger(__FUNCTION__, $this, array('mapping' => $mapping, 'data' => $data));
-    	$this->getStoryMappingMapper()->insert($mapping);
+    	$mapping = $this->getStoryMappingMapper()->insert($mapping);
     	$this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('mapping' => $mapping, 'data' => $data));
+    	
+    	if (!empty($data['uploadPicto']['tmp_name'])) {
+    	    ErrorHandler::start();
+    	    $data['uploadPicto']['name'] = $this->fileNewname($path, $mapping->getId() . "-" . $data['uploadPicto']['name']);
+    	    move_uploaded_file($data['uploadPicto']['tmp_name'], $path . $data['uploadPicto']['name']);
+    	    $mapping->setPicto($media_url . $data['uploadPicto']['name']);
+    	    ErrorHandler::stop(true);
+    	}
+    	$mapping = $this->getStoryMappingMapper()->update($mapping);
     
     	$objectAttributes = $mapping->getStory()->getObject()->getAttributes();
     	$existingMapping = $mapping->getAttributes();
@@ -120,9 +137,29 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     	$form  = $this->getServiceManager()->get('playgroundflow_storymapping_form');
     	$form->bind($mapping);
     	$form->setData($data);
+    	
+    	$path = $this->getOptions()->getMediaPath() . DIRECTORY_SEPARATOR;
+    	if (!is_dir($path)) {
+    	    mkdir($path,0777, true);
+    	}
+    	$media_url = $this->getOptions()->getMediaUrl() . '/';
     	 
+    	$domain = $this->getDomainMapper()->findById($data['domainId']);
+    
     	if (!$form->isValid()) {
+    	    print_r($form->getMessages());
+    	    die();
     		return false;
+    	}
+    	 
+    	$mapping->setDomain($domain);
+    	
+    	if (!empty($data['uploadPicto']['tmp_name'])) {
+    	    ErrorHandler::start();
+    	    $data['uploadPicto']['name'] = $this->fileNewname($path, $mapping->getId() . "-" . $data['uploadPicto']['name']);
+    	    move_uploaded_file($data['uploadPicto']['tmp_name'], $path . $data['uploadPicto']['name']);
+    	    $mapping->setPicto($media_url . $data['uploadPicto']['name']);
+    	    ErrorHandler::stop(true);
     	}
     	 
     	$this->getEventManager()->trigger(__FUNCTION__, $this, array('attribute' => $mapping, 'data' => $data));
@@ -144,7 +181,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     			$attributeMapping->setAttribute($attribute);
     			$attributeMapping->setXpath='';
     			
-    			$this->getObjectAttributeMapperMapping()->insert($attributeMapping);
+    			$this->getObjectAttributeMappingMapper()->insert($attributeMapping);
     		}
     		
     	}
@@ -287,5 +324,24 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
         $this->serviceManager = $serviceManager;
 
         return $this;
+    }
+    
+    public function fileNewname($path, $filename, $generate = false){
+        $sanitize = new Sanitize();
+        $name = $sanitize->filter($filename);
+        $newpath = $path.$name;
+    
+        if($generate){
+            if(file_exists($newpath)) {
+                $filename = pathinfo($name, PATHINFO_FILENAME);
+                $ext = pathinfo($name, PATHINFO_EXTENSION);
+                 
+                $name = $filename .'_'. rand(0, 99) .'.'. $ext;
+            }
+        }
+    
+        unset($sanitize);
+    
+        return $name;
     }
 }

@@ -38,6 +38,32 @@ class OpenGraphStoryMapping
     protected $domain;
     
     /**
+     * Points associated to this story
+     * @ORM\Column(type="integer")
+     */
+    protected $points;
+    
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $picto;
+    
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $hint;
+    
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $countLimit = 0;
+    
+    /**
+     * @ORM\Column(name="activity_stream_text", type="text", nullable=true)
+     */
+    protected $activityStreamText;
+    
+    /**
      * @ORM\OneToMany(targetEntity="OpenGraphObjectAttributeMapping", mappedBy="storyMapping")
      */
     protected $attributes;
@@ -146,6 +172,86 @@ class OpenGraphStoryMapping
 		$domain->addStoryMapping($this);
 		$this->domain = $domain;
 	}
+
+	/**
+     * @return the $points
+     */
+    public function getPoints()
+    {
+        return $this->points;
+    }
+
+	/**
+     * @param field_type $points
+     */
+    public function setPoints($points)
+    {
+        $this->points = $points;
+    }
+
+	/**
+     * @return the $picto
+     */
+    public function getPicto()
+    {
+        return $this->picto;
+    }
+
+	/**
+     * @param field_type $picto
+     */
+    public function setPicto($picto)
+    {
+        $this->picto = $picto;
+    }
+
+	/**
+     * @return the $hint
+     */
+    public function getHint()
+    {
+        return $this->hint;
+    }
+
+	/**
+     * @param field_type $hint
+     */
+    public function setHint($hint)
+    {
+        $this->hint = $hint;
+    }
+
+	/**
+     * @return the $activityStreamText
+     */
+    public function getActivityStreamText()
+    {
+        return $this->activityStreamText;
+    }
+
+	/**
+     * @param field_type $activityStreamText
+     */
+    public function setActivityStreamText($activityStreamText)
+    {
+        $this->activityStreamText = $activityStreamText;
+    }
+
+	/**
+     * @return the $countLimit
+     */
+    public function getCountLimit()
+    {
+        return $this->countLimit;
+    }
+
+	/**
+     * @param number $countLimit
+     */
+    public function setCountLimit($countLimit)
+    {
+        $this->countLimit = $countLimit;
+    }
 
 	public function addAttribute($attribute)
 	{

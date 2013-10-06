@@ -7,6 +7,8 @@ use Zend\Validator\AbstractValidator;
 
 class Module
 {
+    protected $eventsArray = array();
+    
     public function onBootstrap(MvcEvent $e)
     {
         $application     = $e->getTarget();
@@ -16,8 +18,9 @@ class Module
         $translator = $serviceManager->get('translator');
 
         AbstractValidator::setDefaultTranslator($translator,'playgroundcore');
+        
+        $eventManager->attach($serviceManager->get('playgroundflow_storytelling_listener'));
     }
-
 
     public function getConfig()
     {
@@ -49,6 +52,8 @@ class Module
             		'playgroundflow_story_service'        => 'PlaygroundFlow\Service\Story',
             		'playgroundflow_domain_service'       => 'PlaygroundFlow\Service\Domain',
                     'playgroundflow_broadcast_service'    => 'PlaygroundFlow\Service\Broadcast',
+                    'playgroundflow_storytelling_service' => 'PlaygroundFlow\Service\StoryTelling',
+                    'playgroundflow_storytelling_listener'=> 'PlaygroundFlow\Service\StoryTellingListener'
             ),
 
             'factories' => array(
@@ -120,6 +125,14 @@ class Module
                 	);
                 
                 	return $mapper;
+                },
+                'playgroundflow_storytelling_mapper' => function ($sm) {
+                    $mapper = new \PlaygroundFlow\Mapper\StoryTelling(
+                        $sm->get('doctrine.entitymanager.orm_default'),
+                        $sm->get('playgroundflow_module_options')
+                    );
+                
+                    return $mapper;
                 },
                 'playgroundflow_object_form' => function($sm) {
                 	$translator = $sm->get('translator');

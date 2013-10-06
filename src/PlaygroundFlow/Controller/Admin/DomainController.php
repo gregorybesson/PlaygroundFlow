@@ -216,6 +216,7 @@ class DomainController extends AbstractActionController
 	
 		$form = $this->getServiceLocator()->get('playgroundflow_storymapping_form');
 		$form->bind($storyMapping);
+		$form->get('domainId')->setAttribute('value', $domainId);
 		$form->setAttribute('action', $this->url()->fromRoute('admin/playgroundflow/domain/story/edit', array('domainId' => $domainId, 'mappingId' => $mappingId)));
 		$form->setAttribute('method', 'post');
 		$form->get('submit')->setLabel('Edit');
@@ -225,6 +226,7 @@ class DomainController extends AbstractActionController
 					$this->getRequest()->getPost()->toArray(),
 					$this->getRequest()->getFiles()->toArray()
 			);
+			
 			$result = $service->editStory($data, $storyMapping);
 	
 			if ($result) {

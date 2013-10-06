@@ -20,6 +20,33 @@ $form->prepare();
 	            <?php echo $this->formElementErrors($form->get('story')) ?>
 			</div>
 			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('points')); ?>
+	            <?php echo $this->formInput($form->get('points')); ?>
+	            <?php echo $this->formElementErrors($form->get('points')) ?>
+			</div>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('hint')); ?>
+	            <?php echo $this->formInput($form->get('hint')); ?>
+	            <?php echo $this->formElementErrors($form->get('hint')) ?>
+			</div>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('activityStreamText')); ?>
+	            <?php echo $this->formInput($form->get('activityStreamText')); ?>
+	            <?php echo $this->formElementErrors($form->get('activityStreamText')) ?>
+			</div>
+			<div class="label-input">
+	            <?php echo $this->formLabel($form->get('countLimit')); ?>
+	            <?php echo $this->formInput($form->get('countLimit')); ?>
+	            <?php echo $this->formElementErrors($form->get('countLimit')) ?>
+			</div>
+			<div class="label-input file">
+        	    <?php echo $this->formLabel($form->get('uploadPicto')); ?>
+        	    <?php echo $this->formFile($form->get('uploadPicto')); ?>
+        	    <?php if($form->get('picto')->getValue() != ''):?>
+        	    	<img src="<?php echo $this->basePath($form->get('picto')->getValue()); ?>" />
+        	    <?php endif;?>
+            </div>
+			<div class="label-input">
 	            <?php echo $this->formLabel($form->get('conditionsUrl')); ?>
 	            <?php echo $this->formInput($form->get('conditionsUrl')); ?>
 	            <?php echo $this->formElementErrors($form->get('conditionsUrl')) ?>

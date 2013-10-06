@@ -477,10 +477,12 @@ return array(
                						'attribute' => array(
                							'type' => 'Segment',
                							'options' => array(
-           									'route' => '/attribute',
+           									'route' => '/:objectId/attribute',
         									'defaults' => array(
                									'controller' => 'playgroundflowadminobject',
                									'action'     => 'listAttribute',
+        									    'objectId'   => 0
+        									    
                								),
                							),
                							'may_terminate' => true,

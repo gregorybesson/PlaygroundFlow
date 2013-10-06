@@ -64,6 +64,69 @@ class StoryMapping extends ProvidesEventsForm
         ));
         
         $this->add(array(
+            'name' => 'points',
+            'options' => array(
+                'label' => $translator->translate('Points', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => $translator->translate('Points', 'playgroundflow')
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'countLimit',
+            'options' => array(
+                'label' => $translator->translate('Limiter le nombre', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => $translator->translate('Limite du nombre', 'playgroundflow')
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'hint',
+            'options' => array(
+                'label' => $translator->translate('Hint', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => $translator->translate('Hint', 'playgroundflow')
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'activityStreamText',
+            'options' => array(
+                'label' => $translator->translate('Activity Stream Text', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => $translator->translate('Activity Stream Text', 'playgroundflow')
+            )
+        ));
+        
+        // Adding an empty upload field to be able to correctly handle this on
+        // the service side.
+        $this->add(array(
+            'name' => 'uploadPicto',
+            'attributes' => array(
+                'type' => 'file'
+            ),
+            'options' => array(
+                'label' => $translator->translate('Picto', 'playgroundflow')
+            )
+        ));
+        $this->add(array(
+            'name' => 'picto',
+            'type' => 'Zend\Form\Element\Hidden',
+            'attributes' => array(
+                'value' => ''
+            )
+        ));
+        
+        $this->add(array(
        		'name' => 'eventBeforeUrl',
        		'options' => array(
        				'label' => $translator->translate('Event before Url', 'playgroundflow')
