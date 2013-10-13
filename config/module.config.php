@@ -16,6 +16,58 @@ return array(
             )
         )
     ),
+    
+    'assetic_configuration' => array(
+        'modules' => array(
+            'frontend_flow' => array(
+                # module root path for your css and js files
+                'root_path' => array(
+                    __DIR__ . '/../view/frontend/assets',
+                ),
+                # collection of assets
+                'collections' => array(
+                    'head_frontendplayground_js' => array(
+			            'assets' => array(
+			                'js/lib/easyxdm/easyxdm.min.js',
+			                'js/lib/playground/pattern.js',
+			                'js/lib/playground/user.js',
+			                'js/lib/playground/app.js',
+			            ),
+			            'filters' => array(),
+			            'options' => array(
+			                'output' => 'frontend/js/lib/playground/ears.min.js'
+			            ),
+			        ),
+                    'frontend_pg' => array(
+                        'assets' => array(
+                            'js/lib/playground/pg.min.js',
+                        ),
+                        'options' => array(
+                            'move_raw' => true,
+                            'output' => 'frontend',
+                        )
+                    ),
+                    'frontend_easyxdm' => array(
+                        'assets' => array(
+                            'js/lib/easyxdm/easyxdm.min.js',
+                            'js/lib/easyxdm/easyxdm.swf',
+                            'js/lib/easyxdm/json2.js',
+                        ),
+                        'options' => array(
+                            'move_raw' => true,
+                            'output' => 'frontend',
+                        )
+                    ),
+                ),
+            ),
+        ),
+    
+        'routes' => array(
+            'frontend.*' => array(
+                '@head_frontendplayground_js',
+            ),
+        ),
+    ),
 
     'view_manager' => array(
         'template_map' => array(
@@ -360,62 +412,119 @@ return array(
                     							),
            									),
                     						'attribute' => array(
-                    							'type' => 'Segment',
-                    							'options' => array(
-                    								'route' => '/:mappingId/attribute',
-                   									'defaults' => array(
-                    									'controller' => 'playgroundflowadmindomain',
-                    									'action'     => 'listAttribute',
-                    									'mappingId'     => 0
-                    								),
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/:mappingId/attribute',
+                                                    'defaults' => array(
+                                                        'controller' => 'playgroundflowadmindomain',
+                                                        'action' => 'listAttribute',
+                                                        'mappingId' => 0
+                                                    )
+                                                ),
+                                                'may_terminate' => true,
+                                                'child_routes' => array(
+                                                    'pagination' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/:p',
+                                                            'defaults' => array(
+                                                                'controller' => 'playgroundflowadmindomain',
+                                                                'action' => 'listAttribute'
+                                                            )
+                                                        )
+                                                    ),
+                                                    'create' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/create/:attributeId',
+                                                            'defaults' => array(
+                                                                'controller' => 'playgroundflowadmindomain',
+                                                                'action' => 'createAttribute',
+                                                                'attributeId' => 0
+                                                            )
+                                                        )
+                                                    ),
+                                                    'edit' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/edit/:attributeId',
+                                                            'defaults' => array(
+                                                                'controller' => 'playgroundflowadmindomain',
+                                                                'action' => 'editAttribute',
+                                                                'attributeId' => 0
+                                                            )
+                                                        )
+                                                    ),
+                                                    'remove' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/remove/:attributeId',
+                                                            'defaults' => array(
+                                                                'controller' => 'playgroundflowadmindomain',
+                                                                'action' => 'removeAttribute',
+                                                                'attributeId' => 0
+                                                            )
+                                                        )
+                                                    ),
                     							),
-                    									'may_terminate' => true,
-                    									'child_routes' =>array(
-                    											'pagination' => array(
-                    													'type' => 'Segment',
-                    													'options' => array(
-                    															'route' => '/:p',
-                    															'defaults' => array(
-                    																	'controller' => 'playgroundflowadmindomain',
-                    																	'action'     => 'listAttribute',
-                    															),
-                    													),
-                    											),
-                    											'create' => array(
-                    													'type' => 'Segment',
-                    													'options' => array(
-                    															'route' => '/create/:attributeId',
-                    															'defaults' => array(
-                    																	'controller' => 'playgroundflowadmindomain',
-                    																	'action'     => 'createAttribute',
-                    																	'attributeId'     => 0
-                    															),
-                    													),
-                    											),
-                    											'edit' => array(
-                    													'type' => 'Segment',
-                    													'options' => array(
-                    															'route' => '/edit/:attributeId',
-                    															'defaults' => array(
-                    																	'controller' => 'playgroundflowadmindomain',
-                    																	'action'     => 'editAttribute',
-                    																	'attributeId'     => 0
-                    															),
-                    													),
-                    											),
-                    											'remove' => array(
-                    													'type' => 'Segment',
-                    													'options' => array(
-                    															'route' => '/remove/:attributeId',
-                    															'defaults' => array(
-                    																	'controller' => 'playgroundflowadmindomain',
-                    																	'action'     => 'removeAttribute',
-                    																	'attributeId'     => 0
-                    															),
-                    													),
-                    											),
-                    									),
-                    							),
+                    						),
+                    					    'object' => array(
+                    					        'type' => 'Segment',
+                    					        'options' => array(
+                    					            'route' => '/:mappingId/object',
+                    					            'defaults' => array(
+                    					                'controller' => 'playgroundflowadmindomain',
+                    					                'action' => 'listObject',
+                    					                'mappingId' => 0
+                    					            )
+                    					        ),
+                    					        'may_terminate' => true,
+                    					        'child_routes' => array(
+                    					            'pagination' => array(
+                    					                'type' => 'Segment',
+                    					                'options' => array(
+                    					                    'route' => '/:p',
+                    					                    'defaults' => array(
+                    					                        'controller' => 'playgroundflowadmindomain',
+                    					                        'action' => 'listObject'
+                    					                    )
+                    					                )
+                    					            ),
+                    					            'create' => array(
+                    					                'type' => 'Segment',
+                    					                'options' => array(
+                    					                    'route' => '/create/:objectId',
+                    					                    'defaults' => array(
+                    					                        'controller' => 'playgroundflowadmindomain',
+                    					                        'action' => 'createObject',
+                    					                        'attributeId' => 0
+                    					                    )
+                    					                )
+                    					            ),
+                    					            'edit' => array(
+                    					                'type' => 'Segment',
+                    					                'options' => array(
+                    					                    'route' => '/edit/:objectId',
+                    					                    'defaults' => array(
+                    					                        'controller' => 'playgroundflowadmindomain',
+                    					                        'action' => 'editObject',
+                    					                        'attributeId' => 0
+                    					                    )
+                    					                )
+                    					            ),
+                    					            'remove' => array(
+                    					                'type' => 'Segment',
+                    					                'options' => array(
+                    					                    'route' => '/remove/:objectId',
+                    					                    'defaults' => array(
+                    					                        'controller' => 'playgroundflowadmindomain',
+                    					                        'action' => 'removeObject',
+                    					                        'attributeId' => 0
+                    					                    )
+                    					                )
+                    					            ),
+                    					        ),
+                    					    ),
                     					),
                     				),
                     			),

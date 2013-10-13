@@ -64,9 +64,9 @@ class OpenGraphStoryMapping
     protected $activityStreamText;
     
     /**
-     * @ORM\OneToMany(targetEntity="OpenGraphObjectAttributeMapping", mappedBy="storyMapping")
+     * @ORM\OneToMany(targetEntity="OpenGraphObjectMapping", mappedBy="storyMapping")
      */
-    protected $attributes;
+    protected $objects;
     
     /**
      * @ORM\Column(name="conditions_url", type="string", length=255, nullable=true)
@@ -253,23 +253,23 @@ class OpenGraphStoryMapping
         $this->countLimit = $countLimit;
     }
 
-	public function addAttribute($attribute)
+	public function addObject($object)
 	{
-		$this->attributes[] = $attribute;
+		$this->objects[] = $object;
 	}
 	
 	/**
 	 * @return the $attributes
 	 */
-	public function getAttributes() {
-		return $this->attributes;
+	public function getObjects() {
+		return $this->objects;
 	}
 
 	/**
 	 * @param field_type $attributes
 	 */
-	public function setAttributes($attributes) {
-		$this->attributes = $attributes;
+	public function setObjects($objects) {
+		$this->objects = $objects;
 	}
 
 	/**

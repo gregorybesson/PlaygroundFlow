@@ -10,11 +10,30 @@ class RestSendController extends AbstractRestfulController
 	/**
 	 * @var GameService
 	 */
-	protected $adminGameService;
+	protected $storytellingService;
 	
     public function getList()
     {
-        return;
+        $response = $this->getResponse();
+        
+        $contentType = 'application/json';
+        $adapter = '\Zend\Serializer\Adapter\Json';
+        $response->getHeaders()->addHeaderLine('Content-Type',$contentType);
+        $adapter = new $adapter;
+        
+        $data = '{"user":{"anonymous":"88m766k11323f515p621"},"objects":{"id":"login_id"},"action":"login","url":"http://pmagento.local/customer/account/","apiKey":"key_first"}';
+        $data = json_decode($data, true);
+        $content = array(
+            'result' => array(
+                'message' => 'No event detected',
+                'success' => false,
+                'data' => $data,
+            ),
+        );
+        
+        $response->setContent($adapter->serialize($content));
+        
+        return $response ;
     }
  
     public function get($id)
@@ -29,13 +48,42 @@ class RestSendController extends AbstractRestfulController
     {
     	$request = $this->getRequest();
     	$response = $this->getResponse();
-    	$service = $this->getAdminGameService();
+    	$storyTellingService = $this->getStorytellingService();
+    	
+    	$data = $this->fromJson();
+    	
+    	$storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
+    	$storyTelling->setOpenGraphStoryMapping(null);
+    	$storyTelling->setUser(null);
+    	$storyTelling->setObject(json_encode($data['objects']));
+    	$storyTelling->setPoints(99);
+    	$storyTelling->setSecretKey(null);
+    	$storyTellingService->getStoryTellingMapper()->insert($storyTelling);
+    	
+    	/*
+    	$e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId() , $this, array('storyTelling' => $storyTelling));
+    	*/
+    	
+    	$contentType = 'application/json';
+    	$adapter = '\Zend\Serializer\Adapter\Json';
+    	$response->getHeaders()->addHeaderLine('Content-Type',$contentType);
+    	$adapter = new $adapter;
+    	
+    	$data = $this->fromJson();
+    	$content = array(
+    	    'result' => array(
+    	        'message' => 'Post detected',
+    	        'success' => true,
+    	        'data' => $data['objects'],
+    	    ),
+    	);
+    	
+    	$response->setContent($adapter->serialize($content));
+    	return $response;
+    	
     	$game = $service->getGameMapper()->findById(10);
     	
-        $contentType = 'application/json';
-        $adapter = '\Zend\Serializer\Adapter\Json';
-        $response->getHeaders()->addHeaderLine('Content-Type',$contentType);
-        $adapter = new $adapter;
+
         
         $appId = $this->getEvent()->getRouteMatch()->getParam('appId');
         
@@ -188,18 +236,18 @@ class RestSendController extends AbstractRestfulController
     	curl_close($ch);
     }
     
-    public function getAdminGameService()
+    public function getStorytellingService()
     {
-    	if (!$this->adminGameService) {
-    		$this->adminGameService = $this->getServiceLocator()->get('playgroundgame_treasurehunt_service');
+    	if (!$this->storytellingService) {
+    		$this->storytellingService = $this->getServiceLocator()->get('playgroundflow_storytelling_service');
     	}
     
-    	return $this->adminGameService;
+    	return $this->storytellingService;
     }
     
-    public function setAdminGameService(AdminGameService $adminGameService)
+    public function setStorytellingService($storytellingService)
     {
-    	$this->adminGameService = $adminGameService;
+    	$this->storytellingService = $storytellingService;
     
     	return $this;
     }

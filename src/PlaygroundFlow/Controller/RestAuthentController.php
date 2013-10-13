@@ -28,13 +28,15 @@ class RestAuthentController extends AbstractRestfulController
     		$conditions = array();
     		$events = array('before'=>array(), 'after'=>array());
     		$objects = array();
-    		$attributes = array();
 
-   			foreach($sm->getAttributes() as $attributeMapping){
-   				$attributes[] = array('name' => $attributeMapping->getAttribute()->getCode(), 'xpath' => $attributeMapping->getXpath());
-   			}
-   			$objects['id'] = $sm->getStory()->getObject()->getCode();
-   			$objects['properties'] = $attributes;
+    		foreach($sm->getObjects() as $objectMapping){
+    		    $objects['id'] = $objectMapping->getObject()->getCode();
+    		    $attributes = array();
+    		    foreach($objectMapping->getAttributes() as $attributeMapping){
+    		        $attributes[] = array('name' => $attributeMapping->getAttribute()->getCode(), 'xpath' => $attributeMapping->getXpath());
+    		    }
+    		    $objects['properties'] = $attributes;
+    		}
     		
     		if($sm->getConditionsUrl()!=''){
     			$conditions['url'] = $sm->getConditionsUrl();
@@ -251,8 +253,83 @@ class RestAuthentController extends AbstractRestfulController
         
         return $response;
     }
- 
+    
     public function create($data)
+    {
+        $service 	= $this->getAdminDomainService();
+    	$appId = $this->getEvent()->getRouteMatch()->getParam('appId');
+    	$domain = $service->getDomainMapper()->findById(2);
+    	
+    	$storymappings = $domain->getStoryMappings();
+    	$stories = array();
+    	
+    	foreach($storymappings as $sm){
+    		$conditions = array();
+    		$events = array('before'=>array(), 'after'=>array());
+    		$objects = array();
+
+    		foreach($sm->getObjects() as $objectMapping){
+    		    $objects['id'] = $objectMapping->getObject()->getCode();
+    		    $attributes = array();
+    		    foreach($objectMapping->getAttributes() as $attributeMapping){
+    		        $attributes[] = array('name' => $attributeMapping->getAttribute()->getCode(), 'xpath' => $attributeMapping->getXpath());
+    		    }
+    		    $objects['properties'] = $attributes;
+    		}
+    		
+    		if($sm->getConditionsUrl()!=''){
+    			$conditions['url'] = $sm->getConditionsUrl();
+    		}
+    		
+    		if($sm->getConditionsXpath()!=''){
+    			$conditions['xpath'] = $sm->getConditionsXpath();
+    		}
+    		
+    		if($sm->getEventBeforeUrl()!=''){
+    			$events['before']['url'] = $sm->getEventBeforeUrl();
+    		}
+    		
+    		if($sm->getEventBeforeXpath()!=''){
+    			$events['before']['xpath'] = $sm->getEventBeforeXpath();
+    		}
+    		
+    		if($sm->getEventAfterUrl()!=''){
+    			$events['after']['url'] = $sm->getEventAfterUrl();
+    		}
+    		
+    		if($sm->getEventAfterXpath()!=''){
+    			$events['after']['xpath'] = $sm->getEventAfterXpath();
+    		}
+    		
+    		$stories[$sm->getStory()->getCode()] = array(
+    			'action' => $sm->getStory()->getAction()->getCode(),
+    			'events' => $events,
+    			'conditions' => $conditions,
+    			'objects' => $objects,
+    		);
+    	}
+    	
+        $response = $this->getResponse();
+        $contentType = 'application/json';
+        $adapter = '\Zend\Serializer\Adapter\Json';
+        $response->getHeaders()->addHeaderLine('Content-Type',$contentType);
+        $adapter = new $adapter;
+
+        $content = array(
+       		'library' => array(
+   				'config' => array(
+        			'broadcast' => false
+       			),
+       			'stories' => $stories,
+       		)
+        );
+        
+        $response->setContent($adapter->serialize($content));
+        
+        return $response;
+    }
+ 
+    public function createold($data)
     {
         $response = $this->getResponse();
         $contentType = 'application/json';
@@ -294,6 +371,32 @@ class RestAuthentController extends AbstractRestfulController
 	        				),
 	                	),
 	        		),
+	        	    'grg' => array(
+	        	        'events' => array(
+	        	            'before' => array(
+	        	                'url' => '/about-magento-demo-store',
+	        	                'xpath' => "//input[@id='search']",
+	        	            ),
+	        	            'after' => array(
+	        	                'url' => '/about-magento-demo-store',
+	        	                'xpath' => "//input[@id='search']",
+	        	            ),
+	        	        ),
+	        	        'conditions' => array(
+	        	            'url' => 'http://pmagento.local/about-magento-demo-store',
+	        	            'xpath' => "//input[@id='search']"
+	        	        ),
+	        	        'action' => 'grg',
+	        	        'objects' => array(
+	        	            'id'=> 'ggread',
+	        	            'properties'=> array(
+	        	                array(
+	        	                    'name'=> 'ggr',
+	        	                    'xpath'=> "//div[@class='col-2']/p[1]/strong"
+	        	                )
+	        	            ),
+	        	        ),
+	        	    ),
 	        		'logout_user' => array(
 	        			'events'=> array(
 	        				'before'=> array(

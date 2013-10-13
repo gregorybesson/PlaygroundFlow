@@ -29,7 +29,7 @@ class Story extends ProvidesEventsForm
         $entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
         
         $hydrator = new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphStory');
-        $hydrator->addStrategy('object', new \PlaygroundCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
+        //$hydrator->addStrategy('object', new \PlaygroundCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
         $hydrator->addStrategy('action', new \PlaygroundCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
         $this->setHydrator($hydrator);
 
@@ -88,16 +88,37 @@ class Story extends ProvidesEventsForm
        		)
         ));
         
-        $objects = $this->getObjects();
         $this->add(array(
-        	'type' => 'Zend\Form\Element\Select',
-        	'name' => 'object',
-       		'options' => array(
-   				'value_options' => $objects,
-   				'label' => $translator->translate('Object', 'playgroundflow')
-       		)
+         'name' => 'objects',
+            'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
+            'options' => array(
+                'empty_option' => $translator->translate('Select an object', 'playgroundflow'),
+                'label' => $translator->translate('Objects', 'playgroundflow'),
+                'object_manager' => $entityManager,
+                'target_class' => 'PlaygroundFlow\Entity\OpenGraphObject',
+                'property' => 'label'
+            ),
+            'attributes' => array(
+                'required' => false,
+                //'multiple' => 'multiple',
+            )
         ));
-
+        
+/*        $storyObjectFieldset = new StoryObjectFieldset(null,$sm,$translator);
+        $this->add(array(
+            'type'    => 'Zend\Form\Element\Collection',
+            'name'    => 'objects',
+            'options' => array(
+                'id'    => 'objects',
+                'label' => $translator->translate('Objects', 'playgroundreward'),
+                'count' => 0,
+                'should_create_template' => true,
+                'allow_add' => true,
+                'allow_remove' => true,
+                'target_element' => $storyObjectFieldset
+            )
+        ));
+*/
         $submitElement = new Element\Button('submit');
         $submitElement->setLabel($translator->translate('Create', 'playgroundflow'))
             ->setAttributes(array(

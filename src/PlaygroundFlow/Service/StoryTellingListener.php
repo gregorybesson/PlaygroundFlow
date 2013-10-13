@@ -6,13 +6,15 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\Event;
 use ZfcBase\EventManager\EventProvider;
+use Zend\ServiceManager\ServiceManagerAwareInterface;
+use Zend\ServiceManager\ServiceManager;
 
 /**
  * This listener is used to gather the stories from the managed domains
  *
  * @author Gregory Besson <gregory.besson@playground.gg>
  */
-class StoryTellingListener extends EventProvider implements ListenerAggregateInterface
+class StoryTellingListener extends EventProvider implements ListenerAggregateInterface, ServiceManagerAwareInterface
 {
 
     /**
@@ -22,6 +24,8 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
     protected $listeners = array();
 
     protected $eventsArray = array();
+    
+    protected $serviceManager;
 
     /**
      * {@inheritDoc}
@@ -42,7 +46,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             '*'
         ), 'createQuizReply.post', array(
             $this,
-            'createQuizReplyAfter'
+            'tellStoryAfter'
         ), 200);
         
         // SHARE BY MAIL
@@ -137,8 +141,6 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             'infoAfter'
         ), 200);
         
-        // catégories de jeux préférées du client
-        // $this->listeners[] = $events->getSharedManager()->attach('PlaygroundGame\Service\PrizeCategoryUser','edit.post', array($this, 'prizeCategoryAfter'), 200);
     }
 
     /**
@@ -168,26 +170,29 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
         $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
             'eventAfterUrl' => $e->getName()
         ));
-        foreach ($stories as $story) {
+        foreach ($stories as $storyMapping) {
             $objectArray = array();
-            foreach($story->getAttributes() as $attribute){
-                $object = $e->getParam($attribute->getObject()->getCode());
-                
-                //echo "object : " . $attribute->getObject()->getCode() . "<br>";
-                //echo "objet id : " . $object->getId() . "<br>";
-                //echo "attribut : " . $attribute->getAttribute()->getCode() . "<br>";
-                if( method_exists( $object , $method = ( 'get' . ucfirst( $attribute->getAttribute()->getCode()  ) ) ) ){
-                    $objectArray[$attribute->getObject()->getCode()][$attribute->getAttribute()->getCode()] = $object->$method();
+            foreach($storyMapping->getObjects() as $objectMapping){
+                $objectCode = $e->getParam($objectMapping->getObject()->getCode());
+                foreach($objectMapping->getAttributes() as $attributeMapping){
+                    //echo "object : " . $objectMapping->getObject()->getCode() . "<br>";
+                    //echo "object id : " . $objectMapping->getObject()->getId() . "<br>";
+                    //echo "attribut : " . $attributeMapping->getAttribute()->getCode() . "<br>";
+                    if( method_exists( $objectCode , $method = ( 'get' . ucfirst( $attributeMapping->getAttribute()->getCode() ) ) ) ){
+                    $objectArray[$objectMapping->getObject()->getCode()][$attributeMapping->getAttribute()->getCode()] = $objectCode->$method();
+                    }                    
                 }
             }
             
             $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
-            $storyTelling->setOpenGraphStoryMapping($story);
+            $storyTelling->setOpenGraphStoryMapping($storyMapping);
             $storyTelling->setUser($user);
             $storyTelling->setObject(json_encode($objectArray));
-            $storyTelling->setPoints($story->getPoints());
+            $storyTelling->setPoints($storyMapping->getPoints());
             $storyTelling->setSecretKey($secretKey);
             $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
+            
+            $e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId() , $this, array('storyTelling' => $storyTelling));
         }
     }
 
@@ -405,5 +410,28 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             }
         }
         $this->eventsArray[$e->getName()] = null;
+    }
+    
+    /**
+     * Retrieve service manager instance
+     *
+     * @return ServiceManager
+     */
+    public function getServiceManager ()
+    {
+        return $this->serviceManager;
+    }
+    
+    /**
+     * Set service manager instance
+     *
+     * @param  ServiceManager $sm
+     * @return User
+     */
+    public function setServiceManager (ServiceManager $sm)
+    {
+        $this->serviceManager = $sm;
+    
+        return $this;
     }
 }

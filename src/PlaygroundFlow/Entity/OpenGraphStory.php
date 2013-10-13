@@ -45,12 +45,16 @@ class OpenGraphStory
      * @ORM\ManyToOne(targetEntity="OpenGraphAction")
      */
     protected $action;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="OpenGraphObject")
-     */
-    protected $object;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="OpenGraphObject", cascade={"persist","remove"})
+     * @ORM\JoinTable(name="opengraph_story_object",
+     *      joinColumns={@ORM\JoinColumn(name="story_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="object_id", referencedColumnName="id")}
+     *      )
+     */
+    protected $objects;
+    
     /**
      * @ORM\Column(name="created_at", type="datetime")
      */
@@ -63,6 +67,7 @@ class OpenGraphStory
 
     public function __construct()
     {
+        $this->objects = new \Doctrine\Common\Collections\ArrayCollection();
 
     }
 
@@ -162,18 +167,48 @@ class OpenGraphStory
 	}
 
 	/**
-	 * @return the $object
-	 */
-	public function getObject() {
-		return $this->object;
-	}
+     * @return the $objects
+     */
+    public function getObjects()
+    {
+        return $this->objects;
+    }
 
 	/**
-	 * @param field_type $object
-	 */
-	public function setObject($object) {
-		$this->object = $object;
-	}
+     * @param \Doctrine\Common\Collections\ArrayCollection $objects
+     */
+    public function setObjects($objects)
+    {
+        $this->objects = $objects;
+    }
+    
+    /**
+     * Add an object to the story.
+     *
+     * @param Object $object
+     *
+     * @return void
+     */
+    public function addObject($object)
+    {
+        $this->objects[] = $object;
+    }
+    
+    public function addObjects(\Doctrine\Common\Collections\ArrayCollection $objects)
+    {
+        foreach ($objects as $object) {
+            //$object->setStory($this);
+            $this->objects->add($object);
+        }
+    }
+    
+    public function removeObjects(\Doctrine\Common\Collections\ArrayCollection $objects)
+    {
+        foreach ($objects as $object) {
+            //$object->setStory(null);
+            $this->objects->removeElement($object);
+        }
+    }
 
 	/**
      * @return the $createdAt

@@ -27,7 +27,7 @@ class OpenGraphObjectAttribute
     protected $id;
     
     /**
-     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     * @ORM\Column(type="string", length=255, unique=false, nullable=false)
      */
     protected $code;
     

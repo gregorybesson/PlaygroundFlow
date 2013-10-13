@@ -13,9 +13,9 @@ use Zend\InputFilter\InputFilterInterface;
 /**
  * An entry represent a game session.
  * @ORM\Entity @HasLifecycleCallbacks
- * @ORM\Table(name="opengraph_object_attribute_mapping")
+ * @ORM\Table(name="opengraph_object_mapping")
  */
-class OpenGraphObjectAttributeMapping
+class OpenGraphObjectMapping
 {
 	protected $inputFilter;
 
@@ -25,16 +25,22 @@ class OpenGraphObjectAttributeMapping
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="OpenGraphObjectMapping")
-     **/
-    protected $objectMapping;
     
     /**
-     * @ORM\ManyToOne(targetEntity="OpenGraphObjectAttribute")
+     * @ORM\ManyToOne(targetEntity="OpenGraphStoryMapping", inversedBy="objects")
+     * @ORM\JoinColumn(name="storyMapping_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $storyMapping;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="OpenGraphObject")
      **/
-    protected $attribute;
+    protected $object;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="OpenGraphObjectAttributeMapping", mappedBy="objectMapping", cascade={"persist","remove"})
+     */
+    protected $attributes;
     
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -53,7 +59,7 @@ class OpenGraphObjectAttributeMapping
 
     public function __construct()
     {
-
+        $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /** @PrePersist */
@@ -87,32 +93,69 @@ class OpenGraphObjectAttributeMapping
         $this->id = $id;
     }
 
-	/**
-	 * @return the $objectMapping
+    /**
+	 * @return the $storyMapping
 	 */
-	public function getObjectMapping() {
-		return $this->objectMapping;
+	public function getStoryMapping() {
+		return $this->storyMapping;
 	}
 
 	/**
-	 * @param field_type $objectMapping
+	 * @param field_type $storyMapping
 	 */
-	public function setObjectMapping($objectMapping) {
-		$this->objectMapping = $objectMapping;
+	public function setStoryMapping($storyMapping) {
+		$storyMapping->addObject($this);
+		$this->storyMapping = $storyMapping;
 	}
 
 	/**
-	 * @return the $attribute
+	 * @return the $object
 	 */
-	public function getAttribute() {
-		return $this->attribute;
+	public function getObject() {
+		return $this->object;
 	}
 
 	/**
-	 * @param field_type $attribute
+	 * @param field_type $object
 	 */
-	public function setAttribute($attribute) {
-		$this->attribute = $attribute;
+	public function setObject($object) {
+		$this->object = $object;
+	}
+	
+
+	public function addAttribute($attribute)
+	{
+	    $this->attributes[] = $attribute;
+	}
+	
+	/**
+	 * @return the $attributes
+	 */
+	public function getAttributes() {
+	    return $this->attributes;
+	}
+	
+	/**
+	 * @param field_type $attributes
+	 */
+	public function setAttributes($attributes) {
+	    $this->attributes = $attributes;
+	}
+	
+	public function addAttributes(\Doctrine\Common\Collections\ArrayCollection $attributes)
+	{
+	    foreach ($attributes as $attribute) {
+	        $attribute->setObjectMapping($this);
+	        $this->attributes->add($attribute);
+	    }
+	}
+	
+	public function removeAttributes(\Doctrine\Common\Collections\ArrayCollection $attributes)
+	{
+	    foreach ($attributes as $attribute) {
+	        $attribute->setObjectMapping(null);
+	        $this->attributes->removeElement($attribute);
+	    }
 	}
 
 	/**
@@ -190,12 +233,6 @@ class OpenGraphObjectAttributeMapping
     	if (!$this->inputFilter) {
     		$inputFilter = new InputFilter();
     		$factory = new InputFactory();
-    		
-    		$inputFilter->add($factory->createInput(array(
-    		    'name' => 'attribute',
-    		    'required' => false,
-    		    'allowEmpty' => true,
-    		)));
     
     		$this->inputFilter = $inputFilter;
     	}

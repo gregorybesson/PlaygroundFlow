@@ -126,6 +126,14 @@ class Module
                 
                 	return $mapper;
                 },
+                'playgroundflow_objectmapping_mapper' => function ($sm) {
+                    $mapper = new \PlaygroundFlow\Mapper\ObjectMapping(
+                        $sm->get('doctrine.entitymanager.orm_default'),
+                        $sm->get('playgroundflow_module_options')
+                    );
+                
+                    return $mapper;
+                },
                 'playgroundflow_storytelling_mapper' => function ($sm) {
                     $mapper = new \PlaygroundFlow\Mapper\StoryTelling(
                         $sm->get('doctrine.entitymanager.orm_default'),
@@ -181,6 +189,14 @@ class Module
                 	$form->setInputFilter($attribute->getInputFilter());
                 
                 	return $form;
+                },
+                'playgroundflow_objectmapping_form' => function($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\ObjectMapping(null, $sm, $translator);
+                    $object = new Entity\OpenGraphObjectMapping();
+                    $form->setInputFilter($object->getInputFilter());
+                
+                    return $form;
                 },
             ),
         );

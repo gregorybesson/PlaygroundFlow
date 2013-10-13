@@ -28,6 +28,11 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     protected $objectAttributeMappingMapper;
 
     /**
+     * @var ObjectMapperInterface
+     */
+    protected $objectMappingMapper;
+    
+    /**
      * @var ServiceManager
      */
     protected $serviceManager;
@@ -107,6 +112,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     	}
     	$mapping = $this->getStoryMappingMapper()->update($mapping);
     
+    	/*
     	$objectAttributes = $mapping->getStory()->getObject()->getAttributes();
     	$existingMapping = $mapping->getAttributes();
     	$existingMappingArray = array();
@@ -127,7 +133,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     			$this->getObjectAttributeMappingMapper()->insert($attributeMapping);
     		}
     		
-    	}
+    	}*/
     	return $mapping;
     
     }
@@ -166,7 +172,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     	$this->getStoryMappingMapper()->update($mapping);
     	$this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('attribute' => $mapping, 'data' => $data));
     
-    	$objectAttributes = $mapping->getStory()->getObject()->getAttributes();
+    	/*$objectAttributes = $mapping->getStory()->getObject()->getAttributes();
     	$existingMapping = $mapping->getAttributes();
     	$existingMappingArray = array();
     	foreach($existingMapping as $attMap){
@@ -184,9 +190,43 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     			$this->getObjectAttributeMappingMapper()->insert($attributeMapping);
     		}
     		
-    	}
+    	}*/
     	
     	return $mapping;
+    }
+
+    public function createObject(array $data, $objectMapping)
+    {
+        $form  = $this->getServiceManager()->get('playgroundflow_objectmapping_form');
+        $form->bind($objectMapping);
+        $form->setData($data);
+    
+        if (!$form->isValid()) {
+            return false;
+        }
+    
+        $this->getEventManager()->trigger(__FUNCTION__, $this, array('objectMapping' => $objectMapping, 'data' => $data));
+        $this->getObjectMappingMapper()->insert($objectMapping);
+        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('objectMapping' => $objectMapping, 'data' => $data));
+    
+        return $objectMapping;
+    }
+    
+    public function editObject(array $data, $objectMapping)
+    {
+        $form  = $this->getServiceManager()->get('playgroundflow_objectmapping_form');
+        $form->bind($objectMapping);
+        $form->setData($data);
+    
+        if (!$form->isValid()) {
+            return false;
+        }
+    
+        $this->getEventManager()->trigger(__FUNCTION__, $this, array('objectMapping' => $objectMapping, 'data' => $data));
+        $this->getObjectMappingMapper()->update($objectMapping);
+        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('objectMapping' => $objectMapping, 'data' => $data));
+    
+        return $objectMapping;
     }
     
     public function editAttribute(array $data, $attributeMapping)
@@ -285,6 +325,33 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     	$this->objectAttributeMappingMapper = $objectAttributeMappingMapper;
     
     	return $this;
+    }
+    
+    /**
+     * getObjectMappingMapper
+     *
+     * @return ObjectMapperInterface
+     */
+    public function getObjectMappingMapper()
+    {
+        if (null === $this->objectMappingMapper) {
+            $this->objectMappingMapper = $this->getServiceManager()->get('playgroundflow_objectmapping_mapper');
+        }
+    
+        return $this->objectMappingMapper;
+    }
+    
+    /**
+     * setObjectMapper
+     *
+     * @param  ObjectMapperInterface $objectMapper
+     * @return Object
+     */
+    public function setObjectMappingMapper(ObjectMappingMapperInterface $objectMappingMapper)
+    {
+        $this->objectMappingMapper = $objectMappingMapper;
+    
+        return $this;
     }
 
     public function setOptions(ModuleOptions $options)
