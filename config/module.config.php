@@ -92,6 +92,7 @@ return array(
             'playgroundflowrest'         => 'PlaygroundFlow\Controller\RestController',
             'playgroundflowrestauthent'  => 'PlaygroundFlow\Controller\RestAuthentController',
             'playgroundflowrestsend'     => 'PlaygroundFlow\Controller\RestSendController',
+            'playgroundfloweasyxdm'      => 'PlaygroundFlow\Controller\Frontend\EasyXDMController',
         ),
     ),
 
@@ -162,6 +163,31 @@ return array(
                             'defaults' => array(
                                 'controller' => 'playgroundflow',
                                 'action'     => 'init'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'frontend' => array(
+                'child_routes' => array(
+                    'easyxdmindex' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Segment',
+                        'options' => array(
+                            'route'    => 'easyxdm/index',
+                            'defaults' => array(
+                                'controller' => 'playgroundfloweasyxdm',
+                                'action'     => 'index',
+                            ),
+                        ),
+                    ),
+            
+                    'easyxdmname' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Segment',
+                        'options' => array(
+                            'route'    => 'easyxdm/name',
+                            'defaults' => array(
+                                'controller' => 'playgroundfloweasyxdm',
+                                'action'     => 'name',
                             ),
                         ),
                     ),
