@@ -92,7 +92,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             '*'
         ), 'sponsor.post', array(
             $this,
-            'sponsorAfter'
+            'tellStoryAfter'
         ), 200);
         
         // OPTIN
@@ -100,13 +100,13 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             '*'
         ), 'updateNewsletter.pre', array(
             $this,
-            'newsletterBefore'
+            'tellStoryBefore'
         ), 200);
         $this->listeners[] = $events->getSharedManager()->attach(array(
             '*'
         ), 'updateNewsletter.post', array(
             $this,
-            'newsletterAfter'
+            'tellStoryAfter'
         ), 200);
         
         // OPTINPARTNER
@@ -114,13 +114,13 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             '*'
         ), 'updateNewsletterPartner.pre', array(
             $this,
-            'newsletterBefore'
+            'tellStoryBefore'
         ), 201);
         $this->listeners[] = $events->getSharedManager()->attach(array(
             '*'
         ), 'updateNewsletterPartner.post', array(
             $this,
-            'newsletterAfter'
+            'tellStoryAfter'
         ), 201);
         
         // UPDATE ACCOUNT INFO
@@ -130,7 +130,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             'updateInfo.pre'
         ), array(
             $this,
-            'infoBefore'
+            'tellStoryBefore'
         ), 200);
         $this->listeners[] = $events->getSharedManager()->attach(array(
             '*'
@@ -138,7 +138,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             'updateInfo.post'
         ), array(
             $this,
-            'infoAfter'
+            'tellStoryAfter'
         ), 200);
         
     }
@@ -152,82 +152,6 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             if ($events->detach($listener)) {
                 unset($this->listeners[$index]);
             }
-        }
-    }
-
-    /**
-     *
-     * @param Event $e            
-     */
-    public function tellStoryAfter(\Zend\EventManager\Event $e)
-    {
-        $user = $e->getParam('user');
-        $secretKey = $e->getParam('secretKey');
-        
-        $sm = $e->getTarget()->getServiceManager();
-        $storyTellingService = $sm->get('playgroundflow_storytelling_service');
-        
-        $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
-            'eventAfterUrl' => $e->getName()
-        ));
-        foreach ($stories as $storyMapping) {
-            $objectArray = array();
-            foreach($storyMapping->getObjects() as $objectMapping){
-                $objectCode = $e->getParam($objectMapping->getObject()->getCode());
-                foreach($objectMapping->getAttributes() as $attributeMapping){
-                    //echo "object : " . $objectMapping->getObject()->getCode() . "<br>";
-                    //echo "object id : " . $objectMapping->getObject()->getId() . "<br>";
-                    //echo "attribut : " . $attributeMapping->getAttribute()->getCode() . "<br>";
-                    if( method_exists( $objectCode , $method = ( 'get' . ucfirst( $attributeMapping->getAttribute()->getCode() ) ) ) ){
-                    $objectArray[$objectMapping->getObject()->getCode()][$attributeMapping->getAttribute()->getCode()] = $objectCode->$method();
-                    }                    
-                }
-            }
-            
-            $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
-            $storyTelling->setOpenGraphStoryMapping($storyMapping);
-            $storyTelling->setUser($user);
-            $storyTelling->setObject(json_encode($objectArray));
-            $storyTelling->setPoints($storyMapping->getPoints());
-            $storyTelling->setSecretKey($secretKey);
-            $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
-            
-            $e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId() , $this, array('storyTelling' => $storyTelling));
-        }
-    }
-
-    /**
-     * differences = correctAnswers + game + winner
-     * @param \Zend\EventManager\Event $e
-     */
-    public function createQuizReplyAfter(\Zend\EventManager\Event $e)
-    {
-        $correctAnswers = $e->getParam('correctAnswers');
-        $winner = $e->getParam('winner');
-        $game = $e->getParam('game');
-        $user = $e->getParam('user');
-        
-        $sm = $e->getTarget()->getServiceManager();
-        $storyTellingService = $sm->get('playgroundflow_storytelling_service');
-        
-        $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
-            'eventAfterUrl' => $e->getName()
-        ));
-        foreach ($stories as $story) {
-            $object = array();
-            $object['game'] = array(
-                'id' => $game->getId(),
-                'type' => $game->getClassType()
-            );
-            $object['winner'] = $winner;
-            $object['correctAnswers'] = $correctAnswers;
-            
-            $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
-            $storyTelling->setOpenGraphStoryMapping($story);
-            $storyTelling->setUser($user);
-            $storyTelling->setObject(json_encode($object));
-            $storyTelling->setPoints($story->getPoints());
-            $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
         }
     }
 
@@ -349,67 +273,98 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
         }
         $this->eventsArray[$e->getName()] = false;
     }
-
-    /**
-     * differences : BEFORE
-     * @param \Zend\EventManager\Event $e
-     */
-    public function infoBefore(\Zend\EventManager\Event $e)
+    
+    public function tellStoryBefore(\Zend\EventManager\Event $e)
     {
+
         $data = $e->getParam('data');
         $user = $e->getParam('user');
+        $secretKey = $e->getParam('secretKey');
         
         $sm = $e->getTarget()->getServiceManager();
         $storyTellingService = $sm->get('playgroundflow_storytelling_service');
         
-        if (isset($data['username']) && $user->getUsername() != $data['username'] && $data['username'] != '') {
-            $this->eventsArray['updateInfo.post']['before']['username'] = $user->getUsername();
-            $this->eventsArray['updateInfo.post']['after']['username'] = $data['username'];
-        }
-        if (isset($data['avatar']) && $user->getAvatar() != $data['avatar'] && $data['avatar'] != '') {
-            $this->eventsArray['updateInfo.post']['before']['avatar'] = $user->getAvatar();
-            $this->eventsArray['updateInfo.post']['after']['avatar'] = $data['avatar'];
-        }
-        if (isset($data['address']) && $user->getAddress() != $data['address'] && $data['address'] != '') {
-            $this->eventsArray['updateInfo.post']['before']['address'] = $user->getAddress();
-            $this->eventsArray['updateInfo.post']['after']['address'] = $data['address'];
-        }
-        if (isset($data['city']) && $user->getCity() != $data['city'] && $data['city'] != '') {
-            $this->eventsArray['updateInfo.post']['before']['city'] = $user->getCity();
-            $this->eventsArray['updateInfo.post']['after']['city'] = $data['city'];
-        }
-        if (isset($data['telephone']) && $user->getTelephone() != $data['telephone'] && $data['telephone'] != '') {
-            $this->eventsArray['updateInfo.post']['before']['telephone'] = $user->getTelephone();
-            $this->eventsArray['updateInfo.post']['after']['telephone'] = $data['telephone'];
-        }
-    }
-
-    /**
-     * differences : parcours var
-     * @param \Zend\EventManager\Event $e
-     */
-    public function infoAfter(\Zend\EventManager\Event $e)
-    {
-        $user = $e->getParam('user');
-        $sm = $e->getTarget()->getServiceManager();
-        $storyTellingService = $sm->get('playgroundflow_storytelling_service');
+        // I reset the array before anything
+        $this->eventsArray[$e->getName()] = null;
         
-        if (isset($this->eventsArray[$e->getName()]) && $this->eventsArray[$e->getName()] !== null) {
-            
-            $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
-                'eventAfterUrl' => $e->getName()
-            ));
-            foreach ($stories as $story) {
-                $object = $this->eventsArray[$e->getName()];
-                $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
-                $storyTelling->setOpenGraphStoryMapping($story);
-                $storyTelling->setUser($user);
-                $storyTelling->setObject(json_encode($object));
-                $storyTelling->setPoints($story->getPoints());
-                $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
+        $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
+            'eventBeforeUrl' => $e->getName()
+        ));
+        
+        foreach ($stories as $storyMapping) {
+            $objectArray = array();
+            foreach($storyMapping->getObjects() as $objectMapping){
+                $objectCode = $objectMapping->getObject()->getCode();
+                $instance = $e->getParam($objectCode);
+                foreach($objectMapping->getAttributes() as $attributeMapping){
+                    //echo "object : " . $objectMapping->getObject()->getCode() . "<br>";
+                    //echo "object id : " . $objectMapping->getObject()->getId() . "<br>";
+                    //echo "attribut : " . $attributeMapping->getAttribute()->getCode() . "<br>";
+                    if( method_exists( $instance , $method = ( 'get' . ucfirst( $attributeMapping->getAttribute()->getCode() ) ) ) ){
+                        if (isset($data[$attributeMapping->getAttribute()->getCode()]) && $instance->$method() != $data[$attributeMapping->getAttribute()->getCode()]) {
+                            $this->eventsArray[$e->getName()]['before'][$objectCode][$attributeMapping->getAttribute()->getCode()] = $instance->$method();
+                            $this->eventsArray[$e->getName()]['after'][$objectCode][$attributeMapping->getAttribute()->getCode()] = $data[$attributeMapping->getAttribute()->getCode()];
+                        }
+                    }
+                }
             }
         }
-        $this->eventsArray[$e->getName()] = null;
+    }
+    
+    /**
+     *
+     * @param Event $e
+     */
+    public function tellStoryAfter(\Zend\EventManager\Event $e)
+    {
+        $user = $e->getParam('user');
+        $secretKey = $e->getParam('secretKey');
+    
+        $sm = $e->getTarget()->getServiceManager();
+        $storyTellingService = $sm->get('playgroundflow_storytelling_service');
+    
+        // If the secretKey is not empty, I search th user associated with it as I want him to live the story
+        if(!empty($secretKey)){
+            $sponsorStory = $storyTellingService->getStoryTellingMapper()->findOneBySecretKey($secretKey);
+            if ($sponsorStory) {
+                $user = $sponsorStory->getUser();
+            }
+        }  
+        
+        $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
+            'eventAfterUrl' => $e->getName()
+        ));
+        foreach ($stories as $storyMapping) {
+            $objectArray = array();
+            // an event before has been triggered
+            $key = $storyMapping->getEventBeforeUrl();
+            if(!empty($key) && isset($this->eventsArray[$key]) && $this->eventsArray[$key] !== null){
+                $objectArray = $this->eventsArray[$key];
+            } 
+            // No before event triggered
+            else{
+                foreach($storyMapping->getObjects() as $objectMapping){
+                    $objectCode = $e->getParam($objectMapping->getObject()->getCode());
+                    foreach($objectMapping->getAttributes() as $attributeMapping){
+                        //echo "object : " . $objectMapping->getObject()->getCode() . "<br>";
+                        //echo "object id : " . $objectMapping->getObject()->getId() . "<br>";
+                        //echo "attribut : " . $attributeMapping->getAttribute()->getCode() . "<br>";
+                        if( method_exists( $objectCode , $method = ( 'get' . ucfirst( $attributeMapping->getAttribute()->getCode() ) ) ) ){
+                            $objectArray[$objectMapping->getObject()->getCode()][$attributeMapping->getAttribute()->getCode()] = $objectCode->$method();
+                        }
+                    }
+                }
+            }
+            $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
+            $storyTelling->setOpenGraphStoryMapping($storyMapping);
+            $storyTelling->setUser($user);
+            $storyTelling->setObject(json_encode($objectArray));
+            $storyTelling->setPoints($storyMapping->getPoints());
+            $storyTelling->setSecretKey($secretKey);
+            $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
+    
+            $e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId() , $this, array('storyTelling' => $storyTelling));
+        }
     }
     
     /**
