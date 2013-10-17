@@ -19,55 +19,62 @@ class RestAuthentController extends AbstractRestfulController
     {
     	$service 	= $this->getAdminDomainService();
     	$appId = $this->getEvent()->getRouteMatch()->getParam('appId');
-    	$domain = $service->getDomainMapper()->findById(2);
+    	$service 	= $this->getAdminDomainService();
+    	$appId = $this->getEvent()->getRouteMatch()->getParam('appId');
+    	$uri = $this->getRequest()->getUri();
+    	$base = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
+    	$domain = $service->getDomainMapper()->findOneBy(array('domain' => $base));
     	
-    	$storymappings = $domain->getStoryMappings();
+    	
     	$stories = array();
     	
-    	foreach($storymappings as $sm){
-    		$conditions = array();
-    		$events = array('before'=>array(), 'after'=>array());
-    		$objects = array();
-
-    		foreach($sm->getObjects() as $objectMapping){
-    		    $objects['id'] = $objectMapping->getObject()->getCode();
-    		    $attributes = array();
-    		    foreach($objectMapping->getAttributes() as $attributeMapping){
-    		        $attributes[] = array('name' => $attributeMapping->getAttribute()->getCode(), 'xpath' => $attributeMapping->getXpath());
-    		    }
-    		    $objects['properties'] = $attributes;
-    		}
-    		
-    		if($sm->getConditionsUrl()!=''){
-    			$conditions['url'] = $sm->getConditionsUrl();
-    		}
-    		
-    		if($sm->getConditionsXpath()!=''){
-    			$conditions['xpath'] = $sm->getConditionsXpath();
-    		}
-    		
-    		if($sm->getEventBeforeUrl()!=''){
-    			$events['before']['url'] = $sm->getEventBeforeUrl();
-    		}
-    		
-    		if($sm->getEventBeforeXpath()!=''){
-    			$events['before']['xpath'] = $sm->getEventBeforeXpath();
-    		}
-    		
-    		if($sm->getEventAfterUrl()!=''){
-    			$events['after']['url'] = $sm->getEventAfterUrl();
-    		}
-    		
-    		if($sm->getEventAfterXpath()!=''){
-    			$events['after']['xpath'] = $sm->getEventAfterXpath();
-    		}
-    		
-    		$stories[$sm->getStory()->getCode()] = array(
-    			'action' => $sm->getStory()->getAction()->getCode(),
-    			'events' => $events,
-    			'conditions' => $conditions,
-    			'objects' => $objects,
-    		);
+    	if($domain){
+        	$storymappings = $domain->getStoryMappings();
+        	foreach($storymappings as $sm){
+        		$conditions = array();
+        		$events = array('before'=>array(), 'after'=>array());
+        		$objects = array();
+    
+        		foreach($sm->getObjects() as $objectMapping){
+        		    $objects['id'] = $objectMapping->getObject()->getCode();
+        		    $attributes = array();
+        		    foreach($objectMapping->getAttributes() as $attributeMapping){
+        		        $attributes[] = array('name' => $attributeMapping->getAttribute()->getCode(), 'xpath' => $attributeMapping->getXpath());
+        		    }
+        		    $objects['properties'] = $attributes;
+        		}
+        		
+        		if($sm->getConditionsUrl()!=''){
+        			$conditions['url'] = $sm->getConditionsUrl();
+        		}
+        		
+        		if($sm->getConditionsXpath()!=''){
+        			$conditions['xpath'] = $sm->getConditionsXpath();
+        		}
+        		
+        		if($sm->getEventBeforeUrl()!=''){
+        			$events['before']['url'] = $sm->getEventBeforeUrl();
+        		}
+        		
+        		if($sm->getEventBeforeXpath()!=''){
+        			$events['before']['xpath'] = $sm->getEventBeforeXpath();
+        		}
+        		
+        		if($sm->getEventAfterUrl()!=''){
+        			$events['after']['url'] = $sm->getEventAfterUrl();
+        		}
+        		
+        		if($sm->getEventAfterXpath()!=''){
+        			$events['after']['xpath'] = $sm->getEventAfterXpath();
+        		}
+        		
+        		$stories[$sm->getStory()->getCode()] = array(
+        			'action' => $sm->getStory()->getAction()->getCode(),
+        			'events' => $events,
+        			'conditions' => $conditions,
+        			'objects' => $objects,
+        		);
+        	}
     	}
     	
         $response = $this->getResponse();
