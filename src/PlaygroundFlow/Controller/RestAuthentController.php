@@ -19,7 +19,7 @@ class RestAuthentController extends AbstractRestfulController
     {
     	$service 	= $this->getAdminDomainService();
     	$appId = $this->getEvent()->getRouteMatch()->getParam('appId');
-    	$domain = $service->getDomainMapper()->findById(2);
+    	$domain = $service->getDomainMapper()->findById(1);
     	
     	$storymappings = $domain->getStoryMappings();
     	$stories = array();
@@ -258,7 +258,7 @@ class RestAuthentController extends AbstractRestfulController
     {
         $service 	= $this->getAdminDomainService();
     	$appId = $this->getEvent()->getRouteMatch()->getParam('appId');
-    	$domain = $service->getDomainMapper()->findById(2);
+    	$domain = $service->getDomainMapper()->findById(1);
     	
     	$storymappings = $domain->getStoryMappings();
     	$stories = array();

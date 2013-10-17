@@ -24,7 +24,7 @@ var user = {
     env: { },
     id: null,
     uid: null,
-    stories: { },
+    data: { },
     urls: {
         current: window.location.href,
         prev: null
@@ -49,37 +49,29 @@ var user = {
     {
         'use strict';
         
-        PG.Util.log('user.js > init');
-        
         PG.Util.GenerateUniqueId();
         PG.User.urls.prev = PG.Util.readCookie('prev-url');
         
-        var stories = PG.Util.readCookie('stories'),
+        var authent = PG.Util.readCookie('authent'),
             lastSync = PG.Util.readCookie('last-sync'),
             today = new Date().getTime();
         
         // @TODO : UNCOMMENT THIS TO KEEP THE AUTHENT FOR A ENTIRE DAY
-        stories = null;
+        authent = null;
         
         if(!PG.Util.not_null(lastSync) || (parseInt(lastSync, 10) + parseInt(24 * 60 * 60, 10)) < today) {
-            stories = null;
+            authent = null;
         }
         
-        if(!PG.Util.not_null(stories)) {
-            PG.User.loadStories()
+        if(!PG.Util.not_null(authent)) {
+            PG.User.loadAuthent()
             .then(function ()
             {
-                // after
-                PG.User.checkStories(false, true);
-                // normal
-                PG.User.checkStories(false, false);
+                PG.User.checkUser();
             });
         }else {
-            PG.User.stories = JSON.parse(PG.Util.readCookie('stories'));
-            // after
-            PG.User.checkStories(false, true);
-            // normal
-            PG.User.checkStories(false, false);
+            PG.User.data = JSON.parse(PG.Util.readCookie('authent'));
+            PG.User.checkUser();
         }
     },
     
@@ -114,25 +106,23 @@ var user = {
     
     /**
      * Call service to get json data of logout user method
-     * put the return into PG.User.stories
+     * put the return into PG.User.data
      * @function
      * 
-     * @name PG.User.loadStories
+     * @name PG.User.loadAuthent
      * 
      * @param {null}
      * @return {Object} promise
-     *  
+     * 
      * @this {User}
      * 
      * @ignore
      * 
      * @since version 1.0.0
      */
-    loadStories: function ()
+    loadAuthent: function ()
     {
         'use strict';
-        
-        PG.Util.log('user.js > loadStories');
         
         var p = new PG.Promise();
 
@@ -140,11 +130,9 @@ var user = {
         .then(
             function (data)
             {
-                PG.User.stories = data;
+                PG.User.data = data;
                 PG.Util.createCookie('last-sync', new Date().getTime());
-        
-                PG.Util.log('user.js > loadStories > save', data);
-                PG.Util.createCookie('stories', JSON.stringify(data));
+                PG.Util.createCookie('authent', JSON.stringify(data));
                 p.resolve();
             }
         );
@@ -156,7 +144,7 @@ var user = {
      * Check if the user is logged, logout, or tried to login/logout 
      * @function
      * 
-     * @name PG.User.checkStories
+     * @name PG.User.checkUser
      * 
      * @param {null}
      * @return {null}
@@ -167,54 +155,9 @@ var user = {
      * 
      * @since version 1.0.0
      */
-    checkStories: function (before, after)
+    checkUser: function ()
     {
         'use strict';
-        var i, b = {}, a = {}, use, afterCookie, beforeCookie;
-        
-        PG.Util.log('user.js > checkStories');
-        
-        for(i in PG.User.stories.library.stories) {
-            if(typeof PG.User.stories.library.stories[i] === 'object') {
-                use = PG.User.checkStory(PG.User.stories.library.stories[i], before, after);
-                
-                if(use && before) {
-                    b[i] = "true";
-                }else if(before) {
-                    b[i] = "false";
-                }
-                if(use && after) {
-                    a[i] = "true";
-                }else if(after) {
-                    a[i] = "false";
-                }
-                
-                if(use && !before && !after) {
-                    beforeCookie = PG.Util.readCookie('before');
-                    if(PG.Util.not_null(beforeCookie)) {
-                        beforeCookie = JSON.parse(beforeCookie);
-                    }
-                    afterCookie = PG.Util.readCookie('after');
-                    if(PG.Util.not_null(afterCookie)) {
-                        afterCookie = JSON.parse(afterCookie);
-                    }
-                    if(beforeCookie[i] === 'true' && afterCookie[i] === 'true') {
-                        PG.App.send(PG.User.getStory(PG.User.stories.library.stories[i]));
-                    }
-                }
-            }
-        }
-        // set cookie to remember after and before
-        if(before) {
-            PG.Util.createCookie('before', JSON.stringify(b));
-        }else if(after) {
-            PG.Util.createCookie('after', JSON.stringify(a));
-        }else {
-            // Else remove before event
-            PG.Util.createCookie('before', '');
-        }
-        
-        return;
         
         if(PG.User.isLogged()
             && PG.Util.not_null(PG.Util.readCookie('logout-try'))) { // USER TRIED TO LOUGOUT
@@ -315,65 +258,37 @@ var user = {
      * 
      * @since version 1.0.0
      */
-    checkStory: function (story, before, after)
+    checkStory: function (story)
     {
         'use strict';
-        var use = true;
         
-        PG.Util.log('user.js > checkStory > name "' + story.action + '"');
+        var use = false;
         if(PG.Util.not_null(story)) {
             
-            if(before) {
-                
-                if(story.events.before.length === 0) {
-                    PG.Util.log('user.js > checkStory > use story : false');
-                    return true;
-                }
-                
-                // CHECK STORY URL ?
-                if(PG.Util.not_null(story.events.before.url)) {
-                    use = (window.location.href.indexOf(story.events.before.url) !== -1);
-                }
-                
-                // CHECK STORY XPATH ?
-                if(PG.Util.not_null(story.events.before.xpath)) {
-                    use = PG.Util.checkXpath(story.events.before.xpath);
-                }
-                
-                PG.Util.log('user.js > checkStory > before > use story : ' + before);
-            }else if(after) {
-                
-                if(story.events.after.length === 0) {
-                    PG.Util.log('user.js > checkStory > use story : false');
-                    return true;
-                }
-                
-                // CHECK STORY URL ?
-                if(PG.Util.not_null(story.events.after.url)) {
-                    use = (window.location.href.indexOf(story.events.after.url) !== -1);
-                }
-                
-                // CHECK STORY XPATH ?
-                if(PG.Util.not_null(story.events.after.xpath)) {
-                    use = PG.Util.checkXpath(story.events.after.xpath);
-                }
-                
-                PG.Util.log('user.js > checkStory > after > use story : ' + after);
-            }else {
-                // CHECK STORY URL ?
-                if(PG.Util.not_null(story.conditions.url)) {
-                    use = (window.location.href.indexOf(story.conditions.url) !== -1);
-                }
-                
-                // CHECK STORY XPATH ?
-                if(PG.Util.not_null(story.conditions.xpath)) {
-                    use = PG.Util.checkXpath(story.conditions.xpath);
-                }
-                
-                PG.Util.log('user.js > checkStory > use story : ' + use);
+            // fix of a util match bug
+            var result = false;
+            console.log(story.url);
+            if(PG.Util.not_null(story.url)){
+                result = (window.location.href.indexOf(story.url) > -1);
+            }
+
+            if(PG.Util.not_null(story.url)
+                && PG.Util.not_null(story.xpath)
+                    && result
+                        && PG.Util.checkXpath(story.xpath)) {
+                use = true;
+            }else if(PG.Util.not_null(story.url)
+                && result
+                    && !PG.Util.not_null(story.xpath)) {
+                // check condition url
+                use = true;
+            }else if(PG.Util.not_null(story.xpath)
+                && PG.Util.checkXpath(story.xpath)
+                    && !PG.Util.not_null(story.url)) {
+                // check condition xpath
+                use = true;
             }
         }
-        
         return use;
     },
     
@@ -393,7 +308,7 @@ var user = {
      * 
      * @since version 1.0.0
      */
-    getStory: function (story)
+    getStory: function (url, action, obj, checkEvt)
     {
         'use strict';
         
@@ -402,20 +317,14 @@ var user = {
                 anonymous: PG.User.uid
             },
             objects: {},
-            action: story.action,
-            url: window.location.href,
+            action: action,
+            url: url,
             apiKey: PG.Settings.apiKey
         };
         
-        PG.Util.log("user.js > getStory");
-        
-        return json;
-        
-        /*
         if(PG.User.isLogged()) {
             json.user.login = PG.User.id;
         }
-        */
         
         if(PG.Util.not_null(obj)) {
         
@@ -459,17 +368,10 @@ var user = {
     {
         'use strict';
         
-        PG.Util.log('user.js > quit');
-        
-        PG.User.checkStories(true, false);
-        
-        PG.Util.createCookie('prev-url', window.location.href);
-        
-        return;
-        
         var it,
             id = '',
             s;
+        
         PG.Util.createCookie('prev-url', window.location.href);
         
         if(PG.User.isLogged()) {
@@ -510,4 +412,3 @@ try {
 }catch(e) {
    throw new Error( "Cannot extends 'User' to 'Playground.User'" );
 }
-;
