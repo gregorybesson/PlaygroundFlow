@@ -292,7 +292,7 @@ App.prototype.send = function (story)
     PG.App.sendToEXDM({
             url: PG.Cache.protocol + PG.Config.env[PG.Config.mode].send,
             method: 'POST',
-            data: json,
+            data: story,
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             }
@@ -389,7 +389,8 @@ App.prototype.call = function (s)
     
     PG.App.rpc.request(
         {
-            url: PG.Cache.protocol + s + '?apiKey=' + PG.Settings.apiKey
+            url: PG.Cache.protocol + s + '?apiKey=' + PG.Settings.apiKey,
+            method: 'GET'
         },
         function (rpcdata)
         {
