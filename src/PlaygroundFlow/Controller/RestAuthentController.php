@@ -34,13 +34,15 @@ class RestAuthentController extends AbstractRestfulController
         		$events = array('before'=>array(), 'after'=>array());
         		$objects = array();
     
+        	    $i=0;
         		foreach($sm->getObjects() as $objectMapping){
-        		    $objects['id'] = $objectMapping->getObject()->getCode();
+        		    $objects[$i]['id'] = $objectMapping->getObject()->getCode();
         		    $attributes = array();
         		    foreach($objectMapping->getAttributes() as $attributeMapping){
         		        $attributes[] = array('name' => $attributeMapping->getAttribute()->getCode(), 'xpath' => $attributeMapping->getXpath());
         		    }
-        		    $objects['properties'] = $attributes;
+        		    $objects[$i]['properties'] = $attributes;
+        		    ++$i;
         		}
         		
         		if($sm->getConditionsUrl()!=''){
@@ -274,13 +276,15 @@ class RestAuthentController extends AbstractRestfulController
     		$events = array('before'=>array(), 'after'=>array());
     		$objects = array();
 
+    	    $i=0;
     		foreach($sm->getObjects() as $objectMapping){
-    		    $objects['id'] = $objectMapping->getObject()->getCode();
+    		    $objects[$i]['id'] = $objectMapping->getObject()->getCode();
     		    $attributes = array();
     		    foreach($objectMapping->getAttributes() as $attributeMapping){
     		        $attributes[] = array('name' => $attributeMapping->getAttribute()->getCode(), 'xpath' => $attributeMapping->getXpath());
     		    }
-    		    $objects['properties'] = $attributes;
+    		    $objects[$i]['properties'] = $attributes;
+    		    ++$i;
     		}
     		
     		if($sm->getConditionsUrl()!=''){
