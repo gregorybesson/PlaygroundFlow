@@ -305,37 +305,56 @@ var user = {
         'use strict';
         PG.Util.log('user.js > createObjectsStory');
         
-        var objects, xpathObjects, propValue, properties = [], i, j, k;
+        var objects = [], xpathObjects, propValue, properties = [], i, j, k, saveObject;
         
-        if(typeof story.objects.id !== 'undefined') {
-            for(j in story.objects.properties) {
-                if(typeof story.objects.properties[j] === 'object' && typeof story.objects.properties[j].name !== 'undefined') {
-                    xpathObjects = PG.Util.getObjectFromXpath(story.objects.properties[j].xpath);
-                    if(typeof xpathObjects !== 'undefined') {
-                        for(k in xpathObjects) {
-                            propValue =  PG.Util.getValueFromObject(xpathObjects[k]);
-                            if(typeof xpathObjects === 'object' && propValue !== '') {
-                                properties.push({
-                                    'name': story.objects.properties[j].name,
-                                    'value': propValue
-                                });
+        if(typeof story.action !== 'undefined') {
+            // FOR EACH OBJECTS
+            for(i in story.objects) {
+                if(typeof story.objects[i] === 'object' && typeof story.objects[i].properties !== 'undefined') {
+                    properties = [];
+                    
+                    // FOR EACH PROPERTIES
+                    for(j in story.objects[i].properties) {
+                        if(typeof story.objects[i].properties[j] === 'object' && typeof story.objects[i].properties[j].name !== 'undefined') {
+                            xpathObjects = PG.Util.getObjectFromXpath(story.objects[i].properties[j].xpath);
+                            if(typeof xpathObjects !== 'undefined') {
+                                
+                                // FOR EACH DOM OBJECT FROM XPATH
+                                for(k in xpathObjects) {
+                                    propValue =  PG.Util.getValueFromObject(xpathObjects[k]);
+                                    if(typeof xpathObjects === 'object' && propValue !== '') {
+                                        properties.push({
+                                            'name': story.objects[i].properties[j].name,
+                                            'value': propValue
+                                        });
+                                    }
+                                }
                             }
                         }
                     }
+                
+                    objects.push({
+                        id: story.objects[i].id,
+                        properties: properties
+                    });
                 }
             }
-            
-            objects = {
-                id: story.objects.id,
-                properties: properties
-            };
         }
         
-        if(typeof objects !== 'undefined' && typeof objects.id !== 'undefined'
-            && typeof objects.properties !== 'undefined' && objects.properties.length > 0 ) {
-            PG.Util.createCookie('object.' + story.action, JSON.stringify(objects));
+        if(typeof objects !== 'undefined' && objects.length > 0) {
+            for(i in objects) {
+                if(typeof objects[i] === 'object' && typeof objects[i].id !== 'undefined' && objects[i].properties.length > 0) {
+                    PG.Util.createCookie('object.' + story.action + '.' + objects[i].id, JSON.stringify(objects[i]));
+                }else {
+                    objects[i] = JSON.parse(PG.Util.readCookie('object.' + story.action + '.' + objects[i].id));
+                }
+            }
         }else {
-            objects = JSON.parse(PG.Util.readCookie('object.' + story.action));
+            for(i in objects) {
+                if(typeof objects[i] === 'object' && typeof objects[i].id === 'string') {
+                    objects[i] = JSON.parse(PG.Util.readCookie('object.' + story.action + '.' + objects[i].id));
+                }
+            }
         }
         
         return objects;
