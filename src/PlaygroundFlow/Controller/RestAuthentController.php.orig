@@ -19,11 +19,16 @@ class RestAuthentController extends AbstractRestfulController
     {
     	$service 	= $this->getAdminDomainService();
     	$appId = $this->getEvent()->getRouteMatch()->getParam('appId');
-		$service 	= $this->getAdminDomainService();
+<<<<<<< HEAD
+    	$domain = $service->getDomainMapper()->findById(1);
+=======
+    	$service 	= $this->getAdminDomainService();
     	$appId = $this->getEvent()->getRouteMatch()->getParam('appId');
     	$uri = $this->getRequest()->getUri();
     	$base = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
-    	$domain = $service->getDomainMapper()->findOneBy(array('id' => 1));    	
+    	$domain = $service->getDomainMapper()->findOneBy(array('domain' => $base));
+    	
+>>>>>>> 9cefa9ab5cd447935d6e57937c8552d5ab446055
     	
     	$stories = array();
     	
