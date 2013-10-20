@@ -10,20 +10,25 @@ class RestAuthentController extends AbstractRestfulController
 	/**
 	 * @var DomainService
 	 */
-	protected $adminDomainService;
+	protected $domainService;
 	
     /*
      * http://127.0.0.1/playground/flow/XX-XX-YY/rest/authent
     */
     public function getList()
     {
-    	$service 	= $this->getAdminDomainService();
+    	$service 	= $this->getDomainService();
     	$appId = $this->getEvent()->getRouteMatch()->getParam('appId');
-		$service 	= $this->getAdminDomainService();
-    	$appId = $this->getEvent()->getRouteMatch()->getParam('appId');
+    	
+    	$origin = parse_url($this->getRequest()->getHeader('Referer'));
     	$uri = $this->getRequest()->getUri();
-    	$base = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
-    	$domain = $service->getDomainMapper()->findOneBy(array('id' => 1));    	
+    	$domainId = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
+    	if(isset($origin['query'])){
+    	   parse_str($origin['query'], $query);
+    	   $domainId = $query['xdm_e'];
+    	}
+    	
+    	$domain = $service->getDomainMapper()->findOneBy(array('domain' => $domainId));    	
     	
     	$stories = array();
     	
@@ -264,7 +269,7 @@ class RestAuthentController extends AbstractRestfulController
     
     public function create($data)
     {
-        $service 	= $this->getAdminDomainService();
+        $service 	= $this->getDomainService();
     	$appId = $this->getEvent()->getRouteMatch()->getParam('appId');
     	$domain = $service->getDomainMapper()->findById(1);
     	
@@ -487,18 +492,18 @@ class RestAuthentController extends AbstractRestfulController
         # code...
     }
     
-    public function getAdminDomainService()
+    public function getDomainService()
     {
-    	if (!$this->adminDomainService) {
-    		$this->adminDomainService = $this->getServiceLocator()->get('playgroundflow_domain_service');
+    	if (!$this->domainService) {
+    		$this->domainService = $this->getServiceLocator()->get('playgroundflow_domain_service');
     	}
     
-    	return $this->adminDomainService;
+    	return $this->domainService;
     }
     
-    public function setAdminDomainService(AdminDomainService $adminDomainService)
+    public function setDomainService(DomainService $domainService)
     {
-    	$this->adminDomainService = $adminDomainService;
+    	$this->domainService = $domainService;
     
     	return $this;
     }

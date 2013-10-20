@@ -32,6 +32,44 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
      */
     public function attach(EventManagerInterface $events)
     {
+        //Creating the Pre-events
+        $sm = $this->getServiceManager();
+        
+        $app = $sm->get('Application');
+        $uri = $app->getRequest()->getUri();
+        $domainId = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
+        
+        $domainService = $sm->get('playgroundflow_domain_service');
+        $storyTellingService = $sm->get('playgroundflow_storytelling_service');
+        
+        $domain = $domainService->getDomainMapper()->findOneBy(array('domain'=>$domainId));
+        
+        $storymappings = $storyTellingService->getStoryMappingMapper()->findBy(array(
+            'domain' => $domain
+        ));
+         
+        foreach($storymappings as $storyMapping){
+            if($storyMapping->getEventBeforeUrl()){
+                $this->listeners[] = $events->getSharedManager()->attach(array(
+                    '*'
+                ), $storyMapping->getEventBeforeUrl(), array(
+                    $this,
+                    'tellStoryBefore'
+                ), 100);
+            }
+            
+            if($storyMapping->getEventAfterUrl()){
+                $this->listeners[] = $events->getSharedManager()->attach(array(
+                    '*'
+                ), $storyMapping->getEventAfterUrl(), array(
+                    $this,
+                    'tellStoryAfter'
+                ), 100);
+            }
+            
+        }
+        
+        /*
         
         // PLAY A GAME
         $this->listeners[] = $events->getSharedManager()->attach(array(
@@ -140,6 +178,8 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             $this,
             'tellStoryAfter'
         ), 200);
+        
+        */
         
     }
 
@@ -319,9 +359,17 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
     {
         $user = $e->getParam('user');
         $secretKey = $e->getParam('secretKey');
-    
         $sm = $e->getTarget()->getServiceManager();
+        
+        
+        $app = $sm->get('Application');
+        $uri = $app->getRequest()->getUri();
+        $domainId = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
+        
+        $domainService = $sm->get('playgroundflow_domain_service');
         $storyTellingService = $sm->get('playgroundflow_storytelling_service');
+        
+        $domain = $domainService->getDomainMapper()->findOneBy(array('domain'=>$domainId));
     
         // If the secretKey is not empty, I search th user associated with it as I want him to live the story
         if(!empty($secretKey)){
@@ -331,9 +379,15 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             }
         }  
         
+        //$stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
+        //    'eventAfterUrl' => $e->getName()
+        //));
+        
         $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
+            'domain' => $domain,
             'eventAfterUrl' => $e->getName()
         ));
+        
         foreach ($stories as $storyMapping) {
             $objectArray = array();
             // an event before has been triggered
