@@ -707,7 +707,7 @@ return array(
             ),
     ),
 
-    'navigation' => array(
+    /*'navigation' => array(
     	'admin' => array(
     		'playgroundflow'     => array(
     			'label'     => 'Open Graph',
@@ -754,5 +754,5 @@ return array(
     			),
     		),
     	),
-    ),
+    ),*/
 );
