@@ -67,7 +67,7 @@ class Domain extends ProvidesEventsForm
             'type' => 'Zend\Form\Element\Textarea',
             'name' => 'description',
             'options' => array(
-                'label' => $translator->translate('description', 'playgroundflow')
+                'label' => $translator->translate('Description', 'playgroundflow')
             ),
             'attributes' => array(
                 'cols' => '10',
