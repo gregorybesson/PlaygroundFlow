@@ -47,11 +47,11 @@ class Domain implements ServiceLocatorAwareInterface
         return $this->getEntityRepository()->findBy($array);
     }
 
-    public function findOneBy($array=array(), $sortBy = array('updated_at' => 'desc'))
+    public function findOneBy($array=array())
     {
         $er = $this->getEntityRepository();
 
-        return $er->findOneBy($array, $sortBy);
+        return $er->findOneBy($array);
     }
 
     public function findAll()

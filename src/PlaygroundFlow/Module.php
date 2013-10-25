@@ -28,6 +28,11 @@ class Module
         }
         AbstractValidator::setDefaultTranslator($translator,'playgroundcore');
         
+        // I don't attache listeners if the request is a console request
+        if ((get_class($e->getRequest()) == 'Zend\Console\Request')) {
+            return;
+        }
+        
         $eventManager->attach($serviceManager->get('playgroundflow_storytelling_listener'));
     }
 

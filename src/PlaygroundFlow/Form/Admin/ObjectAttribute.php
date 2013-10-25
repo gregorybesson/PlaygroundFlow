@@ -98,6 +98,8 @@ class ObjectAttribute extends ProvidesEventsForm
         			'integer' => $translator->translate('Integer', 'playgroundflow'),
     				'string' => $translator->translate('String', 'playgroundflow'),
         			'array' => $translator->translate('Array', 'playgroundflow'),
+      			    'datetime' => $translator->translate('DateTime', 'playgroundflow'),
+      			    'date' => $translator->translate('Date', 'playgroundflow'),
    				),
        		),
        		'options' => array(

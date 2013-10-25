@@ -1,6 +1,6 @@
 /*
  * this is the main application file, which one that init project bind event, etc...
- * Copyright (C) 2013 - Adfab - nicolas labb�
+ * Copyright (C) 2013 - Playground
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
  */
  
 /**
- * @namespace reference to Adfab.Playground.App object
+ * @namespace reference to Playground.App object
  */
 
 /** App Object
@@ -54,7 +54,7 @@ App.prototype.init = function ()
     // check api key
     if(PG.Util.not_null(PG.Settings) && PG.Util.not_null(PG.Settings.apiKey)) {
         //PG.User.env = _plgd_settings;
-        PG.Util.log('APIKEY FOUND = ' + PG.Settings.apiKey);
+        PG.Util.log('APIKEY FOUND : ' + PG.Settings.apiKey);
     }else {        
         PG.Util.log('NO APIKEY FOUND');
         return;
@@ -102,13 +102,13 @@ App.prototype.bindEvent = function ()
     // Catch all the xhr open event
     PG.Cache.xmlhttp.prototype.open = function (a, b)
     {
-        if (!a) var a='';
-        if (!b) var b='';
+        if (!a) a = '';
+        if (!b) b = '';
         
         xhrListn.open.apply(this, arguments);
         xhrListn.method = a;  
         xhrListn.url = b;
-        if (a.toLowerCase() == 'get') {
+        if (a.toLowerCase() === 'get') {
             xhrListn.data = b.split('?');
             xhrListn.data = xhrListn.data[1];
         }
@@ -117,16 +117,16 @@ App.prototype.bindEvent = function ()
     // Catch all the xhr send event
     PG.Cache.xmlhttp.prototype.send = function (a, b)
     {
-        if (!a) var a='';
-        if (!b) var b='';
+        if (!a) a = '';
+        if (!b) b = '';
         xhrListn.send.apply(this, arguments);
-        if(xhrListn.method.toLowerCase() == 'post') xhrListn.data = a;
+        if(xhrListn.method.toLowerCase() === 'post') xhrListn.data = a;
     };
     
     // Catch all the load finished event
     PG.Cache.document.onreadystatechange = function (e)
     {
-        if(PG.Util.not_null(e.data) && e.data != '') {
+        if(PG.Util.not_null(e.data) && e.data !== '') {
             //PG.App.send(e.data);
         }
     };
@@ -161,51 +161,51 @@ App.prototype.trackAreaEvent = function ()
     
     function bindEvent (obj, story)
     {
-    	var data = PG.User.getStory(window.location.href, story.action, story.objects),
-    		areaObj = PG.Util.getObjectFromXpath(story.event.area.xpath),
-    		realArea,
-    		offset;
-    	
-    	if(typeof story.event.area.width === 'undefined' || !PG.Util.not_null(story.event.area.width)) {
-    	    if(!PG.Util.not_null(areaObj[0])) {
-    	        return;
-    	    }
-    		story.event.area.width = areaObj[0].offsetWidth;
-    		story.event.area.height = areaObj[0].offsetHeight;
-    	}
-    	
-    	if(typeof story.event.area.x === 'undefined' || !PG.Util.not_null(story.event.area.y)) {
-    		story.event.area.x = 0;
-    		story.event.area.y = 0;
-    	}
-    	
-    	offset = PG.Util.getOffset(areaObj[0]);
-    	
-    	realArea = {
-    			x: story.event.area.x + offset.x,
-    			y: story.event.area.y + offset.y,
-    			width: story.event.area.width,
-    			height: story.event.area.height
-    	}
+        var data = PG.User.getStory(window.location.href, story.action, story.objects),
+            areaObj = PG.Util.getObjectFromXpath(story.event.area.xpath),
+            realArea,
+            offset;
+        
+        if(typeof story.event.area.width === 'undefined' || !PG.Util.not_null(story.event.area.width)) {
+            if(!PG.Util.not_null(areaObj[0])) {
+                return;
+            }
+            story.event.area.width = areaObj[0].offsetWidth;
+            story.event.area.height = areaObj[0].offsetHeight;
+        }
+        
+        if(typeof story.event.area.x === 'undefined' || !PG.Util.not_null(story.event.area.y)) {
+            story.event.area.x = 0;
+            story.event.area.y = 0;
+        }
+        
+        offset = PG.Util.getOffset(areaObj[0]);
+        
+        realArea = {
+            x: story.event.area.x + offset.x,
+            y: story.event.area.y + offset.y,
+            width: story.event.area.width,
+            height: story.event.area.height
+        };
 
-    	if(typeof story.event.area.debug !== 'undefined' && story.event.area.debug === true) {
-        	PG.Util.createShape(realArea)
-    	}
-    	
+        if(typeof story.event.area.debug !== 'undefined' && story.event.area.debug === true) {
+            PG.Util.createShape(realArea);
+        }
+        
         obj.addEventListener(story.event.type, function (e)
         {
-        	e.preventDefault();
-    		
-        	data.objects.x = e.pageX;
-        	data.objects.y = e.pageY;
-        	data.objects.text = window.getSelection().toString();
-        	
-        	if(PG.Util.not_null(story.event.area.text) && story.event.area.text !== '' && data.objects.text !== story.event.area.text) {
-        		return;
-        	}
-        	
-        	if(PG.Util.not_null(areaObj) && PG.Util.pointOnBox(data.objects, realArea)) {
-        		
+            e.preventDefault();
+            
+            data.objects.x = e.pageX;
+            data.objects.y = e.pageY;
+            data.objects.text = window.getSelection().toString();
+            
+            if(PG.Util.not_null(story.event.area.text) && story.event.area.text !== '' && data.objects.text !== story.event.area.text) {
+                return;
+            }
+            
+            if(PG.Util.not_null(areaObj) && PG.Util.pointOnBox(data.objects, realArea)) {
+            
 	            PG.App.sendToEXDM({
 	                url: PG.Cache.protocol + PG.Config.env[PG.Config.mode].send,
 	                method: 'POST',
@@ -214,9 +214,9 @@ App.prototype.trackAreaEvent = function ()
 	                    'Content-Type': 'application/json; charset=utf-8'
 	                }
 	            });
-        	}
-        	
-        	return false;
+            }
+            
+            return false;
         });
     }
     
@@ -283,9 +283,22 @@ App.prototype.easyXDM = function ()
  * 
  * @since version 1.0.0
  */
-App.prototype.send = function (url)
+App.prototype.send = function (story)
 {
     'use strict';
+    
+    PG.Util.log("app.js > send > story", story);
+    
+    PG.App.sendToEXDM({
+            url: PG.Cache.protocol + PG.Config.env[PG.Config.mode].send,
+            method: 'POST',
+            data: story,
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        });
+    
+    return;
     
     var broadcast = (PG.User.data.library.config.broadcast),
         userUrl = PG.Cache.protocol + PG.Config.env[PG.Config.mode].send,
@@ -376,7 +389,8 @@ App.prototype.call = function (s)
     
     PG.App.rpc.request(
         {
-            url: PG.Cache.protocol + s + '?apiKey=' + PG.Settings.apiKey
+            url: PG.Cache.protocol + s + '?apiKey=' + PG.Settings.apiKey,
+            method: 'GET'
         },
         function (rpcdata)
         {
@@ -394,12 +408,13 @@ App.prototype.call = function (s)
 // create App instance
 var app = new App();
 
-// put the instance of App into the namespace Adfab.Playground.App
+// put the instance of App into the namespace Playground.App
 try {
     addToNamespace('App', app);
 }catch(e) {
-   throw new Error( "Cannot extends 'app' to 'Adfab.playground.App'" );
+   throw new Error( "Cannot extends 'app' to 'playground.App'" );
 }
 
 // Let's start over there
 app.init();
+;

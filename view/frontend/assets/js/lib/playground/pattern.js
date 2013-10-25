@@ -1,6 +1,6 @@
 /**
  * this is the main application file, which one that init project bind event, etc...
- * Copyright (C) 2013 - Adfab - nicolas labb�
+ * Copyright (C) 2013 - Playground
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,10 +18,9 @@
 
 //pl.ready(function ()
 //{
-    'use strict';
     
 	/**
-	 * @namespace  reference to Adfab.Playground.Promise object
+	 * @namespace  reference to Playground.Promise object
 	 */
      
     /**
@@ -56,7 +55,7 @@
      * @since version 1.0.0
 	 */
     promise.prototype = {
-    	
+    
 		/**
 	     * @ignore
 	     */
@@ -120,7 +119,7 @@
 	     * never call this method, use then (success, failure)
 	     * @function
 	     * 
-	     * @name PG.Promise.reject
+	     * @name PG.Promise.reject 
 	     * 
 	     * @param {object} value
 	     * @return {null} no return
@@ -139,10 +138,11 @@
         }
     };
     
-    // put the promise into Adfab.Playground.Promise
+    // put the promise into Playground.Promise
     try {
         addToNamespace('Promise', promise);
     }catch(e) {
-       throw new Error( "Cannot extends 'Promise' to 'Adfab.playground.Promise'" );
+       throw new Error( "Cannot extends 'Promise' to 'Playground.Promise'" );
     }
 //});
+;

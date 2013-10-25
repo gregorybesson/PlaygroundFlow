@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 - Adfab - nicolas labbé 
+ * Copyright (C) 2013 - Playground
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ var user = {
     env: { },
     id: null,
     uid: null,
-    data: { },
+    stories: { },
     urls: {
         current: window.location.href,
         prev: null
@@ -49,80 +49,61 @@ var user = {
     {
         'use strict';
         
+        PG.Util.log('user.js > init');
+        
         PG.Util.GenerateUniqueId();
         PG.User.urls.prev = PG.Util.readCookie('prev-url');
         
-        var authent = PG.Util.readCookie('authent'),
+        var stories = PG.Util.readCookie('stories'),
             lastSync = PG.Util.readCookie('last-sync'),
             today = new Date().getTime();
         
-        // @TODO : UNCOMMENT THIS TO MAKE THE AUTHENT STAY FOR A DAY
-        authent = null;
+        // @TODO : UNCOMMENT THIS TO KEEP THE AUTHENT FOR A ENTIRE DAY
+        stories = null;
         
         if(!PG.Util.not_null(lastSync) || (parseInt(lastSync, 10) + parseInt(24 * 60 * 60, 10)) < today) {
-            authent = null;
+            stories = null;
         }
         
-        if(!PG.Util.not_null(authent)) {
-            PG.User.loadAuthent()
+        if(!PG.Util.not_null(stories)) {
+            PG.User.loadStories()
             .then(function ()
             {
-                PG.User.checkUser();
+                PG.User.stories = JSON.parse(PG.Util.readCookie('stories'));
+                // after
+                PG.User.checkStories(false, true);
+                // normal
+                PG.User.checkStories(false, false);
             });
         }else {
-            PG.User.data = JSON.parse(PG.Util.readCookie('authent'));
-            PG.User.checkUser();
+            PG.User.stories = JSON.parse(PG.Util.readCookie('stories'));
+            // after
+            PG.User.checkStories(false, true);
+            // normal
+            PG.User.checkStories(false, false);
         }
     },
     
     /**
-     * check on cookie if user is logged
+     * Methode to get stories
+     * put the return into PG.User.stories
      * @function
      * 
-     * @name PG.User.isLogged
-     * 
-     * @param {null} 
-     * @return {Boolean} bool true or false
-     * 
-     * @this {User}
-     * 
-     * @example
-     * PG.User.isLogged()
-     * 
-     * @since version 1.0.0
-     */
-    isLogged: function ()
-    {
-        'use strict';
-        var l;
-        if(PG.User.id === '' || PG.User.id === null) {
-            // check
-            PG.User.id = PG.Util.readCookie('login');
-        }
-        l = (PG.Util.not_null(PG.User.id)) ? true : false;
-        PG.Util.log('isLogged : ' + l);
-        return l;
-    },
-    
-    /**
-     * Call service to get json data of logout user method
-     * put the return into PG.User.data
-     * @function
-     * 
-     * @name PG.User.loadAuthent
+     * @name PG.User.loadStories
      * 
      * @param {null}
      * @return {Object} promise
-     * 
+     *  
      * @this {User}
      * 
      * @ignore
      * 
      * @since version 1.0.0
      */
-    loadAuthent: function ()
+    loadStories: function ()
     {
         'use strict';
+        PG.Util.log('user.js > loadStories');
         
         var p = new PG.Promise();
 
@@ -130,9 +111,10 @@ var user = {
         .then(
             function (data)
             {
-                PG.User.data = data;
                 PG.Util.createCookie('last-sync', new Date().getTime());
-                PG.Util.createCookie('authent', JSON.stringify(data));
+        
+                PG.Util.log('user.js > loadStories > resolve promise', data);
+                PG.Util.createCookie('stories', JSON.stringify(data));
                 p.resolve();
             }
         );
@@ -141,154 +123,241 @@ var user = {
     },
     
     /**
-     * Check if the user is logged, logout, or tried to login/logout 
+     * Loop over all stories,
+     * Call PG.User.checkStory
+     * 
+     * if story true and before = true 
+     *  > save story user local
+     * 
+     * if story true and before and after = false
+     *  > send story to playground
      * @function
      * 
-     * @name PG.User.checkUser
+     * @name PG.User.checkStories
      * 
-     * @param {null}
+     * @param {Boolean} before
+     * @param {Boolean} after
      * @return {null}
      * 
      * @this {User}
      * 
      * @ignore
      * 
-     * @since version 1.0.0
+     * @since version 1.0.1
      */
-    checkUser: function ()
+    checkStories: function (before, after)
     {
         'use strict';
+        PG.Util.log('user.js > checkStories', PG.User.stories);
         
-        if(PG.User.isLogged()
-            && PG.Util.not_null(PG.Util.readCookie('logout-try'))) { // USER TRIED TO LOUGOUT
-            if(PG.Util.not_null(PG.User.data.library.stories.logout_user)
-                && PG.Util.not_null(PG.User.data.library.stories.logout_user.events.after)
-                    && PG.User.checkStory(PG.User.data.library.stories.logout_user.events.after)) {
-                PG.User.logout();
+        var i, b = {}, a = {}, use, afterCookie, beforeCookie;
+        
+        if(typeof PG.User.stories !== 'undefined' && typeof PG.User.stories.library.stories !== 'undefined') {
+            for(i in PG.User.stories.library.stories) {
+                if(typeof PG.User.stories.library.stories[i] === 'object') {
+                    use = PG.User.checkStory(PG.User.stories.library.stories[i], before, after);
+                    
+                    if(use && before) {
+                        b[i] = "true";
+                        PG.User.createObjectsStory(PG.User.stories.library.stories[i]);
+                    }else if(before) {
+                        b[i] = "false";
+                    }
+                    if(use && after) {
+                        a[i] = "true";
+                    }else if(after) {
+                        a[i] = "false";
+                    }
+                    
+                    if(use && !before && !after) {
+                        beforeCookie = PG.Util.readCookie('before');
+                        if(PG.Util.not_null(beforeCookie)) {
+                            beforeCookie = JSON.parse(beforeCookie);
+                        }
+                        afterCookie = PG.Util.readCookie('after');
+                        if(PG.Util.not_null(afterCookie)) {
+                            afterCookie = JSON.parse(afterCookie);
+                        }
+                        if(beforeCookie[i] === 'true' && afterCookie[i] === 'true') {
+                            PG.App.send(PG.User.getStory(PG.User.stories.library.stories[i]));
+                        }
+                    }
+                }
             }
-        }else if(!PG.User.isLogged()
-            && PG.Util.not_null(PG.Util.readCookie('login-try'))) { // USER TRIED TO LOGIN
-            if(PG.Util.not_null(PG.User.data.library.stories.login_user)
-                && PG.Util.not_null(PG.User.data.library.stories.login_user.events.after)
-                    && PG.User.checkStory(PG.User.data.library.stories.login_user.events.after)) {
-                PG.User.login(PG.Util.readCookie('login-try'));
+            // set cookie to remember after and before
+            if(before) {
+                PG.Util.createCookie('before', JSON.stringify(b));
+            }else if(after) {
+                PG.Util.createCookie('after', JSON.stringify(a));
+            }else {
+                // Else remove before event
+                PG.Util.createCookie('before', '');
             }
-        }else if(!PG.User.isLogged()
-            && PG.Util.not_null(PG.Util.readCookie('login'))) { // USER IS ALREADY LOGGED
-            PG.User.login(PG.Util.readCookie('login'));
-        }else if(PG.User.isLogged()) { // USER IS LOGGED OUT
-            PG.User.logout();
         }
         
-        PG.Util.eraseCookie('logout-try');
-        PG.Util.eraseCookie('login-try');
-        
-        PG.App.trackAreaEvent();
-        PG.App.send(window.location.href);
-    },
-     
-    /**
-     * Set the login for current user if param {String} not null
-     * call loadLogout to track logout since the user is logged
-     * then return the login
-     * @function
-     * 
-     * @name PG.User.login
-     * 
-     * @param {String} str (optional) if not set just return the login
-     * @return {String} PG.User.data.id
-     * 
-     * @this {User}
-     * 
-     * @example
-     * PG.User.login( {String} username )
-     * 
-     * @since version 1.0.0
-     */
-    login: function (str)
-    {
-        'use strict';
-        
-        PG.Util.log('Login "' + str + '"');
-        if(PG.Util.not_null(str)) {
-            PG.User.id = str;
-            PG.Util.createCookie('login', str);
-        }
-        
-        return PG.User.data.id;
+        return;
     },
     
     /**
-     * force logout user, then call loadLogin since user is logged out
-     * @function
+     * Check single story
      * 
-     * @name PG.User.logout
+     * if before = true 
+     *  > check only before event
      * 
-     * @param {null} 
-     * @return {null}
+     * if after = true
+     *  > check only after event
      * 
-     * @this {User}
-     * 
-     * @example
-     * PG.User.logout()
-     * 
-     * @since version 1.0.0
-     */
-    logout: function ()
-    {
-        'use strict';
-        
-        PG.Util.log('User is out');
-        PG.Util.eraseCookie('login');
-        PG.User.id = null;
-    },
-    
-    /**
-     * Check evidences for current user.evidences object
      * @function
      * 
      * @name PG.User.checkStory
      * 
      * @param {Object} story
+     * @param {Boolean} before
+     * @param {Boolean} after
      * @return {Boolean} result true | false
      * 
      * @this {User}
      * 
      * @ignore
      * 
-     * @since version 1.0.0
+     * @since version 1.0.1
      */
-    checkStory: function (story)
+    checkStory: function (story, before, after)
     {
         'use strict';
+        PG.Util.log('user.js > checkStory (before:'+before+', after:'+after+') > name "' + story.action + '"');
         
-        var use = false;
+        var use = true;
+        
         if(PG.Util.not_null(story)) {
             
-            // fix of a util match bug
-            var result = false;
-            if(PG.Util.not_null(story.url)){
-                result = (window.location.href.indexOf(story.url) > -1);
-            }
-
-            if(PG.Util.not_null(story.url)
-                && PG.Util.not_null(story.xpath)
-                    && result
-                        && PG.Util.checkXpath(story.xpath)) {
-                use = true;
-            }else if(PG.Util.not_null(story.url)
-                && result
-                    && !PG.Util.not_null(story.xpath)) {
-                // check condition url
-                use = true;
-            }else if(PG.Util.not_null(story.xpath)
-                && PG.Util.checkXpath(story.xpath)
-                    && !PG.Util.not_null(story.url)) {
-                // check condition xpath
-                use = true;
+            if(before) {
+                
+                if(story.events.before.length === 0) {
+                    PG.Util.log('user.js > checkStory > use story : false');
+                    return true;
+                }
+                
+                // CHECK STORY URL ?
+                if(PG.Util.not_null(story.events.before.url)) {
+                    use = (window.location.href.indexOf(story.events.before.url) !== -1);
+                }
+                
+                // CHECK STORY XPATH ?
+                if(PG.Util.not_null(story.events.before.xpath)) {
+                    use = PG.Util.checkXpath(story.events.before.xpath);
+                }
+                
+                PG.Util.log('user.js > checkStory > before > use story : ' + before);
+            }else if(after) {
+                
+                if(story.events.after.length === 0) {
+                    PG.Util.log('user.js > checkStory > use story : false');
+                    return true;
+                }
+                
+                // CHECK STORY URL ?
+                if(PG.Util.not_null(story.events.after.url)) {
+                    use = (window.location.href.indexOf(story.events.after.url) !== -1);
+                }
+                
+                // CHECK STORY XPATH ?
+                if(PG.Util.not_null(story.events.after.xpath)) {
+                    use = PG.Util.checkXpath(story.events.after.xpath);
+                }
+                
+                PG.Util.log('user.js > checkStory > after > use story : ' + after);
+            }else {
+                // CHECK STORY URL ?
+                if(PG.Util.not_null(story.conditions.url)) {
+                    use = (window.location.href.indexOf(story.conditions.url) !== -1);
+                }
+                
+                // CHECK STORY XPATH ?
+                if(PG.Util.not_null(story.conditions.xpath)) {
+                    use = PG.Util.checkXpath(story.conditions.xpath);
+                }
+                
+                PG.Util.log('user.js > checkStory > use story : ' + use);
             }
         }
+        
         return use;
+    },
+    
+    /**
+     * Create valid story ready to send for playground
+     * @function
+     * 
+     * @name PG.User.createObjectsStory
+     * 
+     * @param {Object} story
+     * @return {Object} objects
+     * 
+     * @this {User}
+     * 
+     * @ignore
+     * 
+     * @since version 1.0.0
+     */
+    createObjectsStory: function (story)
+    {
+        'use strict';
+        PG.Util.log('user.js > createObjectsStory');
+        
+        var objects = [], xpathObjects, propValue, properties = [], i, j, k, saveObject;
+        
+        if(typeof story.action !== 'undefined') {
+            // FOR EACH OBJECTS
+            for(i in story.objects) {
+                if(typeof story.objects[i] === 'object' && typeof story.objects[i].properties !== 'undefined') {
+                    properties = [];
+                    
+                    // FOR EACH PROPERTIES
+                    for(j in story.objects[i].properties) {
+                        if(typeof story.objects[i].properties[j] === 'object' && typeof story.objects[i].properties[j].name !== 'undefined') {
+                            xpathObjects = PG.Util.getObjectFromXpath(story.objects[i].properties[j].xpath);
+                            if(typeof xpathObjects !== 'undefined') {
+                                
+                                // FOR EACH DOM OBJECT FROM XPATH
+                                for(k in xpathObjects) {
+                                    propValue =  PG.Util.getValueFromObject(xpathObjects[k]);
+                                    if(typeof xpathObjects === 'object' && propValue !== '') {
+                                        properties.push({
+                                            'name': story.objects[i].properties[j].name,
+                                            'value': propValue
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                
+                    objects.push({
+                        id: story.objects[i].id,
+                        properties: properties
+                    });
+                }
+            }
+        }
+        
+        if(typeof objects !== 'undefined' && objects.length > 0) {
+            for(i in objects) {
+                if(typeof objects[i] === 'object' && typeof objects[i].id !== 'undefined' && objects[i].properties.length > 0) {
+                    PG.Util.createCookie('object.' + story.action + '.' + objects[i].id, JSON.stringify(objects[i]));
+                }else {
+                    objects[i] = JSON.parse(PG.Util.readCookie('object.' + story.action + '.' + objects[i].id));
+                }
+            }
+        }else {
+            for(i in objects) {
+                if(typeof objects[i] === 'object' && typeof objects[i].id === 'string') {
+                    objects[i] = JSON.parse(PG.Util.readCookie('object.' + story.action + '.' + objects[i].id));
+                }
+            }
+        }
+        
+        return objects;
     },
     
     /**
@@ -307,43 +376,23 @@ var user = {
      * 
      * @since version 1.0.0
      */
-    getStory: function (url, action, obj, checkEvt)
+    getStory: function (story)
     {
         'use strict';
         
-        var json = {
+        var objects = PG.User.createObjectsStory(story),
+            json = {
             user: {
                 anonymous: PG.User.uid
             },
-            objects: {},
-            action: action,
-            url: url,
+            objects: (objects !== null) ? objects : [],
+            action: story.action,
+            url: window.location.href,
             apiKey: PG.Settings.apiKey
         };
         
-        if(PG.User.isLogged()) {
-            json.user.login = PG.User.id;
-        }
+        PG.Util.log("user.js > getStory");
         
-        if(PG.Util.not_null(obj)) {
-        
-            json.objects = {
-                id: obj.id
-            };
-            
-            if(PG.Util.not_null(obj.properties)
-                &&obj.properties.length > 0
-                    && PG.Util.not_null(obj.properties[0].xpath)
-                        && PG.Util.not_null(obj.properties[0].name)
-                            && PG.Util.not_null(PG.Util.getObjectFromXpath(obj.properties[0].xpath)[0])) {
-                json.objects.properties = {
-                    name: obj.properties[0].name,
-                    value: PG.Util.getValueFromObject(
-                        PG.Util.getObjectFromXpath(obj.properties[0].xpath)[0]
-                    )
-                };
-            }
-        }
         return json;
     },
     
@@ -367,47 +416,20 @@ var user = {
     {
         'use strict';
         
-        var it,
-            id = '',
-            s;
+        PG.Util.log('user.js > quit');
+        
+        PG.User.checkStories(true, false);
         
         PG.Util.createCookie('prev-url', window.location.href);
         
-        if(PG.User.isLogged()) {
-            // test logout
-            if(PG.Util.not_null(PG.User.data.library.stories.logout_user)
-                && PG.Util.not_null(PG.User.data.library.stories.logout_user.events.before)) {
-                if(PG.User.checkStory(PG.User.data.library.stories.logout_user.events.before)) {
-                    s = PG.User.getStory(
-                        window.location.href,
-                        'logout_user',
-                        PG.User.data.library.stories.logout_user.objects
-                    );
-                    PG.Util.createCookie('logout-try', 'true');
-                }
-            }
-        }else {
-            // test login
-            if(PG.Util.not_null(PG.User.data.library.stories.login_user)
-                && PG.Util.not_null(PG.User.data.library.stories.login_user.events.before)) {
-                if(PG.User.checkStory(PG.User.data.library.stories.login_user.events.before)) {
-                    s = PG.User.getStory(
-                        window.location.href,
-                        'login_user',
-                        PG.User.data.library.stories.login_user.objects
-                    );
-                    if(PG.Util.not_null(s.objects.properties.value)) {
-                        PG.Util.createCookie('login-try', s.objects.properties.value);
-                    }
-                }
-            }
-        }
+        return;
     }
 };
 
-// put the user into Adfab.Playground.User
+// put the user into Playground.User
 try {
     addToNamespace('User', user);
 }catch(e) {
-   throw new Error( "Cannot extends 'User' to 'Adfab.playground.User'" );
+   throw new Error( "Cannot extends 'User' to 'Playground.User'" );
 }
+;
