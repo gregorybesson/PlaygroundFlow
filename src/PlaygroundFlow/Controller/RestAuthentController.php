@@ -28,9 +28,9 @@ class RestAuthentController extends AbstractRestfulController
     		$conditions = array();
     		$events = array('before'=>array(), 'after'=>array());
     		$objects = array();
-
+            $objects['storymapping_id'] = $sm->getId();
     		foreach($sm->getObjects() as $objectMapping){
-    		    $objects['id'] = $objectMapping->getObject()->getCode();
+    		    $objects['object_code'] = $objectMapping->getObject()->getCode();
     		    $attributes = array();
     		    foreach($objectMapping->getAttributes() as $attributeMapping){
     		        $attributes[] = array('name' => $attributeMapping->getAttribute()->getCode(), 'xpath' => $attributeMapping->getXpath());
