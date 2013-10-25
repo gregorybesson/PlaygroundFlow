@@ -716,38 +716,32 @@ return array(
     			'privilege' => 'list',
     			'pages' => array(
     				'list' => array(
-    					'label'     => 'Liste des stories',
+    					'label'     => 'Stories list',
     					'route'     => 'admin/playgroundflow/story',
     					'resource'  => 'flow',
     					'privilege' => 'list',
     				),
     					'create' => array(
-    							'label'     => 'Creer une story',
+    							'label'     => 'Create story',
     							'route'     => 'admin/playgroundflow/story/create',
     							'resource'  => 'flow',
     							'privilege' => 'list',
     					),
     					'listactions' => array(
-    						'label'     => 'Liste des actions',
+    						'label'     => 'Actions list',
     						'route'     => 'admin/playgroundflow/action',
     						'resource'  => 'flow',
     						'privilege' => 'list',
     					),
     					'listobjects' => array(
-    						'label'     => 'Liste des objets',
+    						'label'     => 'Objects list',
     						'route'     => 'admin/playgroundflow/object',
     						'resource'  => 'flow',
    							'privilege' => 'list',
     					),
     					'listapps' => array(
-    							'label'     => 'Liste des domaines',
+    							'label'     => 'Domains list',
     							'route'     => 'admin/playgroundflow/domain',
-    							'resource'  => 'flow',
-    							'privilege' => 'list',
-    					),
-    					'listdomains' => array(
-    							'label'     => 'Liste des apps',
-    							'route'     => 'admin/playgroundflow/list',
     							'resource'  => 'flow',
     							'privilege' => 'list',
     					),

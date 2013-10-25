@@ -85,9 +85,9 @@ class Object extends ProvidesEventsForm
         	'type' => 'Zend\Form\Element\Select',
         	'name' => 'parent',
        		'options' => array(
-      			'empty_option' => $translator->translate('Cet objet est racine', 'playgroundflow'),
+      			'empty_option' => $translator->translate('This object is the root', 'playgroundflow'),
       			'value_options' => $objects,
-      			'label' => $translator->translate('Hérite de', 'playgroundflow')
+      			'label' => $translator->translate('Inherits', 'playgroundflow')
        		)
         ));
 
