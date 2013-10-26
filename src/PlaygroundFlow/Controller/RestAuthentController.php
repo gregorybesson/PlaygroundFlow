@@ -75,7 +75,7 @@ class RestAuthentController extends AbstractRestfulController
                 }
                 
                 $stories[$sm->getStory()->getCode()] = array(
-                    'storyMapping_id' => $sm->getId(),
+                    'story_mapping_id' => $sm->getId(),
                     'action' => $sm->getStory()->getAction()->getCode(),
                     'events' => $events,
                     'conditions' => $conditions,
