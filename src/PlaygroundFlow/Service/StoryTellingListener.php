@@ -48,7 +48,6 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             'domain' => $domain
         ));
 
-        /*
         foreach($storymappings as $storyMapping){
             if($storyMapping->getEventBeforeUrl()){
                 $this->listeners[] = $events->getSharedManager()->attach(array(
@@ -68,7 +67,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
                 ), 100);
             }
             
-        } */
+        }
         
         /*
         
