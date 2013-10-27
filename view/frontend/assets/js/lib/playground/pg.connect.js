@@ -134,7 +134,7 @@ jQuery.noConflict();
         }
         // check if ears script is with me
         if(PG.Config.modules.ears && PG.Util.not_null(PG.Settings.apiKey)) {
-            pgconnect.init(PG.Util.readCookie("login"));
+            pgconnect.init(PG.Util.readCookie("unique-id"));
         } // If not DIY "create anonymous user"
         else if(PG.Util.not_null(PG.Settings.apiKey)) {
             var pgcookie = PG.Util.readCookie();
