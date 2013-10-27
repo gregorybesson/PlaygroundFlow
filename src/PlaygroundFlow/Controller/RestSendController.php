@@ -42,7 +42,7 @@ class RestSendController extends AbstractRestfulController
     }
  
     /*
-     * curl -i -H "Accept: application/json" -X POST -d "url=test&title=titre" http://127.0.0.1/playground/flow/XX-XX-YY-XX/rest/echo
+     * curl -i -H "Accept: application/json" -X POST -d "url=test&title=titre" http://127.0.0.1/playground/flow/XX-XX-YY-XX/rest/send
      */
     public function create($data)
     {

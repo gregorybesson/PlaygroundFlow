@@ -102,13 +102,11 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'playgroundflowadmin'        => 'PlaygroundFlow\Controller\AdminController',
         	'playgroundflowadminaction'  => 'PlaygroundFlow\Controller\Admin\ActionController',
         	'playgroundflowadminobject'  => 'PlaygroundFlow\Controller\Admin\ObjectController',
         	'playgroundflowadminstory'   => 'PlaygroundFlow\Controller\Admin\StoryController',
         	'playgroundflowadmindomain'  => 'PlaygroundFlow\Controller\Admin\DomainController',
             'playgroundflow'             => 'PlaygroundFlow\Controller\IndexController',
-            'playgroundflowrest'         => 'PlaygroundFlow\Controller\RestController',
             'playgroundflowrestauthent'  => 'PlaygroundFlow\Controller\RestAuthentController',
             'playgroundflowrestsend'     => 'PlaygroundFlow\Controller\RestSendController',
             'playgroundfloweasyxdm'      => 'PlaygroundFlow\Controller\Frontend\EasyXDMController',
@@ -119,9 +117,6 @@ return array(
         'PlaygroundFlow' => array(
             'default_layout' => 'layout/1column',
         	'controllers' => array(
-       			'playgroundflowadmin' => array(
-      				'default_layout' => 'layout/admin',
-     			),
        			'playgroundflowadminaction' => array(
        				'default_layout' => 'layout/admin',
        			),
