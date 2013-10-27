@@ -284,4 +284,14 @@ class RestSendController extends AbstractRestfulController
     
         return $this;
     }
+    
+    /**
+     * Retrieve service manager instance
+     *
+     * @return ServiceManager
+     */
+    public function getServiceManager ()
+    {
+        return $this->getServiceLocator();
+    }
 }
