@@ -37,6 +37,7 @@ return array(
                             'js/lib/playground/lib/json2.js',
                             'js/lib/playground/lib/wgxpath.install.js',
                             'js/lib/playground/pg.min.js',
+                            'js/lib/playground/pg.connect.js',
                         ),
                         'filters' => array(),
                         'options' => array(
