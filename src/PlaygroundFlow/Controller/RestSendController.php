@@ -12,6 +12,8 @@ class RestSendController extends AbstractRestfulController
 	 */
 	protected $storytellingService;
 	
+	protected $domainService;
+	
     public function getList()
     {
         $response = $this->getResponse();
@@ -49,20 +51,37 @@ class RestSendController extends AbstractRestfulController
     	$request = $this->getRequest();
     	$response = $this->getResponse();
     	$storyTellingService = $this->getStorytellingService();
+    	$domainService = $this->getDomainService();
     	
     	$data = $this->fromJson();
     	
+    	// TODO : replace the following by the next one once ears ready
+    	$storyMappingId = $data['action'];
+    	//$storyMappingId = $data['story_mapping_id'];
+    	$storyMapping = $domainService->getStoryMappingMapper()->findById($storyMappingId);
+    	
+    	if (! $storyMapping) {
+    	    $content = array(
+        	    'result' => array(
+        	        'message' => 'Story missing',
+        	        'success' => false,
+        	        'data' => null,
+        	    ),
+        	);
+        	
+        	$response->setContent($adapter->serialize($content));
+        	return $response;
+    	}
+    	
     	$storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
-    	$storyTelling->setOpenGraphStoryMapping(null);
+    	$storyTelling->setOpenGraphStoryMapping($storyMapping);
     	$storyTelling->setUser(null);
     	$storyTelling->setObject(json_encode($data['objects']));
-    	$storyTelling->setPoints(99);
+    	$storyTelling->setPoints($storyMapping->getPoints());
     	$storyTelling->setSecretKey(null);
     	$storyTellingService->getStoryTellingMapper()->insert($storyTelling);
     	
-    	/*
-    	$e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId() , $this, array('storyTelling' => $storyTelling));
-    	*/
+    	$this->getEventManager()->trigger('story.'.$storyMapping->getId() , $this, array('storyTelling' => $storyTelling));
     	
     	$contentType = 'application/json';
     	$adapter = '\Zend\Serializer\Adapter\Json';
@@ -248,5 +267,21 @@ class RestSendController extends AbstractRestfulController
     	$this->storytellingService = $storytellingService;
     
     	return $this;
+    }
+    
+    public function getDomainService()
+    {
+        if (! $this->domainService) {
+            $this->domainService = $this->getServiceLocator()->get('playgroundflow_domain_service');
+        }
+    
+        return $this->domainService;
+    }
+    
+    public function setDomainService(DomainService $domainService)
+    {
+        $this->domainService = $domainService;
+    
+        return $this;
     }
 }
