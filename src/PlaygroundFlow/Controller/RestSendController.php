@@ -82,8 +82,6 @@ class RestSendController extends AbstractRestfulController
     	return $response;
     	
     	$game = $service->getGameMapper()->findById(10);
-    	
-
         
         $appId = $this->getEvent()->getRouteMatch()->getParam('appId');
         
