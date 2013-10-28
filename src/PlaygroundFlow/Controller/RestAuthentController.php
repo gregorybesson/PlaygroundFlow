@@ -88,8 +88,6 @@ class RestAuthentController extends AbstractRestfulController
                 
                 $stories[$sm->getStory()->getCode()] = array(
                     'story_mapping_id' => $sm->getId(),
-                    // TODO : Remove this attribute once ears updated
-                    'action' => $sm->getId(),
                     'events' => $events,
                     'conditions' => $conditions,
                     'objects' => $objects
