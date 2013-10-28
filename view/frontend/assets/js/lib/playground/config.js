@@ -40,7 +40,7 @@ var Playground = Playground || {},
             xpath: '//playground.local/frontend/js/lib/playground/wgxpath.install.js',
             json: '//playground.local/frontend/js/lib/playground/json2.js',
             ears: '//playground.local/frontend/js/lib/playground/ears.min.js',
-            mouth: '//ic.adfab.fr/mouthnode/leaderboard/others/client-0/script/pg.connect.js'
+            mouth: '//playground.local/frontend/js/lib/playground/pg.connect.js'
         },
         debug: false,
         mode: 'dev',
