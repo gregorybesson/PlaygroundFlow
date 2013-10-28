@@ -55,9 +55,7 @@ class RestSendController extends AbstractRestfulController
     	
     	$data = $this->fromJson();
     	
-    	// TODO : replace the following by the next one once ears ready
-    	$storyMappingId = $data['action'];
-    	//$storyMappingId = $data['story_mapping_id'];
+    	$storyMappingId = $data['story_mapping_id'];
     	$storyMapping = $domainService->getStoryMappingMapper()->findById($storyMappingId);
     	
     	if (! $storyMapping) {
