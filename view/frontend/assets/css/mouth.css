@@ -1,0 +1,39 @@
+/* Css for welcoming / leaving tooltip */
+/*
+Color :
+green	rgba(160, 238, 170, 0.85)
+red 	rgba(238, 160, 160, 0.85)
+
+*/
+#win,
+#loose,
+#bye,
+#welcome{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:15px;
+	position:absolute;
+	top:20px;
+	left:20px;
+	background-color:rgba(160, 238, 170, 0.85);
+	color:#FFF;
+	padding:15px 25px 15px 15px;
+	border-radius:2px;
+	font-weight:bold;
+	text-shadow:0px 1px 1px #0D751B;
+	-webkit-box-shadow:  0px 1px 3px 1px rgba(0, 0, 0, 0.2);
+	box-shadow:  0px 1px 3px 1px rgba(0, 0, 0, 0.2);
+	z-index: 999999;
+}
+#loose,
+#bye{
+	background-color:rgba(238, 160, 160, 0.85);
+}
+.playground a{
+	position:absolute;
+	top:3px;
+	right:3px;
+	font-size:10px;
+	text-shadow:none;
+	text-decoration:none;
+	color:#FFF;
+}

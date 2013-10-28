@@ -25,6 +25,15 @@ return array(
                 ),
                 # collection of assets
                 'collections' => array(
+                    'frontend_mouth_css' => array(
+                        'assets' => array(
+                            'mouth.css'              => 'css/mouth.css',
+                        ),
+                        'filters' => array(),
+                        'options' => array(
+                            'output' => 'zfcadmin/css/mouth'
+                        ),
+                    ),
                     'frontend_pg' => array(
                         'assets' => array(
                         /*
@@ -81,11 +90,9 @@ return array(
         ),
     
         'routes' => array(
-        /*
             'frontend.*' => array(
-                '@frontend_pg',
+                '@frontend_mouth_css',
             ),
-         */
         ),
     ),
 
