@@ -81,6 +81,8 @@ class RestSendController extends AbstractRestfulController
     	$storyTelling->setSecretKey(null);
     	$storyTellingService->getStoryTellingMapper()->insert($storyTelling);
     	
+    	$storyTellingService->tellStory($storyMapping, $storyTelling, $data);
+    	
     	$this->getEventManager()->trigger('story.'.$storyMapping->getId() , $this, array('storyTelling' => $storyTelling));
     	
     	$contentType = 'application/json';
@@ -98,114 +100,8 @@ class RestSendController extends AbstractRestfulController
     	);
     	
     	$response->setContent($adapter->serialize($content));
+    	
     	return $response;
-    	
-    	$game = $service->getGameMapper()->findById(10);
-        
-        $appId = $this->getEvent()->getRouteMatch()->getParam('appId');
-        
-        $data = array();
-        if ($request->isPost()) {
-        	$data = $this->fromJson();
-        	$content = array(
-        		'result' => array(
-        			'message' => 'event recorded',
-        			'success' => true,
-       			),
-        	);
-        }else{
-        	$content = array(
-        		'result' => array(
-        			'message' => 'No event detected',
-        			'success' => false,
-       			),
-        	);
-        }
-
-        $response->setContent($adapter->serialize($content));
-        
-        // Add each parameters
-        $args = array( 'apiKey' => $data["apiKey"], 'userId' => $data['user']['anonymous'] );
-        $action = $data["action"];
-        //$args["style"] = 'http://localhost/github/leaderboard/css/pmagento/all.css';
-        $args["style"] = 'http://ic.adfab.fr/mouthnode/leaderboard/css/pmagento/all.css';
-        $args["container"] = isset($data["container"]) ? $data["container"] : 'body';
-        $url = "http://ic.adfab.fr:88/notification";
-
-        $welcome ='<div id="welcome" class="playground" >' .
-        		'<div >' .
-        		'<a ' .
-        		'href="#" ' .
-        		'onclick="document.getElementById(\'welcome\').parentNode.removeChild(document.getElementById(\'welcome\'));" ' .
-        		'>X</a>' .
-        		'User ' . $data['user']['anonymous'] . ' has joined the game' .
-        		'</div>' .
-        		'</div>';
-        
-        $login ='<div id="welcome" class="playground" >' .
-        		'<div >' .
-        		'<a ' .
-        		'href="#" ' .
-        		'onclick="document.getElementById(\'welcome\').parentNode.removeChild(document.getElementById(\'welcome\'));" ' .
-        		'>X</a>' .
-        		'Welcome aboard ! Ready to hunt ?' . 
-        		'</div>' .
-        		'</div>';
-        
-        // html for other user that the one that just logged off
-        $bye = '<div id="bye" class="playground" >' .
-        		'<div >' .
-        		'<a ' .
-        		'href="#" ' .
-        		'onclick="document.getElementById(\'bye\').parentNode.removeChild(document.getElementById(\'bye\'));" ' .
-        		'>X</a>' .
-        		'User ' . $data['user']['anonymous'] . ' has left the game' .
-        		'</div>' .
-        		'</div>';
-        
-        // html for user that found the treasure
-        $win = '<div id="win" class="playground" >' .
-        		'<div >' .
-        		'<a ' .
-        		'href="#" ' .
-        		'onclick="document.getElementById(\'win\').parentNode.removeChild(document.getElementById(\'win\'));" ' .
-        		'>X</a>' .
-        		'Congratz ! You have found the treasure ! : ' .
-        		'</div>' .
-        		'</div>';
-        
-        // html for other user that loose and didn't find the treasure
-        $loose = '<div id="loose" class="playground" >' .
-        		'<div >' .
-        		'<a ' .
-        		'href="#" ' .
-        		'onclick="document.getElementById(\'loose\').parentNode.removeChild(document.getElementById(\'loose\'));" ' .
-        		'>X</a>' .
-        		'User ' . $data['user']['anonymous'] . ' has found the secret treasure' .
-        		'</div>' .
-        		'</div>';
-        
-        $args["who"] = 'self';
-        if($action=='find'){
-        	$args["html"] = str_replace("=", "%3D", $win);
-        } elseif($action=='login'){
-        	$args["html"] = str_replace("=", "%3D", $login);
-        }else{
-        	$args["html"] = str_replace("=", "%3D", '');
-        }
-    	$this->sendRequest($url, $args);
-    	
-    	$args["who"] = 'others';
-    	if($action=='find'){
-    		$args["html"] = str_replace("=", "%3D", $loose);
-    	} elseif($action=='login'){
-    		$args["html"] = str_replace("=", "%3D", $welcome);
-    	} else {
-    		$args["html"] = str_replace("=", "%3D", $bye);
-    	}		
-    	$this->sendRequest($url, $args);
-        
-        return $response;
     }
  
     public function update($id, $data)
@@ -228,29 +124,6 @@ class RestSendController extends AbstractRestfulController
     	}
     
     	return false;
-    }
-    
-    /**
-     * Actually send the notification
-     *
-     * @return void
-     */
-    public function sendRequest($url, $args)
-    {
-    
-    	$ch = curl_init();
-    	$curlConfig = array(
-    			CURLOPT_URL            => $url,
-    			CURLOPT_POST           => true,
-    			CURLOPT_RETURNTRANSFER => true,
-    			CURLOPT_POSTFIELDS     => json_encode($args)
-    	);
-    	// print the array that was sent
-    	//echo "<pre>";
-    	//var_dump($args);
-    	curl_setopt_array($ch, $curlConfig);
-    	$result = curl_exec($ch);
-    	curl_close($ch);
     }
     
     public function getStorytellingService()

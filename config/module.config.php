@@ -31,7 +31,7 @@ return array(
                         ),
                         'filters' => array(),
                         'options' => array(
-                            'output' => 'zfcadmin/css/mouth'
+                            'output' => 'frontend/css/mouth'
                         ),
                     ),
                     'frontend_pg' => array(
