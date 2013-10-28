@@ -386,7 +386,7 @@ var user = {
                 anonymous: PG.User.uid
             },
             objects: (objects !== null) ? objects : [],
-            action: story.action,
+            story_mapping_id: story.action,
             url: window.location.href,
             apiKey: PG.Settings.apiKey
         };
