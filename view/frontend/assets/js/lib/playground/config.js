@@ -42,7 +42,7 @@ var Playground = Playground || {},
             ears: '//playground.local/frontend/js/lib/playground/ears.min.js',
             mouth: '//ic.adfab.fr/mouthnode/leaderboard/others/client-0/script/pg.connect.js'
         },
-        debug: true,
+        debug: false,
         mode: 'dev',
         env: {
             dev: {

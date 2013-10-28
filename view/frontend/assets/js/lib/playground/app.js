@@ -299,34 +299,6 @@ App.prototype.send = function (story)
         });
     
     return;
-    
-    var broadcast = (PG.User.data.library.config.broadcast),
-        userUrl = PG.Cache.protocol + PG.Config.env[PG.Config.mode].send,
-        json, n, use, story;
-    
-    if(!PG.Util.isUrlValid(url)) {
-        return false;
-    }
-    
-    // check xpath and url
-    for(n in PG.User.data.library.stories) {
-        story = PG.User.data.library.stories[n];
-        
-        // get variable if send this url
-        if(PG.User.checkStory(story.conditions) && typeof story.event === 'undefined') {
-            json = PG.User.getStory(url, story.action, story.objects);
-            
-            PG.App.sendToEXDM({
-                url: userUrl,
-                method: 'POST',
-                data: json,
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
-                }
-            });
-        }
-    }
-    return true;
 };
 
 /**
