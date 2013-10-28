@@ -50,6 +50,38 @@ var pgutil = {
     },
     
     /** 
+     * 
+     * @function 
+     * 
+     * @name PG.Util.keys
+     * 
+     * @param {Object} obj
+     * @return {Int} length  
+     * 
+     * @this {Util}
+     * 
+     * @example
+     * PG.Util.keys()
+     * 
+     * @since version 1.0.0
+     */
+    keys: function (obj)
+    {
+        'use strict';
+        var length = 0, i;
+        
+        if(typeof Object.keys !== 'undefined') {
+            length = Object.keys(obj).length;
+        }else {
+            for(i in obj) {
+                length++;
+            }
+        }
+        
+        return length;
+    },
+    
+    /** 
      * Check if given variable points : {x:x, y:y} are into box {x:x, y:y, width:width, height:height}
      * @function 
      * 

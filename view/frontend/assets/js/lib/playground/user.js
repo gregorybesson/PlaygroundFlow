@@ -305,13 +305,13 @@ var user = {
         'use strict';
         PG.Util.log('user.js > createObjectsStory');
         
-        var objects = [], xpathObjects, propValue, properties = [], i, j, k, saveObject;
+        var objects = {}, xpathObjects, propValue, properties = [], i, j, k, saveObject;
         
-        if(typeof story.action !== 'undefined') {
+        if(typeof story.story_mapping_id !== 'undefined') {
             // FOR EACH OBJECTS
             for(i in story.objects) {
                 if(typeof story.objects[i] === 'object' && typeof story.objects[i].properties !== 'undefined') {
-                    properties = [];
+                    properties = {};
                     
                     // FOR EACH PROPERTIES
                     for(j in story.objects[i].properties) {
@@ -323,40 +323,26 @@ var user = {
                                 for(k in xpathObjects) {
                                     propValue =  PG.Util.getValueFromObject(xpathObjects[k]);
                                     if(typeof xpathObjects === 'object' && propValue !== '') {
-                                        properties.push({
-                                            'name': story.objects[i].properties[j].name,
-                                            'value': propValue
-                                        });
+                                        properties[story.objects[i].properties[j].name] = propValue;
                                     }
                                 }
                             }
                         }
                     }
-                
-                    objects.push({
-                        id: story.objects[i].id,
-                        properties: properties
-                    });
+                    
+                    objects[story.objects[i].id] = properties;
                 }
             }
         }
         
-        if(typeof objects !== 'undefined' && objects.length > 0) {
-            for(i in objects) {
-                if(typeof objects[i] === 'object' && typeof objects[i].id !== 'undefined' && objects[i].properties.length > 0) {
-                    PG.Util.createCookie('object.' + story.action + '.' + objects[i].id, JSON.stringify(objects[i]));
-                }else {
-                    objects[i] = JSON.parse(PG.Util.readCookie('object.' + story.action + '.' + objects[i].id));
-                }
-            }
-        }else {
-            for(i in objects) {
-                if(typeof objects[i] === 'object' && typeof objects[i].id === 'string') {
-                    objects[i] = JSON.parse(PG.Util.readCookie('object.' + story.action + '.' + objects[i].id));
-                }
+        for(i in objects) {
+            if(typeof objects[i] === 'object' && PG.Util.keys(objects[i]) > 0) {
+                PG.Util.createCookie('object.' + story.story_mapping_id, JSON.stringify(objects[i]));
+            }else {
+                //objects[i] = JSON.parse(PG.Util.readCookie('object.' + story.action + '.' + objects[i].id));
+                objects[i] = JSON.parse(PG.Util.readCookie('object.' + story.story_mapping_id));
             }
         }
-        
         return objects;
     },
     
