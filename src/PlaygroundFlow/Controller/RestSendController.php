@@ -93,7 +93,6 @@ class RestSendController extends AbstractRestfulController
         
         $storyTelling->setObject(json_encode($data['objects']));
         $storyTelling->setPoints($storyMapping->getPoints());
-        
         $storyTelling->setSecretKey(null);
 
         if (!empty($data['user']['email'])) {
