@@ -4,8 +4,6 @@ namespace PlaygroundFlow\Controller;
 
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
-use Zend\Crypt\Password\Bcrypt;
-
 
  
 class RestSendController extends AbstractRestfulController
