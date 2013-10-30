@@ -18,12 +18,10 @@ return array(
     
     'assetic_configuration' => array(
         'modules' => array(
-            'frontend_flow' => array(
-                # module root path for your css and js files
+            'lib_flow' => array(
                 'root_path' => array(
-                    __DIR__ . '/../view/frontend/assets',
+                    __DIR__ . '/../view/lib',
                 ),
-                # collection of assets
                 'collections' => array(
                     'frontend_mouth_css' => array(
                         'assets' => array(
@@ -31,58 +29,32 @@ return array(
                         ),
                         'filters' => array(),
                         'options' => array(
-                            'output' => 'frontend/css/mouth'
+                            'output' => 'lib/css/mouth'
                         ),
                     ),
                     'frontend_pg' => array(
                         'assets' => array(
-                        /*
-                            'js/lib/playground/config.js',
-                            'js/lib/playground/namespace.js',
-                            'js/lib/playground/cache.js',
-                            'js/lib/playground/util.js',
-                            'js/lib/playground/init.js',
-                        */
-                            'js/lib/playground/lib/json2.js',
-                            'js/lib/playground/lib/wgxpath.install.js',
-                            'js/lib/playground/pg.min.js',
-                            'js/lib/playground/pg.connect.js',
+                            'json2'             => 'js/playground/json2.js',
+                            'wgxpath.install'   => 'js/playground/wgxpath.install.js',
+                            'pg'                => 'js/playground/pg.min.js',
+                            'pg.connect'        => 'js/playground/pg.connect.js',
+                            'ears.min'          => 'js/playground/ears.min.js',
                         ),
                         'filters' => array(),
                         'options' => array(
-                            //'move_raw' => true,
-                            //'output' => 'frontend/js/lib/playground/pg.min.js',
                             'move_raw' => true,
-                            'output' => 'frontend',
+                            'output' => 'lib',
                         )
                     ),
-                    'head_frontendplayground_js' => array(
-			            'assets' => array(
-			            /*
-			                'js/lib/easyxdm/easyxdm.min.js',
-			                'js/lib/playground/pattern.js',
-			                'js/lib/playground/user.js',
-			                'js/lib/playground/app.js',
-                         */
-                            'js/lib/playground/ears.min.js',
-			            ),
-			            'filters' => array(),
-			            'options' => array(
-                            //'move_raw' => true,
-                            //'output' => 'frontend/js/lib/playground/ears.min.js'
-                            'move_raw' => true,
-                            'output' => 'frontend',
-			            ),
-			        ),
                     'frontend_easyxdm' => array(
                         'assets' => array(
-                            'js/lib/easyxdm/easyxdm.min.js',
-                            'js/lib/easyxdm/easyxdm.swf',
-                            'js/lib/easyxdm/json2.js',
+                            'easyxdm.min' => 'js/easyxdm/easyxdm.min.js',
+                            'easyxdm'     => 'js/easyxdm/easyxdm.swf',
+                            'json2'       => 'js/easyxdm/json2.js',
                         ),
                         'options' => array(
                             'move_raw' => true,
-                            'output' => 'frontend',
+                            'output' => 'lib',
                         )
                     ),
                 ),
@@ -91,7 +63,7 @@ return array(
     
         'routes' => array(
             'frontend.*' => array(
-                '@frontend_mouth_css',
+                '@frontend_mouth_css' => '@frontend_mouth_css',
             ),
         ),
     ),
