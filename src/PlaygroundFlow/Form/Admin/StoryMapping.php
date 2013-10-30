@@ -52,6 +52,14 @@ class StoryMapping extends ProvidesEventsForm
        			'value' => 0,
        		),
         ));
+
+        $this->add(array(
+          'name' => 'webTechnoId',
+          'type'  => 'Zend\Form\Element\Hidden',
+          'attributes' => array(
+            'value' => 0,
+          ),
+        ));
         
         $stories = $this->getStories();
         $this->add(array(

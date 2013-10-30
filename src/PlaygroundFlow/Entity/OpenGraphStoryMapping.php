@@ -36,6 +36,11 @@ class OpenGraphStoryMapping
      * @ORM\ManyToOne(targetEntity="OpenGraphDomain")
      **/
     protected $domain;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="OpenGraphWebTechno")
+     **/
+    protected $webTechno;
     
     /**
      * Points associated to this story
@@ -172,6 +177,21 @@ class OpenGraphStoryMapping
 		$domain->addStoryMapping($this);
 		$this->domain = $domain;
 	}
+
+    /**
+     * @return the $webTechno
+     */
+    public function getWebTechno() {
+        return $this->webTechno;
+    }
+
+    /**
+     * @param field_type $webTechno
+     */
+    public function setWebTechno($webTechno) {
+        $webTechno->addStoryMapping($this);
+        $this->webTechno = $webTechno;
+    }
 
 	/**
      * @return the $points

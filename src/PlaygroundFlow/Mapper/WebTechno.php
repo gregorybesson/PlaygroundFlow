@@ -9,7 +9,7 @@ use ZfcBase\Mapper\AbstractDbMapper;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use PlaygroundFlow\Options\ModuleOptions;
 
-class StoryMapping implements ServiceLocatorAwareInterface
+class WebTechno implements ServiceLocatorAwareInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -41,27 +41,17 @@ class StoryMapping implements ServiceLocatorAwareInterface
     {
         return $this->getEntityRepository()->find($id);
     }
-    
-    public function findByDomainId($domain)
-    {
-    	return $this->getEntityRepository()->findBy(array('domain' => $domain));
-    }
-
-    public function findByWebTechnoId($webTechno)
-    {
-        return $this->getEntityRepository()->findBy(array('webTechno' => $webTechno));
-    }
 
     public function findBy($array)
     {
         return $this->getEntityRepository()->findBy($array);
     }
 
-    public function findOneBy($array=array(), $sortBy = array('updated_at' => 'desc'))
+    public function findOneBy($array=array())
     {
         $er = $this->getEntityRepository();
 
-        return $er->findOneBy($array, $sortBy);
+        return $er->findOneBy($array);
     }
 
     public function findAll()
@@ -96,7 +86,7 @@ class StoryMapping implements ServiceLocatorAwareInterface
     public function getEntityRepository()
     {
         if (null === $this->er) {
-            $this->er = $this->em->getRepository('PlaygroundFlow\Entity\OpenGraphStoryMapping');
+            $this->er = $this->em->getRepository('PlaygroundFlow\Entity\OpenGraphWebTechno');
         }
 
         return $this->er;

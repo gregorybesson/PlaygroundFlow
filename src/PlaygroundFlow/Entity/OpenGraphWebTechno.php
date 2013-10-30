@@ -5,6 +5,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\Factory as InputFactory;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterInterface;
 
 /**
  * An Open Graph Action.
@@ -13,6 +17,8 @@ use Doctrine\ORM\Mapping\PreUpdate;
  */
 class OpenGraphWebTechno
 {
+
+    protected $inputFilter;
 
     /**
      * @ORM\Id
@@ -35,6 +41,17 @@ class OpenGraphWebTechno
      * @ORM\Column(type="text", nullable=true)
      */
     protected $definition;
+
+    /**
+     * @ORM\OneToMany(targetEntity="OpenGraphDomain", mappedBy="webTechno")
+     *
+     **/
+    protected $domain;
+
+    /**
+     * @ORM\OneToMany(targetEntity="OpenGraphStoryMapping", mappedBy="webTechno")
+     */
+    protected $storyMappings;
 
     /**
      * @ORM\Column(name="created_at", type="datetime")
@@ -141,6 +158,45 @@ class OpenGraphWebTechno
     }
 
     /**
+     * @return the unknown_type
+     */
+    public function getDomain()
+    {
+        return $this->domain;
+    }
+    
+    /**
+     * @param unknown_type $domain
+     */
+    public function setDomain($domain)
+    {
+        $this->domain = $domain;
+    
+        return $this;
+    }
+
+    /**
+     * @return the $storyMapping
+     */
+    public function addStoryMapping($storyMapping) {
+        $this->storyMappings[] = $storyMapping;
+    }
+    
+    /**
+     * @return the $storyMappings
+     */
+    public function getStoryMappings() {
+        return $this->storyMappings;
+    }
+
+    /**
+     * @param field_type $storyMappings
+     */
+    public function setStoryMappings($storyMappings) {
+        $this->storyMappings = $storyMappings;
+    }
+
+    /**
      * @param \DateTime $createdAt
      */
     public function setCreatedAt($createdAt)
@@ -181,5 +237,22 @@ class OpenGraphWebTechno
      */
     public function populate($data = array())
     {
+    }
+
+     public function setInputFilter(InputFilterInterface $inputFilter)
+    {
+        throw new \Exception("Not used");
+    }
+    
+    public function getInputFilter()
+    {
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
+    
+            $this->inputFilter = $inputFilter;
+        }
+    
+        return $this->inputFilter;
     }
 }

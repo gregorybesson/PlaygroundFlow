@@ -45,6 +45,11 @@ class OpenGraphDomain
      * @ORM\OneToMany(targetEntity="OpenGraphStoryMapping", mappedBy="domain")
      */
     protected $storyMappings;
+
+    /**
+     * @ORM\OneToOne(targetEntity="OpenGraphWebTechno", inversedBy="domain")
+     */
+    protected $webTechno;
     
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -185,6 +190,24 @@ class OpenGraphDomain
 	public function setStoryMappings($storyMappings) {
 		$this->storyMappings = $storyMappings;
 	}
+
+    /**
+     * @return the unknown_type
+     */
+    public function getWebTechno()
+    {
+        return $this->webTechno;
+    }
+    
+    /**
+     * @param unknown_type $webtechno
+     */
+    public function setWebTechno($webTechno)
+    {
+        $this->webTechno = $webTechno;
+    
+        return $this;
+    }
 
 	/**
      * @return the $createdAt

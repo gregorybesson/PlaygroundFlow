@@ -9,7 +9,7 @@ use Zend\I18n\Translator\Translator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\ServiceManager\ServiceManager;
 
-class Domain extends ProvidesEventsForm
+class WebTechno extends ProvidesEventsForm
 {
 
     /**
@@ -28,7 +28,7 @@ class Domain extends ProvidesEventsForm
 
         $entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
         
-        $hydrator = new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphDomain');
+        $hydrator = new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphWebTechno');
         $this->setHydrator($hydrator);
 
         $this->setAttribute('enctype', 'multipart/form-data');
@@ -42,52 +42,35 @@ class Domain extends ProvidesEventsForm
         ));
 
         $this->add(array(
-            'name' => 'title',
+            'name' => 'code',
             'options' => array(
-                'label' => $translator->translate('Title', 'playgroundflow')
+                'label' => $translator->translate('Code', 'playgroundflow')
             ),
             'attributes' => array(
                 'type' => 'text',
-                'placeholder' => $translator->translate('Title', 'playgroundflow')
+                'placeholder' => $translator->translate('Code', 'playgroundflow')
             )
         ));
 
         $this->add(array(
-            'name' => 'domain',
+            'name' => 'label',
             'options' => array(
-                'label' => $translator->translate('Domain', 'playgroundflow')
+                'label' => $translator->translate('Label', 'playgroundflow')
             ),
             'attributes' => array(
                 'type' => 'text',
-            	'placeholder' => $translator->translate('Domain', 'playgroundflow')
+            	'placeholder' => $translator->translate('Label', 'playgroundflow')
             )
         ));
 
         $this->add(array(
-            'type' => 'Zend\Form\Element\Textarea',
-            'name' => 'description',
+            'name' => 'definition',
             'options' => array(
-                'label' => $translator->translate('Description', 'playgroundflow')
+                'label' => $translator->translate('Definition', 'playgroundflow')
             ),
             'attributes' => array(
-                'cols' => '10',
-                'rows' => '10',
-                'id' => 'description'
-            )
-        ));
-
-        $this->add(array(
-            'name' => 'webTechno',
-            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
-            'options' => array(
-                'empty_option' => $translator->translate('Select a WebTechno', 'playgroundflow'),
-                'label' => $translator->translate('Web techno', 'playgroundflow'),
-                'object_manager' => $entityManager,
-                'target_class' => 'PlaygroundFlow\Entity\OpenGraphWebTechno',
-                'property' => 'label'
-            ),
-            'attributes' => array(
-                'required' => false,
+                'type' => 'text',
+            	'placeholder' => $translator->translate('Definition', 'playgroundflow')
             )
         ));
 
