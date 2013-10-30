@@ -70,9 +70,7 @@ class RestSendController extends AbstractRestfulController
     	$storyTellingService = $this->getStorytellingService();
     	$domainService = $this->getDomainService();
         
-        //$data = json_decode($this->getRequest()->getPost('data'), true);
-
-        //$data = $this->fromJson();
+        $data = $this->fromJson();
         $storyMappingId = $data['story_mapping_id'];
         $storyMapping = $domainService->getStoryMappingMapper()->findById($storyMappingId);
     	
