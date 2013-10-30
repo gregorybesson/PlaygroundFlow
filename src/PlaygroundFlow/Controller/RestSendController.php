@@ -70,8 +70,10 @@ class RestSendController extends AbstractRestfulController
     	$storyTellingService = $this->getStorytellingService();
     	$domainService = $this->getDomainService();
         
-        $data = $this->fromJson();
-    	$storyMappingId = $data['story_mapping_id'];
+        //$data = json_decode($this->getRequest()->getPost('data'), true);
+
+        //$data = $this->fromJson();
+        $storyMappingId = $data['story_mapping_id'];
         $storyMapping = $domainService->getStoryMappingMapper()->findById($storyMappingId);
     	
     	if (! $storyMapping) {
@@ -100,13 +102,13 @@ class RestSendController extends AbstractRestfulController
             $user = $this->getUserService()->findUserOrCreateByEmail($data['user']['email']);
         
             // Association prospect - user si c'etait un prospect avant
-            $prospects = $this->getProspectService()->getProspectMapper()->findBy(array('prospect' => $data['user']['anonymous']));
-            if (!empty($prospects)) {
-                $prospect = $prospects[0];
+            $prospect = $this->getProspectService()->getProspectMapper()->findOneBy(array('prospect' => $data['user']['anonymous']));
+            if (!empty($prospect)) {
                 if($prospect->getUser() == null){
                     $prospect->setUser($user);
                     $prospect = $this->getProspectService()->getProspectMapper()->update($prospect);
                 }
+                $storyTelling->setProspect($prospect);
             }
             $userDomain = $this->getUserDomainService()->findUserDomainOrCreateByUserAndDomain($user, $domain);
             // Association story telling à un utilisateur
@@ -206,7 +208,7 @@ class RestSendController extends AbstractRestfulController
     public function getProspectService()
     {
         if (! $this->prospectService) {
-            $this->prospectService = $this->getServiceLocator()->get('playgrounduser_prospect_service');
+            $this->prospectService = $this->getServiceLocator()->get('playgroundflow_prospect_service');
         }
     
         return $this->prospectService; 
@@ -234,7 +236,7 @@ class RestSendController extends AbstractRestfulController
     public function getUserDomainService()
     {
         if (! $this->userDomainService) {
-            $this->userDomainService = $this->getServiceLocator()->get('playgrounduser_user_domain_service');
+            $this->userDomainService = $this->getServiceLocator()->get('playgroundflow_user_domain_service');
         }
     
         return $this->userDomainService; 

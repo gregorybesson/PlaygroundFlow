@@ -32,8 +32,8 @@ class OpenGraphStoryTelling
      **/
     protected $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="PlaygroundUser\Entity\Prospect")
+     /**
+     * @ORM\ManyToOne(targetEntity="PlaygroundFlow\Entity\OpenGraphProspect")
      * @ORM\JoinColumn(name="prospect_id", referencedColumnName="id", onDelete="CASCADE")
      **/
     protected $prospect;
