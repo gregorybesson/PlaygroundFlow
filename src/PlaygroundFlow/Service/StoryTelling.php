@@ -38,7 +38,7 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
         $action = $data["story_mapping_id"];
          
         //TODO : Make it dynamic
-        $args["style"] = 'http://playground.local/frontend/css/mouth.css';
+        $args["style"] = 'http://playground.local/lib/css/mouth.css';
         $args["container"] = isset($data["container"]) ? $data["container"] : 'body';
         //TODO : Make it dynamic too ! (this has to be taken from the storyMapping's domain)
         $url = "http://localhost:93/notification";
