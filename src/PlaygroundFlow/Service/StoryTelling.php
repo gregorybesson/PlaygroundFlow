@@ -35,7 +35,7 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
     {
         // TODO : Put this mouth stuff to a dedicated listener.
         $args = array( 'apiKey' => $data["apiKey"], 'userId' => $data['user']['anonymous'] );
-        $action = $data["action"];
+        $action = $data["story_mapping_id"];
          
         //TODO : Make it dynamic
         $args["style"] = 'http://playground.local/frontend/css/mouth.css';
