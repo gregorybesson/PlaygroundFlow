@@ -4,6 +4,7 @@ namespace PlaygroundFlow\Controller;
 
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
+
  
 class RestSendController extends AbstractRestfulController
 {
@@ -11,9 +12,25 @@ class RestSendController extends AbstractRestfulController
 	 * @var GameService
 	 */
 	protected $storytellingService;
-	
-	protected $domainService;
-	
+	/**
+     * @var prospectService
+     */
+	protected $prospectService;
+    /**
+     * @var domainService
+     */
+    protected $domainService;
+    /**
+     * @var userService
+     */
+    protected $userService;
+    /**
+     * @var userDomainService
+     */
+    protected $userDomainService;
+
+
+
     public function getList()
     {
         $response = $this->getResponse();
@@ -52,11 +69,10 @@ class RestSendController extends AbstractRestfulController
     	$response = $this->getResponse();
     	$storyTellingService = $this->getStorytellingService();
     	$domainService = $this->getDomainService();
-    	
-    	$data = $this->fromJson();
-    	
-    	$storyMappingId = $data['story_mapping_id'];
-    	$storyMapping = $domainService->getStoryMappingMapper()->findById($storyMappingId);
+        
+        $data = $this->fromJson();
+        $storyMappingId = $data['story_mapping_id'];
+        $storyMapping = $domainService->getStoryMappingMapper()->findById($storyMappingId);
     	
     	if (! $storyMapping) {
     	    $content = array(
@@ -70,13 +86,41 @@ class RestSendController extends AbstractRestfulController
         	$response->setContent($adapter->serialize($content));
         	return $response;
     	}
+
+        $domain = $this->getDomainService()->getDomain($this);
+
+        $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
+        
+        $storyTelling->setObject(json_encode($data['objects']));
+        $storyTelling->setPoints($storyMapping->getPoints());
+        $storyTelling->setSecretKey(null);
+
+        if (!empty($data['user']['email'])) {
+            // J'ai un user qui est identifié : user playground
+            $user = $this->getUserService()->findUserOrCreateByEmail($data['user']['email']);
+        
+            // Association prospect - user si c'etait un prospect avant
+            $prospect = $this->getProspectService()->getProspectMapper()->findOneBy(array('prospect' => $data['user']['anonymous']));
+            if (!empty($prospect)) {
+                if($prospect->getUser() == null){
+                    $prospect->setUser($user);
+                    $prospect = $this->getProspectService()->getProspectMapper()->update($prospect);
+                }
+                $storyTelling->setProspect($prospect);
+            }
+            $userDomain = $this->getUserDomainService()->findUserDomainOrCreateByUserAndDomain($user, $domain);
+            // Association story telling à un utilisateur
+            $storyTelling->setUser($user);
+        
+        } else if(!empty($data['user']['anonymous'])) {
+            // J'ai un anonymous
+            $prospect = $this->getProspectService()->findProspectOrCreateByProspectAndDomain($data['user']['anonymous'], $domain);
+            // Association story telling à un prospect
+            $storyTelling->setProspect($prospect);
+        }
     	
-    	$storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
     	$storyTelling->setOpenGraphStoryMapping($storyMapping);
-    	$storyTelling->setUser(null);
-    	$storyTelling->setObject(json_encode($data['objects']));
-    	$storyTelling->setPoints($storyMapping->getPoints());
-    	$storyTelling->setSecretKey(null);
+        // Creation de la storyTelling
     	$storyTellingService->getStoryTellingMapper()->insert($storyTelling);
     	
     	$storyTellingService->tellStory($storyMapping, $storyTelling, $data);
@@ -140,6 +184,11 @@ class RestSendController extends AbstractRestfulController
     	return $this;
     }
     
+    /**
+     * Retrieve service domain instance
+     *
+     * @return Service/Domain domainService
+     */
     public function getDomainService()
     {
         if (! $this->domainService) {
@@ -148,12 +197,47 @@ class RestSendController extends AbstractRestfulController
     
         return $this->domainService;
     }
-    
-    public function setDomainService(DomainService $domainService)
+
+    /**
+     * Retrieve service prospect instance
+     *
+     * @return Service/Prospect prospectService
+     */
+    public function getProspectService()
     {
-        $this->domainService = $domainService;
+        if (! $this->prospectService) {
+            $this->prospectService = $this->getServiceLocator()->get('playgroundflow_prospect_service');
+        }
     
-        return $this;
+        return $this->prospectService; 
+    }
+
+    /**
+     * Retrieve service user instance
+     *
+     * @return Service/User userService
+     */
+    public function getUserService()
+    {
+        if (! $this->userService) {
+            $this->userService = $this->getServiceLocator()->get('playgrounduser_user_service');
+        }
+    
+        return $this->userService; 
+    }
+
+    /**
+     * Retrieve service userdomain instance
+     *
+     * @return Service/UserDomain userDomainService
+     */
+    public function getUserDomainService()
+    {
+        if (! $this->userDomainService) {
+            $this->userDomainService = $this->getServiceLocator()->get('playgroundflow_user_domain_service');
+        }
+    
+        return $this->userDomainService; 
     }
     
     /**

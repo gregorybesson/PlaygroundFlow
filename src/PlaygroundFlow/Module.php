@@ -69,6 +69,8 @@ class Module
                     'playgroundflow_storytelling_service' => 'PlaygroundFlow\Service\StoryTelling',
                     'playgroundflow_storytelling_listener'=> 'PlaygroundFlow\Service\StoryTellingListener',
                     'playgroundflow_webtechno_service'    => 'PlaygroundFlow\Service\WebTechno',
+                    'playgroundflow_user_domain_service'  => 'PlaygroundFlow\Service\UserDomain',
+                    'playgroundflow_prospect_service'     => 'PlaygroundFlow\Service\Prospect',
             ),
 
             'factories' => array(
@@ -157,6 +159,19 @@ class Module
                 
                     return $mapper;
                 },
+
+                'playgroundflow_user_domain_mapper' => function ($sm) {
+                    return new Mapper\UserDomain(
+                        $sm->get('doctrine.entitymanager.orm_default')
+                    );
+                },
+
+                'playgroundflow_prospect_mapper' => function ($sm) {
+                    return new Mapper\Prospect(
+                        $sm->get('doctrine.entitymanager.orm_default')
+                    );
+                },
+                
                 'playgroundflow_storytelling_mapper' => function ($sm) {
                     $mapper = new \PlaygroundFlow\Mapper\StoryTelling(
                         $sm->get('doctrine.entitymanager.orm_default'),

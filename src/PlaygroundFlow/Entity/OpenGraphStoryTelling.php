@@ -32,6 +32,12 @@ class OpenGraphStoryTelling
      **/
     protected $user;
 
+     /**
+     * @ORM\ManyToOne(targetEntity="PlaygroundFlow\Entity\OpenGraphProspect")
+     * @ORM\JoinColumn(name="prospect_id", referencedColumnName="id", onDelete="CASCADE")
+     **/
+    protected $prospect;
+
     /**
      * The jsonified object associated to the event
      * @ORM\Column(type="text", nullable=true)
@@ -101,11 +107,28 @@ class OpenGraphStoryTelling
     }
 
     /**
-     * @param field_type $user
+     * @param User $user
      */
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+
+    /**
+     * @return the $prospect
+     */
+    public function getProspect()
+    {
+        return $this->prospect;
+    }
+
+    /**
+     * @param Prospect $prospect
+     */
+    public function setProspect($prospect)
+    {
+        $this->prospect = $prospect;
     }
 
     /**

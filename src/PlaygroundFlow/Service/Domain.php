@@ -247,6 +247,30 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     }
 
     /**
+    * getDomain : get domain 
+    * @param Controller $controller
+    *
+    * return Domain $domain
+    */
+    public function getDomain($controller)
+    {
+        $origin = parse_url($controller->getRequest()->getHeader('Referer'));
+        $uri = $controller->getRequest()->getUri();
+        $domainId = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
+
+        if (isset($origin['query'])) {
+            parse_str($origin['query'], $query);
+            $domainId = $query['xdm_e'];
+        }
+
+        $domain = $this->getDomainMapper()->findOneBy(array(
+            'domain' => $domainId
+        ));
+
+        return $domain;
+    }
+
+    /**
      * getDomainMapper
      *
      * @return DomainMapperInterface
