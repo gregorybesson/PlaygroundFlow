@@ -38,6 +38,11 @@ class OpenGraphStoryMapping
     protected $domain;
 
     /**
+     * @ORM\ManyToOne(targetEntity="PlaygroundReward\Entity\LeaderboardType")
+     **/
+    protected $leaderboardType;
+
+    /**
      * @ORM\ManyToOne(targetEntity="OpenGraphWebTechno")
      **/
     protected $webTechno;
@@ -162,6 +167,20 @@ class OpenGraphStoryMapping
 	public function setStory($story) {
 		$this->story = $story;
 	}
+
+    /**
+     * @return the $story
+     */
+    public function getLeaderboardType() {
+        return $this->leaderboardType;
+    }
+
+    /**
+     * @param field_type $story
+     */
+    public function setLeaderboardType($leaderboardType) {
+        $this->leaderboardType = $leaderboardType;
+    }
 
 	/**
 	 * @return the $domain

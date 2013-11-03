@@ -28,17 +28,6 @@ class ObjectAttributeMappingFieldset extends Fieldset
             'name' => 'id'
         ));
         
-/*        $attributes = $this->getAttributes();
-        $this->add(array(
-        	'type' => 'Zend\Form\Element\Select',
-        	'name' => 'attributes',
-       		'options' => array(
-   				'value_options' => $attributes,
-   				'label' => $translator->translate('Attribute', 'playgroundflow')
-       		)
-        ));
-        */
-        
         $this->add(array(
             'name' => 'attribute',
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',

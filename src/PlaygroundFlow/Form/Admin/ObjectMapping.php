@@ -44,17 +44,6 @@ class ObjectMapping extends ProvidesEventsForm
                 'value' => 0
             )
         ));
-        /*
-        $objects = $this->getObjects();
-        $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
-            'name' => 'object',
-            'options' => array(
-                'value_options' => $objects,
-                'label' => $translator->translate('Object', 'playgroundflow')
-            )
-        ));
-        */
         
         $this->add(array(
             'name' => 'object',
