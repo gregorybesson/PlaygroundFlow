@@ -215,6 +215,15 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     public function editObject(array $data, $objectMapping)
     {
         $form  = $this->getServiceManager()->get('playgroundflow_objectmapping_form');
+        
+        // When the last attribute is removed, we have to do this trick...
+        // https://github.com/zendframework/zf2/issues/2761
+        if(!isset($data['attributes'])){
+            $form->remove('attributes');
+            $objectMapping->clearAttributes();
+            $objectMapping = $this->getObjectMappingMapper()->update($objectMapping);
+        }
+        
         $form->bind($objectMapping);
         $form->setData($data);
     
