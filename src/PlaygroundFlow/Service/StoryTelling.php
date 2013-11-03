@@ -115,7 +115,6 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
             $args["html"] = str_replace("=", "%3D", $bye);
         }
         $this->sendRequest($url, $args);
-        */
         
         return;
     }
