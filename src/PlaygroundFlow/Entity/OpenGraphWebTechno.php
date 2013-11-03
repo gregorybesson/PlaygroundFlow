@@ -43,12 +43,6 @@ class OpenGraphWebTechno
     protected $definition;
 
     /**
-     * @ORM\OneToMany(targetEntity="OpenGraphDomain", mappedBy="webTechno")
-     *
-     **/
-    protected $domain;
-
-    /**
      * @ORM\OneToMany(targetEntity="OpenGraphStoryMapping", mappedBy="webTechno")
      */
     protected $storyMappings;
@@ -155,24 +149,6 @@ class OpenGraphWebTechno
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * @return the unknown_type
-     */
-    public function getDomain()
-    {
-        return $this->domain;
-    }
-    
-    /**
-     * @param unknown_type $domain
-     */
-    public function setDomain($domain)
-    {
-        $this->domain = $domain;
-    
-        return $this;
     }
 
     /**

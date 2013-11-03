@@ -47,7 +47,7 @@ class OpenGraphDomain
     protected $storyMappings;
 
     /**
-     * @ORM\OneToOne(targetEntity="OpenGraphWebTechno", inversedBy="domain")
+     * @ORM\ManyToOne(targetEntity="OpenGraphWebTechno")
      */
     protected $webTechno;
     
