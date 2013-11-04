@@ -29,6 +29,8 @@ class RestSendController extends AbstractRestfulController
      */
     protected $userDomainService;
 
+    protected $leaderboardService;
+
 
 
     public function getList()
@@ -69,6 +71,7 @@ class RestSendController extends AbstractRestfulController
     	$response = $this->getResponse();
     	$storyTellingService = $this->getStorytellingService();
     	$domainService = $this->getDomainService();
+        $user = null;
         
         $data = $this->fromJson();
         $storyMappingId = $data['story_mapping_id'];
@@ -122,7 +125,12 @@ class RestSendController extends AbstractRestfulController
     	$storyTelling->setOpenGraphStoryMapping($storyMapping);
         // Creation de la storyTelling
     	$storyTellingService->getStoryTellingMapper()->insert($storyTelling);
-    	
+
+        // Si il y a un user, on met a jour son classement
+        if(!empty($user)) {
+            $this->getLeaderboardService()->addPoints($storyMapping, $user);
+    	}
+
     	$storyTellingService->tellStory($storyMapping, $storyTelling, $data);
     	
     	$this->getEventManager()->trigger('story.'.$storyMapping->getId() , $this, array('storyTelling' => $storyTelling));
@@ -238,6 +246,17 @@ class RestSendController extends AbstractRestfulController
         }
     
         return $this->userDomainService; 
+    }
+
+
+    public function getLeaderboardService()
+    {
+
+        if (! $this->leaderboardService) {
+            $this->leaderboardService = $this->getServiceLocator()->get('playgroundreward_leaderboard_service');
+        }
+    
+        return $this->leaderboardService;
     }
     
     /**
