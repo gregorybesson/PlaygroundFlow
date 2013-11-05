@@ -70,6 +70,16 @@ class StoryMapping extends ProvidesEventsForm
        			'label' => $translator->translate('Story', 'playgroundflow')
        		)
         ));
+
+        $leaderboardTypes = $this->getLeaderboardTypes();
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'leaderboardType',
+            'options' => array(
+                'value_options' => $leaderboardTypes,
+                'label' => $translator->translate('leaderboardType', 'playgroundflow')
+            )
+        ));
         
         $this->add(array(
             'name' => 'points',
@@ -249,5 +259,23 @@ class StoryMapping extends ProvidesEventsForm
     	}
     
     	return $storiesArray;
+    }
+
+    /**
+     * retrieve all leaderboard type for associate to storyMapping
+     *
+     * @return array $leaderboardTypesArray
+     */
+    public function getLeaderboardTypes()
+    {
+        $leaderboardTypesArray = array();
+        $leaderboardTypesService = $this->getServiceManager()->get('playgroundreward_leaderboardtype_service');
+        $leaderboardTypes = $leaderboardTypesService->getLeaderboardTypeMapper()->findAll();
+    
+        foreach ($leaderboardTypes as $leaderboardType) {
+            $leaderboardTypesArray[$leaderboardType->getId()] = $leaderboardType->getName();
+        }
+
+        return $leaderboardTypesArray;
     }
 }
