@@ -29,6 +29,9 @@ class RestSendController extends AbstractRestfulController
      */
     protected $userDomainService;
 
+    /**
+     * @var leaderboardService
+     */
     protected $leaderboardService;
 
 
