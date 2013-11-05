@@ -248,7 +248,11 @@ class RestSendController extends AbstractRestfulController
         return $this->userDomainService; 
     }
 
-
+    /**
+     * Retrieve service leaderboardservice instance
+     *
+     * @return Service/Leaderboard leaderboardService
+     */
     public function getLeaderboardService()
     {
 

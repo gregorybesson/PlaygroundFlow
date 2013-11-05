@@ -261,6 +261,11 @@ class StoryMapping extends ProvidesEventsForm
     	return $storiesArray;
     }
 
+    /**
+     * retrieve all leaderboard type for associate to storyMapping
+     *
+     * @return array $leaderboardTypesArray
+     */
     public function getLeaderboardTypes()
     {
         $leaderboardTypesArray = array();

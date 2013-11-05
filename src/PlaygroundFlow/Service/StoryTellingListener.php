@@ -312,6 +312,11 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
         }
     }
 
+     /**
+     * Retrieve service Leaderboard
+     *
+     * @return Service/Leaderboard leaderboardService
+     */
     public function getLeaderboardService()
     {
 

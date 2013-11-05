@@ -169,14 +169,14 @@ class OpenGraphStoryMapping
 	}
 
     /**
-     * @return the $story
+     * @return the $leaderboardType
      */
     public function getLeaderboardType() {
         return $this->leaderboardType;
     }
 
     /**
-     * @param field_type $story
+     * @param leaderboardType $leaderboardType
      */
     public function setLeaderboardType($leaderboardType) {
         $this->leaderboardType = $leaderboardType;
