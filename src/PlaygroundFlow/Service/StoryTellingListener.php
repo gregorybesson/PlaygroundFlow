@@ -316,7 +316,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
     {
 
         if (! $this->leaderboardService) {
-            $this->leaderboardService = $this->getServiceLocator()->get('playgroundreward_leaderboard_service');
+            $this->leaderboardService = $this->getServiceManager()->get('playgroundreward_leaderboard_service');
         }
     
         return $this->leaderboardService;
