@@ -34,7 +34,7 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
     public function tellStory($storyTelling)
     {
         // TODO : Put this mouth stuff to a dedicated listener.
-        $userId = $storyTelling->getProspect()->getProspect();
+        $userId = ($storyTelling->getProspect())? $storyTelling->getProspect()->getProspect():null;
         // TODO : apiKey is ... the key ! factorize it
         $args = array( 'apiKey' => 'key_first', 'userId' => $userId );
         //$action = $data["story_mapping_id"];
