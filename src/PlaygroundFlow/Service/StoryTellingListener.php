@@ -246,10 +246,11 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
      */
     public function tellStoryAfter(\Zend\EventManager\Event $e)
     {
-        $user = $e->getParam('user');
-        $secretKey = $e->getParam('secretKey');
-        $sm = $e->getTarget()->getServiceManager();
+        $user       = $e->getParam('user');
+        $prospect   = $e->getParam('prospect');
+        $secretKey  = $e->getParam('secretKey');
         
+        $sm         = $e->getTarget()->getServiceManager();
         
         $app = $sm->get('Application');
         $uri = $app->getRequest()->getUri();
@@ -265,12 +266,9 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             $sponsorStory = $storyTellingService->getStoryTellingMapper()->findOneBySecretKey($secretKey);
             if ($sponsorStory) {
                 $user = $sponsorStory->getUser();
+                $prospect = null;
             }
-        }  
-        
-        //$stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
-        //    'eventAfterUrl' => $e->getName()
-        //));
+        }
         
         $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
             'domain' => $domain,
@@ -301,11 +299,13 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
             $storyTelling->setOpenGraphStoryMapping($storyMapping);
             $storyTelling->setUser($user);
+            $storyTelling->setProspect($prospect);
             $storyTelling->setObject(json_encode($objectArray));
             $storyTelling->setPoints($storyMapping->getPoints());
             $storyTelling->setSecretKey($secretKey);
             $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
 
+            $storyTellingService->tellStory($storyTelling);
             $this->getLeaderboardService()->addPoints($storyMapping, $user);
     
             $e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId() , $this, array('storyTelling' => $storyTelling));

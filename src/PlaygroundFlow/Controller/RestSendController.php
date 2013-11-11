@@ -134,7 +134,7 @@ class RestSendController extends AbstractRestfulController
             $this->getLeaderboardService()->addPoints($storyMapping, $user);
     	}
 
-    	$storyTellingService->tellStory($storyMapping, $storyTelling, $data);
+    	$storyTellingService->tellStory($storyTelling);
     	
     	$this->getEventManager()->trigger('story.'.$storyMapping->getId() , $this, array('storyTelling' => $storyTelling));
     	

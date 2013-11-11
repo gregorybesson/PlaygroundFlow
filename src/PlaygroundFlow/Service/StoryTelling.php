@@ -31,26 +31,26 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $options;
     
-    public function tellStory($storyMapping, $storyTelling, $data)
+    public function tellStory($storyTelling)
     {
         // TODO : Put this mouth stuff to a dedicated listener.
-        $args = array( 'apiKey' => $data["apiKey"], 'userId' => $data['user']['anonymous'] );
-        $action = $data["story_mapping_id"];
+        $userId = $storyTelling->getProspect()->getProspect();
+        // TODO : apiKey is ... the key ! factorize it
+        $args = array( 'apiKey' => 'key_first', 'userId' => $userId );
+        //$action = $data["story_mapping_id"];
          
         //TODO : Make it dynamic
-        $args["style"] = 'http://playground.local/lib/css/mouth.css';
-        $args["container"] = isset($data["container"]) ? $data["container"] : 'body';
+        //$args["style"] = 'http://playground.local/lib/css/mouth.css';
+        $args["container"] = '#col-droite';
         //TODO : Make it dynamic too ! (this has to be taken from the storyMapping's domain)
         $url = "http://localhost:93/notification";
          
-        $welcome ='<div id="welcome" class="playground" >' .
-            '<div >' .
-            '<a ' .
-            'href="#" ' .
-            'onclick="document.getElementById(\'welcome\').parentNode.removeChild(document.getElementById(\'welcome\'));" ' .
-            '>X</a>' .
-            'You have won ' . $storyMapping->getPoints() . ' points for the story "' . $storyMapping->getStory()->getLabel() . '"' .
-            '</div>' .
+        $welcome = 
+            '<div id="chrono">' .
+                '<div class="header" >' .
+                    '<h2> '.$storyTelling->getPoints().' points </h2>' .
+                    '<p style="color:#fff;line-height:46px"> (' . $storyTelling->getOpenGraphStoryMapping()->getStory()->getLabel() .')</p>' .
+                '</div>' .
             '</div>';
          
         $login ='<div id="welcome" class="playground" >' .
@@ -70,7 +70,7 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
             'href="#" ' .
             'onclick="document.getElementById(\'bye\').parentNode.removeChild(document.getElementById(\'bye\'));" ' .
             '>X</a>' .
-            'User ' . $data['user']['anonymous'] . ' has won ' . $storyMapping->getPoints() . ' points for the story "' . $storyMapping->getStory()->getLabel() . '"' .
+            'User ' . $userId . ' has won ' . $storyTelling->getPoints() . ' points for the story "' . $storyTelling->getOpenGraphStoryMapping()->getStory()->getLabel() . '"' .
             '</div>' .
             '</div>';
          
@@ -92,28 +92,20 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
             'href="#" ' .
             'onclick="document.getElementById(\'loose\').parentNode.removeChild(document.getElementById(\'loose\'));" ' .
             '>X</a>' .
-            'User ' . $data['user']['anonymous'] . ' has found the secret treasure' .
+            'User ' . $userId . ' has found the secret treasure' .
             '</div>' .
             '</div>';
          
-        $args["who"] = 'self';
-        if($action=='find'){
-            $args["html"] = str_replace("=", "%3D", $win);
-        } elseif($action=='login'){
-            $args["html"] = str_replace("=", "%3D", $login);
-        }else{
-            $args["html"] = str_replace("=", "%3D", $welcome);
-        }
+        $args["who"]    = 'self';
+        $args["html"]   = str_replace("=", "%3D", $welcome);
+
         $this->sendRequest($url, $args);
         
-        $args["who"] = 'others';
-        if($action=='find'){
-            $args["html"] = str_replace("=", "%3D", $loose);
-        } elseif($action=='login'){
-            $args["html"] = str_replace("=", "%3D", $welcome);
-        } else {
-            $args["html"] = str_replace("=", "%3D", $bye);
-        }
+        $args["who"]        = 'others';
+        $args["style"]      = 'http://playground.local/lib/css/mouth.css';
+        $args["container"]  = 'body';
+        $args["html"]       = str_replace("=", "%3D", $bye);
+
         $this->sendRequest($url, $args);
         
         return;
