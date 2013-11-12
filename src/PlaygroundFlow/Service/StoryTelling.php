@@ -35,78 +35,52 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
     {
         // TODO : Put this mouth stuff to a dedicated listener.
         $userId = ($storyTelling->getProspect())? $storyTelling->getProspect()->getProspect():null;
+        
         // TODO : apiKey is ... the key ! factorize it
         $args = array( 'apiKey' => 'key_first', 'userId' => $userId );
-        //$action = $data["story_mapping_id"];
          
-        //TODO : Make it dynamic
-        //$args["style"] = 'http://playground.local/lib/css/mouth.css';
-        $args["container"] = '#col-droite';
         //TODO : Make it dynamic too ! (this has to be taken from the storyMapping's domain)
         $url = "http://localhost:93/notification";
-         
-        $welcome = 
+        
+        $placeholders = array('{username}','{points}', '{title}');
+        $values = array($userId, $storyTelling->getPoints(), $storyTelling->getOpenGraphStoryMapping()->getStory()->getLabel());
+        
+        if($storyTelling->getOpenGraphStoryMapping()->getDisplayNotification()){
+            
+            $notification = str_replace($placeholders, $values, $storyTelling->getOpenGraphStoryMapping()->getNotification());
+            $args["container"] = '#col-droite';
+            $message =
             '<div id="chrono">' .
                 '<div class="header" >' .
-                    '<h2> '.$storyTelling->getPoints().' points </h2>' .
-                    '<p style="color:#fff;line-height:46px"> (' . $storyTelling->getOpenGraphStoryMapping()->getStory()->getLabel() .')</p>' .
+                $notification .
                 '</div>' .
             '</div>';
-         
-        $login ='<div id="welcome" class="playground" >' .
-            '<div >' .
-            '<a ' .
-            'href="#" ' .
-            'onclick="document.getElementById(\'welcome\').parentNode.removeChild(document.getElementById(\'welcome\'));" ' .
-            '>X</a>' .
-            'Welcome aboard ! Ready to hunt ?' .
-            '</div>' .
-            '</div>';
-         
-        // html for other user that the one that just logged off
-        $bye = '<div id="bye" class="playground" >' .
-            '<div >' .
-            '<a ' .
-            'href="#" ' .
-            'onclick="document.getElementById(\'bye\').parentNode.removeChild(document.getElementById(\'bye\'));" ' .
-            '>X</a>' .
-            'User ' . $userId . ' has won ' . $storyTelling->getPoints() . ' points for the story "' . $storyTelling->getOpenGraphStoryMapping()->getStory()->getLabel() . '"' .
-            '</div>' .
-            '</div>';
-         
-        // html for user that found the treasure
-        $win = '<div id="win" class="playground" >' .
-            '<div >' .
-            '<a ' .
-            'href="#" ' .
-            'onclick="document.getElementById(\'win\').parentNode.removeChild(document.getElementById(\'win\'));" ' .
-            '>X</a>' .
-            'Congratz ! You have found the treasure ! : ' .
-            '</div>' .
-            '</div>';
-         
-        // html for other user that loose and didn't find the treasure
-        $loose = '<div id="loose" class="playground" >' .
-            '<div >' .
-            '<a ' .
-            'href="#" ' .
-            'onclick="document.getElementById(\'loose\').parentNode.removeChild(document.getElementById(\'loose\'));" ' .
-            '>X</a>' .
-            'User ' . $userId . ' has found the secret treasure' .
-            '</div>' .
-            '</div>';
-         
-        $args["who"]    = 'self';
-        $args["html"]   = str_replace("=", "%3D", $welcome);
-
-        $this->sendRequest($url, $args);
+            $args["who"]    = 'self';
+            $args["html"]   = str_replace("=", "%3D", $message);
+            
+            $this->sendRequest($url, $args);
+        }
         
-        $args["who"]        = 'others';
-        $args["style"]      = 'http://playground.local/lib/css/mouth.css';
-        $args["container"]  = 'body';
-        $args["html"]       = str_replace("=", "%3D", $bye);
-
-        $this->sendRequest($url, $args);
+        if($storyTelling->getOpenGraphStoryMapping()->getDisplayActivityStream()){
+            $activityStream = str_replace($placeholders, $values, $storyTelling->getOpenGraphStoryMapping()->getActivityStream());
+            
+            $message = 
+                '<div id="pgActivityStream" class="playground" >' .
+                    '<div >' .
+                        '<a href="#" onclick="document.getElementById(\'pgActivityStream\').parentNode.removeChild(document.getElementById(\'pgActivityStream\'));">' .
+                        'X</a>' .
+                        $activityStream .
+                    '</div>' .
+                '</div>';
+            
+            $args["who"]        = 'others';
+            $args["container"]  = 'body';
+            $args["style"]      = 'http://playground.local/lib/css/mouth.css';
+            
+            $args["html"]       = str_replace("=", "%3D", $message);
+    
+            $this->sendRequest($url, $args);
+        }
         
         return;
     }

@@ -69,9 +69,24 @@ class OpenGraphStoryMapping
     protected $countLimit = 0;
     
     /**
-     * @ORM\Column(name="activity_stream_text", type="text", nullable=true)
+     * @ORM\Column(name="display_notification", type="boolean", nullable=true)
      */
-    protected $activityStreamText;
+    protected $displayNotification = 1;
+    
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $notification;
+    
+    /**
+     * @ORM\Column(name="display_activity_stream", type="boolean", nullable=true)
+     */
+    protected $displayActivityStream = 1;
+    
+    /**
+     * @ORM\Column(name="activity_stream", type="text", nullable=true)
+     */
+    protected $activityStream;
     
     /**
      * @ORM\OneToMany(targetEntity="OpenGraphObjectMapping", mappedBy="storyMapping")
@@ -261,19 +276,67 @@ class OpenGraphStoryMapping
     }
 
 	/**
-     * @return the $activityStreamText
+     * @return the $displayNotification
      */
-    public function getActivityStreamText()
+    public function getDisplayNotification()
     {
-        return $this->activityStreamText;
+        return $this->displayNotification;
     }
 
 	/**
-     * @param field_type $activityStreamText
+     * @param number $displayNotification
      */
-    public function setActivityStreamText($activityStreamText)
+    public function setDisplayNotification($displayNotification)
     {
-        $this->activityStreamText = $activityStreamText;
+        $this->displayNotification = $displayNotification;
+    }
+
+	/**
+     * @return the $displayActivityStream
+     */
+    public function getDisplayActivityStream()
+    {
+        return $this->displayActivityStream;
+    }
+
+	/**
+     * @param number $displayActivityStream
+     */
+    public function setDisplayActivityStream($displayActivityStream)
+    {
+        $this->displayActivityStream = $displayActivityStream;
+    }
+
+	/**
+     * @return the $notification
+     */
+    public function getNotification()
+    {
+        return $this->notification;
+    }
+
+	/**
+     * @param number $notification
+     */
+    public function setNotification($notification)
+    {
+        $this->notification = $notification;
+    }
+
+	/**
+     * @return the $activityStream
+     */
+    public function getActivityStream()
+    {
+        return $this->activityStream;
+    }
+
+	/**
+     * @param number $activityStream
+     */
+    public function setActivityStream($activityStream)
+    {
+        $this->activityStream = $activityStream;
     }
 
 	/**

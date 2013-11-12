@@ -115,13 +115,48 @@ class StoryMapping extends ProvidesEventsForm
         ));
         
         $this->add(array(
-            'name' => 'activityStreamText',
+            'type' => 'Zend\Form\Element\Checkbox',
+            'name' => 'displayNotification',
             'options' => array(
-                'label' => $translator->translate('Activity Stream Text', 'playgroundflow')
+                'label' => $translator->translate('Display notication to player', 'playgroundflow'),
+            ),
+            'attributes' => array(
+                'checked' => true
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'notification',
+            'type' => 'Zend\Form\Element\Text',
+            'options' => array(
+                'label' => $translator->translate('Notification Message', 'playgroundflow')
             ),
             'attributes' => array(
                 'type' => 'text',
-                'placeholder' => $translator->translate('Activity Stream Text', 'playgroundflow')
+                'placeholder' => $translator->translate('Notification Message', 'playgroundflow')
+            )
+        ));
+        
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Checkbox',
+            'name' => 'displayActivityStream',
+            'options' => array(
+                'label' => $translator->translate('Display on activity Stream', 'playgroundflow'),
+            ),
+            'attributes' => array(
+                'checked' => true
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'activityStream',
+            'type' => 'Zend\Form\Element\Text',
+            'options' => array(
+                'label' => $translator->translate('Activity Stream Message', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => $translator->translate('Activity Stream Message', 'playgroundflow')
             )
         ));
         
