@@ -121,19 +121,20 @@ class StoryMapping extends ProvidesEventsForm
                 'label' => $translator->translate('Display notication to player', 'playgroundflow'),
             ),
             'attributes' => array(
-                'checked' => true
+                //'checked' => true
             )
         ));
         
         $this->add(array(
             'name' => 'notification',
-            'type' => 'Zend\Form\Element\Text',
+            'type' => 'Zend\Form\Element\Textarea',
             'options' => array(
                 'label' => $translator->translate('Notification Message', 'playgroundflow')
             ),
             'attributes' => array(
-                'type' => 'text',
-                'placeholder' => $translator->translate('Notification Message', 'playgroundflow')
+                'cols' => '10',
+                'rows' => '10',
+                'id' => 'notification'
             )
         ));
         
@@ -144,19 +145,20 @@ class StoryMapping extends ProvidesEventsForm
                 'label' => $translator->translate('Display on activity Stream', 'playgroundflow'),
             ),
             'attributes' => array(
-                'checked' => true
+                //'checked' => true
             )
         ));
         
         $this->add(array(
             'name' => 'activityStream',
-            'type' => 'Zend\Form\Element\Text',
+            'type' => 'Zend\Form\Element\Textarea',
             'options' => array(
                 'label' => $translator->translate('Activity Stream Message', 'playgroundflow')
             ),
             'attributes' => array(
-                'type' => 'text',
-                'placeholder' => $translator->translate('Activity Stream Message', 'playgroundflow')
+                'cols' => '10',
+                'rows' => '10',
+                'id' => 'activityStream'
             )
         ));
         
