@@ -67,7 +67,10 @@ class Module
             		'playgroundflow_domain_service'       => 'PlaygroundFlow\Service\Domain',
                     'playgroundflow_broadcast_service'    => 'PlaygroundFlow\Service\Broadcast',
                     'playgroundflow_storytelling_service' => 'PlaygroundFlow\Service\StoryTelling',
-                    'playgroundflow_storytelling_listener'=> 'PlaygroundFlow\Service\StoryTellingListener'
+                    'playgroundflow_storytelling_listener'=> 'PlaygroundFlow\Service\StoryTellingListener',
+                    'playgroundflow_webtechno_service'    => 'PlaygroundFlow\Service\WebTechno',
+                    'playgroundflow_user_domain_service'  => 'PlaygroundFlow\Service\UserDomain',
+                    'playgroundflow_prospect_service'     => 'PlaygroundFlow\Service\Prospect',
             ),
 
             'factories' => array(
@@ -124,6 +127,14 @@ class Module
                 
                 	return $mapper;
                 },
+                'playgroundflow_webtechno_mapper' => function ($sm) {
+                    $mapper = new \PlaygroundFlow\Mapper\WebTechno(
+                            $sm->get('doctrine.entitymanager.orm_default'),
+                            $sm->get('playgroundflow_module_options')
+                    );
+                
+                    return $mapper;
+                },
                 'playgroundflow_storymapping_mapper' => function ($sm) {
                 	$mapper = new \PlaygroundFlow\Mapper\StoryMapping(
                 			$sm->get('doctrine.entitymanager.orm_default'),
@@ -148,6 +159,19 @@ class Module
                 
                     return $mapper;
                 },
+
+                'playgroundflow_user_domain_mapper' => function ($sm) {
+                    return new Mapper\UserDomain(
+                        $sm->get('doctrine.entitymanager.orm_default')
+                    );
+                },
+
+                'playgroundflow_prospect_mapper' => function ($sm) {
+                    return new Mapper\Prospect(
+                        $sm->get('doctrine.entitymanager.orm_default')
+                    );
+                },
+                
                 'playgroundflow_storytelling_mapper' => function ($sm) {
                     $mapper = new \PlaygroundFlow\Mapper\StoryTelling(
                         $sm->get('doctrine.entitymanager.orm_default'),
@@ -187,6 +211,14 @@ class Module
                 	$form->setInputFilter($domain->getInputFilter());
                 
                 	return $form;
+                },
+                'playgroundflow_webtechno_form' => function($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\WebTechno(null, $sm, $translator);
+                    $webtechno = new Entity\OpenGraphWebTechno();
+                    $form->setInputFilter($webtechno->getInputFilter());
+                
+                    return $form;
                 },
                 'playgroundflow_storymapping_form' => function($sm) {
                 	$translator = $sm->get('translator');

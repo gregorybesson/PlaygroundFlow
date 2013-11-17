@@ -90,6 +90,23 @@ class StoryTelling implements ServiceLocatorAwareInterface
         $this->em->flush();
     }
 
+    public function findWithStoryMappingByUser($user) 
+    {
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select(array('r'))
+        ->from('PlaygroundFlow\Entity\OpenGraphStoryTelling', 'r')
+        ->join('r.openGraphStoryMapping', 's')
+        ->join('s.story', 'st')
+        ->join('st.objects', 'o')
+        ->where('r.user = :user')
+        ->orderBy("r.id", "DESC")
+        ->setParameter('user', $user->getId());
+        
+        return $qb->getQuery()->getResult();
+
+    }
+
     public function getEntityRepository()
     {
         if (null === $this->er) {

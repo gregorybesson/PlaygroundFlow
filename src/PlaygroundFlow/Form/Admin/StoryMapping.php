@@ -52,6 +52,14 @@ class StoryMapping extends ProvidesEventsForm
        			'value' => 0,
        		),
         ));
+
+        $this->add(array(
+          'name' => 'webTechnoId',
+          'type'  => 'Zend\Form\Element\Hidden',
+          'attributes' => array(
+            'value' => 0,
+          ),
+        ));
         
         $stories = $this->getStories();
         $this->add(array(
@@ -61,6 +69,16 @@ class StoryMapping extends ProvidesEventsForm
        			'value_options' => $stories,
        			'label' => $translator->translate('Story', 'playgroundflow')
        		)
+        ));
+
+        $leaderboardTypes = $this->getLeaderboardTypes();
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'leaderboardType',
+            'options' => array(
+                'value_options' => $leaderboardTypes,
+                'label' => $translator->translate('leaderboardType', 'playgroundflow')
+            )
         ));
         
         $this->add(array(
@@ -97,13 +115,50 @@ class StoryMapping extends ProvidesEventsForm
         ));
         
         $this->add(array(
-            'name' => 'activityStreamText',
+            'type' => 'Zend\Form\Element\Checkbox',
+            'name' => 'displayNotification',
             'options' => array(
-                'label' => $translator->translate('Activity Stream Text', 'playgroundflow')
+                'label' => $translator->translate('Display notication to player', 'playgroundflow'),
             ),
             'attributes' => array(
-                'type' => 'text',
-                'placeholder' => $translator->translate('Activity Stream Text', 'playgroundflow')
+                //'checked' => true
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'notification',
+            'type' => 'Zend\Form\Element\Textarea',
+            'options' => array(
+                'label' => $translator->translate('Notification Message', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'cols' => '10',
+                'rows' => '10',
+                'id' => 'notification'
+            )
+        ));
+        
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Checkbox',
+            'name' => 'displayActivityStream',
+            'options' => array(
+                'label' => $translator->translate('Display on activity Stream', 'playgroundflow'),
+            ),
+            'attributes' => array(
+                //'checked' => true
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'activityStream',
+            'type' => 'Zend\Form\Element\Textarea',
+            'options' => array(
+                'label' => $translator->translate('Activity Stream Message', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'cols' => '10',
+                'rows' => '10',
+                'id' => 'activityStream'
             )
         ));
         
@@ -241,5 +296,23 @@ class StoryMapping extends ProvidesEventsForm
     	}
     
     	return $storiesArray;
+    }
+
+    /**
+     * retrieve all leaderboard type for associate to storyMapping
+     *
+     * @return array $leaderboardTypesArray
+     */
+    public function getLeaderboardTypes()
+    {
+        $leaderboardTypesArray = array();
+        $leaderboardTypesService = $this->getServiceManager()->get('playgroundreward_leaderboardtype_service');
+        $leaderboardTypes = $leaderboardTypesService->getLeaderboardTypeMapper()->findAll();
+    
+        foreach ($leaderboardTypes as $leaderboardType) {
+            $leaderboardTypesArray[$leaderboardType->getId()] = $leaderboardType->getName();
+        }
+
+        return $leaderboardTypesArray;
     }
 }

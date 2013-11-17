@@ -67,12 +67,27 @@ class Domain extends ProvidesEventsForm
             'type' => 'Zend\Form\Element\Textarea',
             'name' => 'description',
             'options' => array(
-                'label' => $translator->translate('description', 'playgroundflow')
+                'label' => $translator->translate('Description', 'playgroundflow')
             ),
             'attributes' => array(
                 'cols' => '10',
                 'rows' => '10',
                 'id' => 'description'
+            )
+        ));
+
+        $this->add(array(
+            'name' => 'webTechno',
+            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+            'options' => array(
+                'empty_option' => $translator->translate('Select a WebTechno', 'playgroundflow'),
+                'label' => $translator->translate('Web techno', 'playgroundflow'),
+                'object_manager' => $entityManager,
+                'target_class' => 'PlaygroundFlow\Entity\OpenGraphWebTechno',
+                'property' => 'label'
+            ),
+            'attributes' => array(
+                'required' => false,
             )
         ));
 

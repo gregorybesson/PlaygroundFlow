@@ -215,6 +215,15 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     public function editObject(array $data, $objectMapping)
     {
         $form  = $this->getServiceManager()->get('playgroundflow_objectmapping_form');
+        
+        // When the last attribute is removed, we have to do this trick...
+        // https://github.com/zendframework/zf2/issues/2761
+        if(!isset($data['attributes'])){
+            $form->remove('attributes');
+            $objectMapping->clearAttributes();
+            $objectMapping = $this->getObjectMappingMapper()->update($objectMapping);
+        }
+        
         $form->bind($objectMapping);
         $form->setData($data);
     
@@ -244,6 +253,30 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     	$this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('attributeMapping' => $attributeMapping, 'data' => $data));
     	 
     	return $attributeMapping;
+    }
+
+    /**
+    * getDomain : get domain 
+    * @param Controller $controller
+    *
+    * return Domain $domain
+    */
+    public function getDomain($controller)
+    {
+        $origin = parse_url($controller->getRequest()->getHeader('Referer'));
+        $uri = $controller->getRequest()->getUri();
+        $domainId = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
+
+        if (isset($origin['query'])) {
+            parse_str($origin['query'], $query);
+            $domainId = $query['xdm_e'];
+        }
+
+        $domain = $this->getDomainMapper()->findOneBy(array(
+            'domain' => $domainId
+        ));
+
+        return $domain;
     }
 
     /**

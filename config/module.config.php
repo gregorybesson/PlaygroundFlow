@@ -18,61 +18,43 @@ return array(
     
     'assetic_configuration' => array(
         'modules' => array(
-            'frontend_flow' => array(
-                # module root path for your css and js files
+            'lib_flow' => array(
                 'root_path' => array(
-                    __DIR__ . '/../view/frontend/assets',
+                    __DIR__ . '/../view/lib',
                 ),
-                # collection of assets
                 'collections' => array(
-                    'frontend_pg' => array(
+                    'frontend_mouth_css' => array(
                         'assets' => array(
-                        /*
-                            'js/lib/playground/config.js',
-                            'js/lib/playground/namespace.js',
-                            'js/lib/playground/cache.js',
-                            'js/lib/playground/util.js',
-                            'js/lib/playground/init.js',
-                        */
-                            'js/lib/playground/lib/json2.js',
-                            'js/lib/playground/lib/wgxpath.install.js',
-                            'js/lib/playground/pg.min.js',
+                            'mouth.css'              => 'css/mouth.css',
                         ),
                         'filters' => array(),
                         'options' => array(
-                            //'move_raw' => true,
-                            //'output' => 'frontend/js/lib/playground/pg.min.js',
+                            'output' => 'lib/css/mouth'
+                        ),
+                    ),
+                    'frontend_pg' => array(
+                        'assets' => array(
+                            'json2'             => 'js/playground/json2.js',
+                            'wgxpath.install'   => 'js/playground/wgxpath.install.js',
+                            'pg'                => 'js/playground/pg.min.js',
+                            'pg.connect'        => 'js/playground/pg.connect.js',
+                            'ears.min'          => 'js/playground/ears.min.js',
+                        ),
+                        'filters' => array(),
+                        'options' => array(
                             'move_raw' => true,
-                            'output' => 'frontend',
+                            'output' => 'lib',
                         )
                     ),
-                    'head_frontendplayground_js' => array(
-			            'assets' => array(
-			            /*
-			                'js/lib/easyxdm/easyxdm.min.js',
-			                'js/lib/playground/pattern.js',
-			                'js/lib/playground/user.js',
-			                'js/lib/playground/app.js',
-                         */
-                            'js/lib/playground/ears.min.js',
-			            ),
-			            'filters' => array(),
-			            'options' => array(
-                            //'move_raw' => true,
-                            //'output' => 'frontend/js/lib/playground/ears.min.js'
-                            'move_raw' => true,
-                            'output' => 'frontend',
-			            ),
-			        ),
                     'frontend_easyxdm' => array(
                         'assets' => array(
-                            'js/lib/easyxdm/easyxdm.min.js',
-                            'js/lib/easyxdm/easyxdm.swf',
-                            'js/lib/easyxdm/json2.js',
+                            'easyxdm.min' => 'js/easyxdm/easyxdm.min.js',
+                            'easyxdm'     => 'js/easyxdm/easyxdm.swf',
+                            'json2'       => 'js/easyxdm/json2.js',
                         ),
                         'options' => array(
                             'move_raw' => true,
-                            'output' => 'frontend',
+                            'output' => 'lib',
                         )
                     ),
                 ),
@@ -80,11 +62,9 @@ return array(
         ),
     
         'routes' => array(
-        /*
             'frontend.*' => array(
-                '@frontend_pg',
+                '@frontend_mouth_css' => '@frontend_mouth_css',
             ),
-         */
         ),
     ),
 
@@ -102,16 +82,15 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'playgroundflowadmin'        => 'PlaygroundFlow\Controller\AdminController',
-        	'playgroundflowadminaction'  => 'PlaygroundFlow\Controller\Admin\ActionController',
-        	'playgroundflowadminobject'  => 'PlaygroundFlow\Controller\Admin\ObjectController',
-        	'playgroundflowadminstory'   => 'PlaygroundFlow\Controller\Admin\StoryController',
-        	'playgroundflowadmindomain'  => 'PlaygroundFlow\Controller\Admin\DomainController',
-            'playgroundflow'             => 'PlaygroundFlow\Controller\IndexController',
-            'playgroundflowrest'         => 'PlaygroundFlow\Controller\RestController',
-            'playgroundflowrestauthent'  => 'PlaygroundFlow\Controller\RestAuthentController',
-            'playgroundflowrestsend'     => 'PlaygroundFlow\Controller\RestSendController',
-            'playgroundfloweasyxdm'      => 'PlaygroundFlow\Controller\Frontend\EasyXDMController',
+        	'playgroundflowadminaction'     => 'PlaygroundFlow\Controller\Admin\ActionController',
+        	'playgroundflowadminobject'     => 'PlaygroundFlow\Controller\Admin\ObjectController',
+        	'playgroundflowadminstory'      => 'PlaygroundFlow\Controller\Admin\StoryController',
+        	'playgroundflowadmindomain'     => 'PlaygroundFlow\Controller\Admin\DomainController',
+            'playgroundflowadminwebtechno'  => 'PlaygroundFlow\Controller\Admin\WebTechnoController',
+            'playgroundflow'                => 'PlaygroundFlow\Controller\IndexController',
+            'playgroundflowrestauthent'     => 'PlaygroundFlow\Controller\RestAuthentController',
+            'playgroundflowrestsend'        => 'PlaygroundFlow\Controller\RestSendController',
+            'playgroundfloweasyxdm'         => 'PlaygroundFlow\Controller\Frontend\EasyXDMController',
         ),
     ),
 
@@ -119,9 +98,6 @@ return array(
         'PlaygroundFlow' => array(
             'default_layout' => 'layout/1column',
         	'controllers' => array(
-       			'playgroundflowadmin' => array(
-      				'default_layout' => 'layout/admin',
-     			),
        			'playgroundflowadminaction' => array(
        				'default_layout' => 'layout/admin',
        			),
@@ -134,6 +110,9 @@ return array(
       			'playgroundflowadminobject' => array(
       				'default_layout' => 'layout/admin',
        			),
+                'playgroundflowadminwebtechno' => array(
+                    'default_layout' => 'layout/admin',
+                ),
         	),
         ),
     ),
@@ -347,6 +326,233 @@ return array(
                    					),
                					),
                     		),
+                            'webtechno' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/webtechno',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundflowadminwebtechno',
+                                        'action'     => 'list',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' =>array(
+                                    'pagination' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/:p',
+                                            'defaults' => array(
+                                                'controller' => 'playgroundflowadminwebtechno',
+                                                'action'     => 'list',
+                                            ),
+                                        ),
+                                    ),
+                                    'create' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/create/:webTechnoId',
+                                            'defaults' => array(
+                                                'controller' => 'playgroundflowadminwebtechno',
+                                                'action'     => 'create',
+                                                'webTechnoId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'edit' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/edit/:webTechnoId',
+                                            'defaults' => array(
+                                                'controller' => 'playgroundflowadminwebtechno',
+                                                'action'     => 'edit',
+                                                'webTechnoId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'remove' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/remove/:webTechnoId',
+                                            'defaults' => array(
+                                                'controller' => 'playgroundflowadminwebtechno',
+                                                'action'     => 'remove',
+                                                'webTechnoId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'story' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/:webTechnoId/story',
+                                            'defaults' => array(
+                                                'controller' => 'playgroundflowadminwebtechno',
+                                                'action'     => 'listStory',
+                                                'webTechnoId'     => 0
+                                            ),
+                                        ),
+                                        'may_terminate' => true,
+                                        'child_routes' =>array(
+                                            'pagination' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/:p',
+                                                    'defaults' => array(
+                                                        'controller' => 'playgroundflowadminwebtechno',
+                                                        'action'     => 'listStory',
+                                                    ),
+                                                ),
+                                            ),
+                                            'create' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/create/:mappingId',
+                                                    'defaults' => array(
+                                                        'controller' => 'playgroundflowadminwebtechno',
+                                                        'action'     => 'createStory',
+                                                        'mappingId'     => 0
+                                                    ),
+                                                ),
+                                            ),
+                                            'edit' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/edit/:mappingId',
+                                                    'defaults' => array(
+                                                        'controller' => 'playgroundflowadminwebtechno',
+                                                        'action'     => 'editStory',
+                                                        'mappingId'     => 0
+                                                    ),
+                                                ),
+                                            ),
+                                            'remove' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/remove/:mappingId',
+                                                    'defaults' => array(
+                                                        'controller' => 'playgroundflowadminwebtechno',
+                                                        'action'     => 'removeStory',
+                                                        'mappingId'     => 0
+                                                    ),
+                                                ),
+                                            ),
+                                            'attribute' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/:mappingId/attribute',
+                                                    'defaults' => array(
+                                                        'controller' => 'playgroundflowadminwebtechno',
+                                                        'action' => 'listAttribute',
+                                                        'mappingId' => 0
+                                                    )
+                                                ),
+                                                'may_terminate' => true,
+                                                'child_routes' => array(
+                                                    'pagination' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/:p',
+                                                            'defaults' => array(
+                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'action' => 'listAttribute'
+                                                            )
+                                                        )
+                                                    ),
+                                                    'create' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/create/:attributeId',
+                                                            'defaults' => array(
+                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'action' => 'createAttribute',
+                                                                'attributeId' => 0
+                                                            )
+                                                        )
+                                                    ),
+                                                    'edit' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/edit/:attributeId',
+                                                            'defaults' => array(
+                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'action' => 'editAttribute',
+                                                                'attributeId' => 0
+                                                            )
+                                                        )
+                                                    ),
+                                                    'remove' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/remove/:attributeId',
+                                                            'defaults' => array(
+                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'action' => 'removeAttribute',
+                                                                'attributeId' => 0
+                                                            )
+                                                        )
+                                                    ),
+                                                ),
+                                            ),
+                                            'object' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/:mappingId/object',
+                                                    'defaults' => array(
+                                                        'controller' => 'playgroundflowadminwebtechno',
+                                                        'action' => 'listObject',
+                                                        'mappingId' => 0
+                                                    )
+                                                ),
+                                                'may_terminate' => true,
+                                                'child_routes' => array(
+                                                    'pagination' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/:p',
+                                                            'defaults' => array(
+                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'action' => 'listObject'
+                                                            )
+                                                        )
+                                                    ),
+                                                    'create' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/create/:objectId',
+                                                            'defaults' => array(
+                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'action' => 'createObject',
+                                                                'attributeId' => 0
+                                                            )
+                                                        )
+                                                    ),
+                                                    'edit' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/edit/:objectId',
+                                                            'defaults' => array(
+                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'action' => 'editObject',
+                                                                'attributeId' => 0
+                                                            )
+                                                        )
+                                                    ),
+                                                    'remove' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/remove/:objectId',
+                                                            'defaults' => array(
+                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'action' => 'removeObject',
+                                                                'attributeId' => 0
+                                                            )
+                                                        )
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
                     		'domain' => array(
                     			'type' => 'Segment',
                     			'options' => array(
@@ -707,7 +913,7 @@ return array(
             ),
     ),
 
-    /*'navigation' => array(
+    'navigation' => array(
     	'admin' => array(
     		'playgroundflow'     => array(
     			'label'     => 'Open Graph',
@@ -716,43 +922,43 @@ return array(
     			'privilege' => 'list',
     			'pages' => array(
     				'list' => array(
-    					'label'     => 'Liste des stories',
+    					'label'     => 'Stories list',
     					'route'     => 'admin/playgroundflow/story',
     					'resource'  => 'flow',
     					'privilege' => 'list',
     				),
     					'create' => array(
-    							'label'     => 'Creer une story',
+    							'label'     => 'Create story',
     							'route'     => 'admin/playgroundflow/story/create',
     							'resource'  => 'flow',
     							'privilege' => 'list',
     					),
     					'listactions' => array(
-    						'label'     => 'Liste des actions',
+    						'label'     => 'Actions list',
     						'route'     => 'admin/playgroundflow/action',
     						'resource'  => 'flow',
     						'privilege' => 'list',
     					),
     					'listobjects' => array(
-    						'label'     => 'Liste des objets',
+    						'label'     => 'Objects list',
     						'route'     => 'admin/playgroundflow/object',
     						'resource'  => 'flow',
    							'privilege' => 'list',
     					),
     					'listapps' => array(
-    							'label'     => 'Liste des domaines',
+    							'label'     => 'Domains list',
     							'route'     => 'admin/playgroundflow/domain',
     							'resource'  => 'flow',
     							'privilege' => 'list',
     					),
-    					'listdomains' => array(
-    							'label'     => 'Liste des apps',
-    							'route'     => 'admin/playgroundflow/list',
-    							'resource'  => 'flow',
-    							'privilege' => 'list',
-    					),
+                        'listwebtechnos' => array(
+                                'label'     => 'WebTechnos list',
+                                'route'     => 'admin/playgroundflow/webtechno',
+                                'resource'  => 'flow',
+                                'privilege' => 'list',
+                        ),
     			),
     		),
     	),
-    ),*/
+    ),
 );

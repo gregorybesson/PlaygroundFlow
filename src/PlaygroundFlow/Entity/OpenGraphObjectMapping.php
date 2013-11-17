@@ -158,6 +158,14 @@ class OpenGraphObjectMapping
 	    }
 	}
 
+	public function clearAttributes()
+	{
+	    foreach ($this->getAttributes() as $attribute) {
+	        $attribute->setObjectMapping(null);
+	        $this->attributes->removeElement($attribute);
+	    }
+	}
+
 	/**
 	 * @return the $xpath
 	 */

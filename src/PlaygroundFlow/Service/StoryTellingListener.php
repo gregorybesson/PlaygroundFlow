@@ -27,6 +27,8 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
     
     protected $serviceManager;
 
+    protected $leaderboardService;
+
     /**
      * {@inheritDoc}
      */
@@ -48,7 +50,6 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             'domain' => $domain
         ));
 
-        /*
         foreach($storymappings as $storyMapping){
             if($storyMapping->getEventBeforeUrl()){
                 $this->listeners[] = $events->getSharedManager()->attach(array(
@@ -68,120 +69,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
                 ), 100);
             }
             
-        } */
-        
-        /*
-        
-        // PLAY A GAME
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), 'play.post', array(
-            $this,
-            'tellStoryAfter'
-        ), 200);
-        
-        // GOOD ANSWERS ON A QUIZ
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), 'createQuizReply.post', array(
-            $this,
-            'tellStoryAfter'
-        ), 200);
-        
-        // SHARE BY MAIL
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), 'sendShareMail.post', array(
-            $this,
-            'tellStoryAfter'
-        ), 200);
-        
-        // SHARE ON FB WALL
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), 'postFbWall.post', array(
-            $this,
-            'tellStoryAfter'
-        ), 200);
-        
-        // SHARE ON TWITTER
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), 'postTwitter.post', array(
-            $this,
-            'tellStoryAfter'
-        ), 200);
-        
-        // SHARE ON GOOGLE
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), 'postGoogle.post', array(
-            $this,
-            'tellStoryAfter'
-        ), 200);
-        
-        // REGISTER
-        $this->listeners[] = $events->getSharedManager()->attach('PlaygroundUser\Service\User', 'register.post', array(
-            $this,
-            'tellStoryAfter'
-        ), 200);
-        
-        // REGISTRATION SPONSORING
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), 'sponsor.post', array(
-            $this,
-            'tellStoryAfter'
-        ), 200);
-        
-        // OPTIN
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), 'updateNewsletter.pre', array(
-            $this,
-            'tellStoryBefore'
-        ), 200);
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), 'updateNewsletter.post', array(
-            $this,
-            'tellStoryAfter'
-        ), 200);
-        
-        // OPTINPARTNER
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), 'updateNewsletterPartner.pre', array(
-            $this,
-            'tellStoryBefore'
-        ), 201);
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), 'updateNewsletterPartner.post', array(
-            $this,
-            'tellStoryAfter'
-        ), 201);
-        
-        // UPDATE ACCOUNT INFO
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), array(
-            'updateInfo.pre'
-        ), array(
-            $this,
-            'tellStoryBefore'
-        ), 200);
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-            '*'
-        ), array(
-            'updateInfo.post'
-        ), array(
-            $this,
-            'tellStoryAfter'
-        ), 200);
-        
-        */
-        
+        }        
     }
 
     /**
@@ -358,10 +246,11 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
      */
     public function tellStoryAfter(\Zend\EventManager\Event $e)
     {
-        $user = $e->getParam('user');
-        $secretKey = $e->getParam('secretKey');
-        $sm = $e->getTarget()->getServiceManager();
+        $user       = $e->getParam('user');
+        $prospect   = $e->getParam('prospect');
+        $secretKey  = $e->getParam('secretKey');
         
+        $sm         = $e->getTarget()->getServiceManager();
         
         $app = $sm->get('Application');
         $uri = $app->getRequest()->getUri();
@@ -377,12 +266,9 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             $sponsorStory = $storyTellingService->getStoryTellingMapper()->findOneBySecretKey($secretKey);
             if ($sponsorStory) {
                 $user = $sponsorStory->getUser();
+                $prospect = null;
             }
-        }  
-        
-        //$stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
-        //    'eventAfterUrl' => $e->getName()
-        //));
+        }
         
         $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
             'domain' => $domain,
@@ -413,13 +299,32 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
             $storyTelling->setOpenGraphStoryMapping($storyMapping);
             $storyTelling->setUser($user);
+            $storyTelling->setProspect($prospect);
             $storyTelling->setObject(json_encode($objectArray));
             $storyTelling->setPoints($storyMapping->getPoints());
             $storyTelling->setSecretKey($secretKey);
             $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
+
+            $storyTellingService->tellStory($storyTelling);
+            $this->getLeaderboardService()->addPoints($storyMapping, $user);
     
             $e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId() , $this, array('storyTelling' => $storyTelling));
         }
+    }
+
+     /**
+     * Retrieve service Leaderboard
+     *
+     * @return Service/Leaderboard leaderboardService
+     */
+    public function getLeaderboardService()
+    {
+
+        if (! $this->leaderboardService) {
+            $this->leaderboardService = $this->getServiceManager()->get('playgroundreward_leaderboard_service');
+        }
+    
+        return $this->leaderboardService;
     }
     
     /**

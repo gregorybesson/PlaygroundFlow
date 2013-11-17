@@ -10,6 +10,8 @@ return array(
     	'ZfcBase',
    		'PlaygroundCore',
         'PlaygroundDesign',
+        'PlaygroundUser',
+        'PlaygroundReward',
     	'PlaygroundFlow',
     ),
     'module_listener_options' => array(

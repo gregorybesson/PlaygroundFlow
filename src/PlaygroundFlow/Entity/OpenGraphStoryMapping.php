@@ -36,6 +36,16 @@ class OpenGraphStoryMapping
      * @ORM\ManyToOne(targetEntity="OpenGraphDomain")
      **/
     protected $domain;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PlaygroundReward\Entity\LeaderboardType")
+     **/
+    protected $leaderboardType;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="OpenGraphWebTechno")
+     **/
+    protected $webTechno;
     
     /**
      * Points associated to this story
@@ -59,9 +69,24 @@ class OpenGraphStoryMapping
     protected $countLimit = 0;
     
     /**
-     * @ORM\Column(name="activity_stream_text", type="text", nullable=true)
+     * @ORM\Column(name="display_notification", type="boolean", nullable=true)
      */
-    protected $activityStreamText;
+    protected $displayNotification = 1;
+    
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $notification;
+    
+    /**
+     * @ORM\Column(name="display_activity_stream", type="boolean", nullable=true)
+     */
+    protected $displayActivityStream = 1;
+    
+    /**
+     * @ORM\Column(name="activity_stream", type="text", nullable=true)
+     */
+    protected $activityStream;
     
     /**
      * @ORM\OneToMany(targetEntity="OpenGraphObjectMapping", mappedBy="storyMapping")
@@ -158,6 +183,20 @@ class OpenGraphStoryMapping
 		$this->story = $story;
 	}
 
+    /**
+     * @return the $leaderboardType
+     */
+    public function getLeaderboardType() {
+        return $this->leaderboardType;
+    }
+
+    /**
+     * @param leaderboardType $leaderboardType
+     */
+    public function setLeaderboardType($leaderboardType) {
+        $this->leaderboardType = $leaderboardType;
+    }
+
 	/**
 	 * @return the $domain
 	 */
@@ -172,6 +211,21 @@ class OpenGraphStoryMapping
 		$domain->addStoryMapping($this);
 		$this->domain = $domain;
 	}
+
+    /**
+     * @return the $webTechno
+     */
+    public function getWebTechno() {
+        return $this->webTechno;
+    }
+
+    /**
+     * @param field_type $webTechno
+     */
+    public function setWebTechno($webTechno) {
+        $webTechno->addStoryMapping($this);
+        $this->webTechno = $webTechno;
+    }
 
 	/**
      * @return the $points
@@ -222,19 +276,67 @@ class OpenGraphStoryMapping
     }
 
 	/**
-     * @return the $activityStreamText
+     * @return the $displayNotification
      */
-    public function getActivityStreamText()
+    public function getDisplayNotification()
     {
-        return $this->activityStreamText;
+        return $this->displayNotification;
     }
 
 	/**
-     * @param field_type $activityStreamText
+     * @param number $displayNotification
      */
-    public function setActivityStreamText($activityStreamText)
+    public function setDisplayNotification($displayNotification)
     {
-        $this->activityStreamText = $activityStreamText;
+        $this->displayNotification = $displayNotification;
+    }
+
+	/**
+     * @return the $displayActivityStream
+     */
+    public function getDisplayActivityStream()
+    {
+        return $this->displayActivityStream;
+    }
+
+	/**
+     * @param number $displayActivityStream
+     */
+    public function setDisplayActivityStream($displayActivityStream)
+    {
+        $this->displayActivityStream = $displayActivityStream;
+    }
+
+	/**
+     * @return the $notification
+     */
+    public function getNotification()
+    {
+        return $this->notification;
+    }
+
+	/**
+     * @param number $notification
+     */
+    public function setNotification($notification)
+    {
+        $this->notification = $notification;
+    }
+
+	/**
+     * @return the $activityStream
+     */
+    public function getActivityStream()
+    {
+        return $this->activityStream;
+    }
+
+	/**
+     * @param number $activityStream
+     */
+    public function setActivityStream($activityStream)
+    {
+        $this->activityStream = $activityStream;
     }
 
 	/**

@@ -47,6 +47,11 @@ class StoryMapping implements ServiceLocatorAwareInterface
     	return $this->getEntityRepository()->findBy(array('domain' => $domain));
     }
 
+    public function findByWebTechnoId($webTechno)
+    {
+        return $this->getEntityRepository()->findBy(array('webTechno' => $webTechno));
+    }
+
     public function findBy($array)
     {
         return $this->getEntityRepository()->findBy($array);
