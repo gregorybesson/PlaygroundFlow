@@ -28,8 +28,8 @@ class Prospect implements ServiceManagerAwareInterface
         } else {
             // Pas de prospect : alors on en crée un 
             $prospectEntity = new ProspectEntity();
-            $prospectEntity->setDomain($domain);
-            $prospectEntity->setProspect($prospect);
+            $prospectEntity->setDomain($domain)
+                ->setProspect($prospect);
             $prospectEntity = $this->getProspectMapper()->insert($prospectEntity);
         }
         return $prospectEntity;

@@ -112,6 +112,8 @@ class OpenGraphStoryTelling
     public function setUser($user)
     {
         $this->user = $user;
+        
+        return $this;
     }
 
 
@@ -129,6 +131,8 @@ class OpenGraphStoryTelling
     public function setProspect($prospect)
     {
         $this->prospect = $prospect;
+        
+        return $this;
     }
 
     /**
@@ -145,6 +149,8 @@ class OpenGraphStoryTelling
     public function setOpenGraphStoryMapping($openGraphStoryMapping)
     {
         $this->openGraphStoryMapping = $openGraphStoryMapping;
+        
+        return $this;
     }
     
     /**
@@ -161,6 +167,8 @@ class OpenGraphStoryTelling
     public function setObject($object)
     {
         $this->object = $object;
+        
+        return $this;
     }
 
     /**
@@ -177,6 +185,8 @@ class OpenGraphStoryTelling
     public function setSecretKey($secretKey)
     {
         $this->secretKey = $secretKey;
+        
+        return $this;
     }
 
     /**
@@ -193,6 +203,8 @@ class OpenGraphStoryTelling
     public function setPoints($points)
     {
         $this->points = $points;
+        
+        return $this;
     }
 
 	/**
@@ -211,6 +223,8 @@ class OpenGraphStoryTelling
     public function setCreatedAt ($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -229,6 +243,8 @@ class OpenGraphStoryTelling
     public function setUpdatedAt ($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**

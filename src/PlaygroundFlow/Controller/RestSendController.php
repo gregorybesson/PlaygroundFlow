@@ -97,9 +97,9 @@ class RestSendController extends AbstractRestfulController
 
         $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
         
-        $storyTelling->setObject(json_encode($data['objects']));
-        $storyTelling->setPoints($storyMapping->getPoints());
-        $storyTelling->setSecretKey(null);
+        $storyTelling->setObject(json_encode($data['objects']))
+            ->setPoints($storyMapping->getPoints())
+            ->setSecretKey(null);
 
         if (!empty($data['user']['email'])) {
             // J'ai un user qui est identifié : user playground

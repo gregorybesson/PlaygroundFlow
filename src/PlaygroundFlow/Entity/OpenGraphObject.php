@@ -102,12 +102,15 @@ class OpenGraphObject
     public function setId ($id)
     {
         $this->id = $id;
+        
+        return $this;
     }
     
     /**
 	 * @return the $children
 	 */
 	public function getChildren() {
+	    
 		return $this->children;
 	}
 
@@ -115,13 +118,17 @@ class OpenGraphObject
 	 * @param \Doctrine\Common\Collections\ArrayCollection $children
 	 */
 	public function setChildren($children) {
+	    
 		$this->children = $children;
+		
+		return $this;
 	}
 
 	/**
 	 * @return the $parent
 	 */
 	public function getParent() {
+	    
 		return $this->parent;
 	}
 
@@ -129,7 +136,10 @@ class OpenGraphObject
 	 * @param array $parent
 	 */
 	public function setParent($parent) {
+	    
 		$this->parent = $parent;
+		
+		return $this;
 	}
 
 	/**
@@ -148,6 +158,8 @@ class OpenGraphObject
     public function setCode ($code)
     {
         $this->code = $code;
+        
+        return $this;
     }
 
     /**
@@ -164,6 +176,8 @@ class OpenGraphObject
     public function setLabel($label)
     {
         $this->label = $label;
+        
+        return $this;
     }
 
     /**
@@ -180,6 +194,8 @@ class OpenGraphObject
     public function setDefinition($definition)
     {
         $this->definition = $definition;
+        
+        return $this;
     }
 
     public function addAttribute($attribute)
@@ -191,6 +207,7 @@ class OpenGraphObject
 	 * @return the $attributes
 	 */
 	public function getAttributes() {
+	    
 		return $this->attributes;
 	}
 
@@ -198,7 +215,10 @@ class OpenGraphObject
 	 * @param field_type $attributes
 	 */
 	public function setAttributes($attributes) {
+	    
 		$this->attributes = $attributes;
+		
+		return $this;
 	}
 
 	/**
@@ -215,6 +235,8 @@ class OpenGraphObject
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -231,6 +253,8 @@ class OpenGraphObject
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**

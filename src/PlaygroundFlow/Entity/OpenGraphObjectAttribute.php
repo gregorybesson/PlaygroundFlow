@@ -107,12 +107,15 @@ class OpenGraphObjectAttribute
     public function setId ($id)
     {
         $this->id = $id;
+        
+        return $this;
     }
     
     /**
 	 * @return the $object
 	 */
 	public function getObject() {
+	    
 		return $this->object;
 	}
 
@@ -120,8 +123,11 @@ class OpenGraphObjectAttribute
 	 * @param field_type $object
 	 */
 	public function setObject($object) {
+	    
 		$object->addAttribute($this);
 		$this->object = $object;
+		
+		return $this;
 	}
 
 	/**
@@ -140,6 +146,8 @@ class OpenGraphObjectAttribute
     public function setCode ($code)
     {
         $this->code = $code;
+        
+        return $this;
     }
 
     /**
@@ -156,6 +164,8 @@ class OpenGraphObjectAttribute
     public function setLabel($label)
     {
         $this->label = $label;
+        
+        return $this;
     }
 
     /**
@@ -172,12 +182,15 @@ class OpenGraphObjectAttribute
     public function setDefinition($definition)
     {
         $this->definition = $definition;
+        
+        return $this;
     }
 
     /**
 	 * @return the $type
 	 */
 	public function getType() {
+	    
 		return $this->type;
 	}
 
@@ -185,7 +198,10 @@ class OpenGraphObjectAttribute
 	 * @param field_type $type
 	 */
 	public function setType($type) {
+	    
 		$this->type = $type;
+		
+		return $this;
 	}
 
 	/**
@@ -202,6 +218,8 @@ class OpenGraphObjectAttribute
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -218,6 +236,8 @@ class OpenGraphObjectAttribute
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**

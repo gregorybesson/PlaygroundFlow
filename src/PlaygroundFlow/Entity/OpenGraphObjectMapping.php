@@ -91,12 +91,15 @@ class OpenGraphObjectMapping
     public function setId ($id)
     {
         $this->id = $id;
+        
+        return $this;
     }
 
     /**
 	 * @return the $storyMapping
 	 */
 	public function getStoryMapping() {
+	    
 		return $this->storyMapping;
 	}
 
@@ -104,14 +107,18 @@ class OpenGraphObjectMapping
 	 * @param field_type $storyMapping
 	 */
 	public function setStoryMapping($storyMapping) {
+	    
 		$storyMapping->addObject($this);
 		$this->storyMapping = $storyMapping;
+		
+		return $this;
 	}
 
 	/**
 	 * @return the $object
 	 */
 	public function getObject() {
+	    
 		return $this->object;
 	}
 
@@ -119,7 +126,10 @@ class OpenGraphObjectMapping
 	 * @param field_type $object
 	 */
 	public function setObject($object) {
+	    
 		$this->object = $object;
+		
+		return $this;
 	}
 	
 
@@ -132,6 +142,7 @@ class OpenGraphObjectMapping
 	 * @return the $attributes
 	 */
 	public function getAttributes() {
+	    
 	    return $this->attributes;
 	}
 	
@@ -139,7 +150,10 @@ class OpenGraphObjectMapping
 	 * @param field_type $attributes
 	 */
 	public function setAttributes($attributes) {
+	    
 	    $this->attributes = $attributes;
+	    
+	    return $this;
 	}
 	
 	public function addAttributes(\Doctrine\Common\Collections\ArrayCollection $attributes)
@@ -170,6 +184,7 @@ class OpenGraphObjectMapping
 	 * @return the $xpath
 	 */
 	public function getXpath() {
+	    
 		return $this->xpath;
 	}
 
@@ -177,7 +192,10 @@ class OpenGraphObjectMapping
 	 * @param field_type $xpath
 	 */
 	public function setXpath($xpath) {
+	    
 		$this->xpath = $xpath;
+		
+		return $this;
 	}
 
 	/**
@@ -194,6 +212,8 @@ class OpenGraphObjectMapping
     public function setCreatedAt($created_at)
     {
         $this->created_at = $created_at;
+        
+        return $this;
     }
 
     /**
@@ -210,6 +230,8 @@ class OpenGraphObjectMapping
     public function setUpdatedAt($updated_at)
     {
         $this->updated_at = $updated_at;
+        
+        return $this;
     }
 
     /**

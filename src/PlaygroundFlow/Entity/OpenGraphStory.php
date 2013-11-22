@@ -100,6 +100,8 @@ class OpenGraphStory
     public function setId ($id)
     {
         $this->id = $id;
+        
+        return $this;
     }
     
     /**
@@ -118,6 +120,8 @@ class OpenGraphStory
     public function setCode ($code)
     {
         $this->code = $code;
+        
+        return $this;
     }
 
     /**
@@ -134,6 +138,8 @@ class OpenGraphStory
     public function setLabel($label)
     {
         $this->label = $label;
+        
+        return $this;
     }
 
     /**
@@ -150,12 +156,15 @@ class OpenGraphStory
     public function setDefinition($definition)
     {
         $this->definition = $definition;
+        
+        return $this;
     }
 
     /**
 	 * @return the $action
 	 */
 	public function getAction() {
+	    
 		return $this->action;
 	}
 
@@ -163,7 +172,10 @@ class OpenGraphStory
 	 * @param field_type $action
 	 */
 	public function setAction($action) {
+	    
 		$this->action = $action;
+		
+		return $this;
 	}
 
 	/**
@@ -180,6 +192,8 @@ class OpenGraphStory
     public function setObjects($objects)
     {
         $this->objects = $objects;
+        
+        return $this;
     }
     
     /**
@@ -224,6 +238,8 @@ class OpenGraphStory
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -240,6 +256,8 @@ class OpenGraphStory
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**

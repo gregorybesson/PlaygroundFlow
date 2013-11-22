@@ -85,12 +85,15 @@ class OpenGraphObjectAttributeMapping
     public function setId ($id)
     {
         $this->id = $id;
+        
+        return $this;
     }
 
 	/**
 	 * @return the $objectMapping
 	 */
 	public function getObjectMapping() {
+	    
 		return $this->objectMapping;
 	}
 
@@ -98,13 +101,17 @@ class OpenGraphObjectAttributeMapping
 	 * @param field_type $objectMapping
 	 */
 	public function setObjectMapping($objectMapping) {
+	    
 		$this->objectMapping = $objectMapping;
+		
+		return $this;
 	}
 
 	/**
 	 * @return the $attribute
 	 */
 	public function getAttribute() {
+	    
 		return $this->attribute;
 	}
 
@@ -112,13 +119,17 @@ class OpenGraphObjectAttributeMapping
 	 * @param field_type $attribute
 	 */
 	public function setAttribute($attribute) {
+	    
 		$this->attribute = $attribute;
+		
+		return $this;
 	}
 
 	/**
 	 * @return the $xpath
 	 */
 	public function getXpath() {
+	    
 		return $this->xpath;
 	}
 
@@ -126,7 +137,10 @@ class OpenGraphObjectAttributeMapping
 	 * @param field_type $xpath
 	 */
 	public function setXpath($xpath) {
+	    
 		$this->xpath = $xpath;
+		
+		return $this;
 	}
 
 	/**
@@ -143,6 +157,8 @@ class OpenGraphObjectAttributeMapping
     public function setCreatedAt($created_at)
     {
         $this->created_at = $created_at;
+        
+        return $this;
     }
 
     /**
@@ -159,6 +175,8 @@ class OpenGraphObjectAttributeMapping
     public function setUpdatedAt($updated_at)
     {
         $this->updated_at = $updated_at;
+        
+        return $this;
     }
 
     /**
