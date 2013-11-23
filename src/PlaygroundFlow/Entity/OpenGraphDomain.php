@@ -101,12 +101,15 @@ class OpenGraphDomain
     public function setId ($id)
     {
         $this->id = $id;
+        
+        return $this;
     }
     
     /**
 	 * @return the $title
 	 */
 	public function getTitle() {
+	    
 		return $this->title;
 	}
 
@@ -114,13 +117,17 @@ class OpenGraphDomain
 	 * @param field_type $title
 	 */
 	public function setTitle($title) {
+	    
 		$this->title = $title;
+		
+		return $this;
 	}
 
 	/**
 	 * @return the $apps
 	 */
 	public function getApps() {
+	    
 		return $this->apps;
 	}
 
@@ -128,7 +135,10 @@ class OpenGraphDomain
 	 * @param field_type $apps
 	 */
 	public function setApps($apps) {
+	    
 		$this->apps = $apps;
+		
+		return $this;
 	}
 	
 	public function addApp($app)
@@ -152,6 +162,8 @@ class OpenGraphDomain
     public function setDomain ($domain)
     {
         $this->domain = $domain;
+        
+        return $this;
     }
 
     /**
@@ -168,12 +180,16 @@ class OpenGraphDomain
     public function setDescription($description)
     {
         $this->description = $description;
+        
+        return $this;
     }
+    
 
     /**
      * @return the $storyMapping
      */
     public function addStoryMapping($storyMapping) {
+        
     	$this->storyMappings[] = $storyMapping;
     }
     
@@ -181,6 +197,7 @@ class OpenGraphDomain
 	 * @return the $storyMappings
 	 */
 	public function getStoryMappings() {
+	    
 		return $this->storyMappings;
 	}
 
@@ -188,7 +205,10 @@ class OpenGraphDomain
 	 * @param field_type $storyMappings
 	 */
 	public function setStoryMappings($storyMappings) {
+	    
 		$this->storyMappings = $storyMappings;
+		
+		return $this;
 	}
 
     /**
@@ -223,6 +243,8 @@ class OpenGraphDomain
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -239,6 +261,8 @@ class OpenGraphDomain
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**

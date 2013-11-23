@@ -30,14 +30,14 @@ class ProspectTest extends \PHPUnit_Framework_TestCase
         $prospectService = $this->sm->get('playgroundflow_prospect_service');
 
         $domain = new OpenGraphDomain();
-        $domain->setId('1');
-        $domain->setTitle('Demo test');
-        $domain->setDomain('http://pmagento.local');
+        $domain->setId('1')
+            ->setTitle('Demo test')
+            ->setDomain('http://pmagento.local');
 
         $prospectId = "prospect_123456789";
         $prospect = new ProspectEntity();
-        $prospect->setDomain($domain);
-        $prospect->setProspect($prospectId);
+        $prospect->setDomain($domain)
+            ->setProspect($prospectId);
         
        
         $mapper = $this->getMockBuilder('PlaygroundFlow\Mapper\Prospect')

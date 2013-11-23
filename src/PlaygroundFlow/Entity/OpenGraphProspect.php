@@ -76,6 +76,7 @@ class OpenGraphProspect
     public function setId($id)
     {
         $this->id = $id;
+        
         return $this;
     }
      
@@ -98,6 +99,7 @@ class OpenGraphProspect
     public function setUser($user)
     {
         $this->user = $user;
+        
         return $this;
     }
 
@@ -121,6 +123,7 @@ class OpenGraphProspect
     public function setProspect($prospect)
     {
         $this->prospect = $prospect;
+        
         return $this;
     }
     
@@ -144,6 +147,7 @@ class OpenGraphProspect
     public function setDomain($domain)
     {
         $this->domain = $domain;
+        
         return $this;
     }
     

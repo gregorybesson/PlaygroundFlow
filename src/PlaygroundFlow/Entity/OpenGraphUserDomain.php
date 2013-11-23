@@ -71,6 +71,7 @@ class OpenGraphUserDomain
     public function setId($id)
     {
         $this->id = $id;
+        
         return $this;
     }
      
@@ -93,6 +94,7 @@ class OpenGraphUserDomain
     public function setUser($user)
     {
         $this->user = $user;
+        
         return $this;
     }
      
@@ -115,6 +117,7 @@ class OpenGraphUserDomain
     public function setDomain($domain)
     {
         $this->domain = $domain;
+        
         return $this;
     }
     

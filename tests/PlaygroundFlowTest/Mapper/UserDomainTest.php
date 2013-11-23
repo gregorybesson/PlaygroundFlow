@@ -29,14 +29,14 @@ class UserDomainTest extends \PHPUnit_Framework_TestCase
 
         $this->dm = $this->sm->get('playgroundflow_domain_mapper');
         $domain = new OpenGraphDomain();
-        $domain->setTitle('Demo test');
-        $domain->setDomain('http://pmagento.local');
+        $domain->setTitle('Demo test')
+            ->setDomain('http://pmagento.local');
         $domain = $this->dm->insert($domain);
         $this->domain = $domain;
         
         $domain2 = new OpenGraphDomain();
-        $domain2->setTitle('Demo test 2');
-        $domain2->setDomain('http://pmagento2.local');
+        $domain2->setTitle('Demo test 2')
+            ->setDomain('http://pmagento2.local');
         $domain2 = $this->dm->insert($domain2);
         $this->domain2 = $domain2;
 
@@ -67,14 +67,14 @@ class UserDomainTest extends \PHPUnit_Framework_TestCase
     public function testUserDomain()
     {
         $userDomain = new UserDomain();
-        $userDomain->setUser($this->user);
-        $userDomain->setDomain($this->domain);
+        $userDomain->setUser($this->user)
+            ->setDomain($this->domain);
         $userDomain = $this->tm->insert($userDomain);
         $this->assertEquals($this->user->getId(), $userDomain->getUser()->getId());
 
         $userDomain2 = new UserDomain();
-        $userDomain2->setUser($this->user);
-        $userDomain2->setDomain($this->domain2);
+        $userDomain2->setUser($this->user)
+            ->setDomain($this->domain2);
         $userDomain2 = $this->tm->insert($userDomain2);
         $this->assertEquals($this->domain2->getId(), $userDomain2->getDomain()->getId());
 

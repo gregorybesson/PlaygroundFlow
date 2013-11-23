@@ -29,14 +29,14 @@ class Prospect extends \PHPUnit_Framework_TestCase
 
         $this->dm = $this->sm->get('playgroundflow_domain_mapper');
         $domain = new OpenGraphDomain();
-        $domain->setTitle('Demo test');
-        $domain->setDomain('http://pmagento.local');
+        $domain->setTitle('Demo test')
+            ->setDomain('http://pmagento.local');
         $domain = $this->dm->insert($domain);
         $this->domain = $domain;
         
         $domain2 = new OpenGraphDomain();
-        $domain2->setTitle('Demo test 2');
-        $domain2->setDomain('http://pmagento2.local');
+        $domain2->setTitle('Demo test 2')
+            ->setDomain('http://pmagento2.local');
         $domain2 = $this->dm->insert($domain2);
         $this->domain2 = $domain2;
 
@@ -68,15 +68,15 @@ class Prospect extends \PHPUnit_Framework_TestCase
     {
         $prospectId = "prospect_123456789";
         $prospect = new ProspectEntity();
-        $prospect->setDomain($this->domain);
-        $prospect->setProspect($prospectId);
+        $prospect->setDomain($this->domain)
+            ->setProspect($prospectId);
         $prospect = $this->tm->insert($prospect);
         $this->assertEquals($prospectId, $prospect->getProspect());
 
         $prospectId = "prospect_123456789";
         $prospect2 = new ProspectEntity();
-        $prospect2->setDomain($this->domain2);
-        $prospect2->setProspect($prospectId);
+        $prospect2->setDomain($this->domain2)
+            ->setProspect($prospectId);
         $prospect2 = $this->tm->insert($prospect2);
         $this->assertEquals($prospectId, $prospect2->getProspect());
 
