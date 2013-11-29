@@ -27,8 +27,8 @@ class UserDomain implements ServiceManagerAwareInterface
         $userDomain = $this->getUserDomainMapper()->findBy(array('user' => $user, 'domain' => $domain));
         if (empty($userDomain)) {
             $userDomain = new UserDomainEntity();
-            $userDomain->setDomain($domain);
-            $userDomain->setUser($user);
+            $userDomain->setDomain($domain)
+                ->setUser($user);
             $userDomain = $this->getUserDomainMapper()->insert($userDomain);
         }
 

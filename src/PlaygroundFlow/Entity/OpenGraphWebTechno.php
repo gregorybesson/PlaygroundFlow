@@ -91,6 +91,8 @@ class OpenGraphWebTechno
     public function setId ($id)
     {
         $this->id = $id;
+        
+        return $this;
     }
     
     /**
@@ -109,6 +111,8 @@ class OpenGraphWebTechno
     public function setCode ($code)
     {
         $this->code = $code;
+        
+        return $this;
     }
 
     /**
@@ -125,6 +129,8 @@ class OpenGraphWebTechno
     public function setLabel($label)
     {
         $this->label = $label;
+        
+        return $this;
     }
 
     /**
@@ -141,6 +147,8 @@ class OpenGraphWebTechno
     public function setDefinition($definition)
     {
         $this->definition = $definition;
+        
+        return $this;
     }
 
     /**
@@ -155,6 +163,7 @@ class OpenGraphWebTechno
      * @return the $storyMapping
      */
     public function addStoryMapping($storyMapping) {
+        
         $this->storyMappings[] = $storyMapping;
     }
     
@@ -162,6 +171,7 @@ class OpenGraphWebTechno
      * @return the $storyMappings
      */
     public function getStoryMappings() {
+        
         return $this->storyMappings;
     }
 
@@ -169,7 +179,10 @@ class OpenGraphWebTechno
      * @param field_type $storyMappings
      */
     public function setStoryMappings($storyMappings) {
+        
         $this->storyMappings = $storyMappings;
+        
+        return $this;
     }
 
     /**
@@ -178,6 +191,8 @@ class OpenGraphWebTechno
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -194,6 +209,8 @@ class OpenGraphWebTechno
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**

@@ -50,13 +50,13 @@ class UserDomainTest extends \PHPUnit_Framework_TestCase
         }
 
         $domain = new OpenGraphDomain();
-        $domain->setId('1');
-        $domain->setTitle('Demo test');
-        $domain->setDomain('http://pmagento.local');
+        $domain->setId('1')
+            ->setTitle('Demo test')
+            ->setDomain('http://pmagento.local');
 
         $userDomain = new UserDomainEntity();
-        $userDomain->setDomain($domain);
-        $userDomain->setUser($user);
+        $userDomain->setDomain($domain)
+            ->setUser($user);
 
         $mapper = $this->getMockBuilder('PlaygroundFlow\Mapper\UserDomain')
             ->disableOriginalConstructor()

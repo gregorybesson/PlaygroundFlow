@@ -85,6 +85,8 @@ class OpenGraphApplication
     public function setId ($id)
     {
         $this->id = $id;
+        
+        return $this;
     }
     
     /**
@@ -103,12 +105,15 @@ class OpenGraphApplication
     public function setAppKey ($appKey)
     {
         $this->appKey = $appKey;
+        
+        return $this;
     }
 
     /**
 	 * @return the $domains
 	 */
 	public function getDomains() {
+	    
 		return $this->domains;
 	}
 
@@ -116,7 +121,10 @@ class OpenGraphApplication
 	 * @param field_type $domains
 	 */
 	public function setDomains($domains) {
+	    
 		$this->domains = $domains;
+		
+		return $this;
 	}
 
 	/**
@@ -133,6 +141,8 @@ class OpenGraphApplication
     public function setLabel($label)
     {
         $this->label = $label;
+        
+        return $this;
     }
 
     /**
@@ -149,6 +159,8 @@ class OpenGraphApplication
     public function setDefinition($definition)
     {
         $this->definition = $definition;
+        
+        return $this;
     }
 
     /**
@@ -165,6 +177,8 @@ class OpenGraphApplication
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -181,6 +195,8 @@ class OpenGraphApplication
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**

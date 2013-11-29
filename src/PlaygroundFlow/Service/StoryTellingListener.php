@@ -110,10 +110,10 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
                 );
                 
                 $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
-                $storyTelling->setOpenGraphStoryMapping($story);
-                $storyTelling->setUser($sponsorStory->getUser());
-                $storyTelling->setObject(json_encode($object));
-                $storyTelling->setPoints($story->getPoints());
+                $storyTelling->setOpenGraphStoryMapping($story)
+                    ->setUser($sponsorStory->getUser())
+                    ->setObject(json_encode($object))
+                    ->setPoints($story->getPoints());
                 $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
             }
         }
@@ -193,10 +193,10 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
                     'email' => $user->getEmail()
                 );
                 $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
-                $storyTelling->setOpenGraphStoryMapping($story);
-                $storyTelling->setUser($user);
-                $storyTelling->setObject(json_encode($object));
-                $storyTelling->setPoints($story->getPoints());
+                $storyTelling->setOpenGraphStoryMapping($story)
+                    ->setUser($user)
+                    ->setObject(json_encode($object))
+                    ->setPoints($story->getPoints());
                 $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
             }
         }
@@ -297,12 +297,12 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
                 }
             }
             $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
-            $storyTelling->setOpenGraphStoryMapping($storyMapping);
-            $storyTelling->setUser($user);
-            $storyTelling->setProspect($prospect);
-            $storyTelling->setObject(json_encode($objectArray));
-            $storyTelling->setPoints($storyMapping->getPoints());
-            $storyTelling->setSecretKey($secretKey);
+            $storyTelling->setOpenGraphStoryMapping($storyMapping)
+                ->setUser($user)
+                ->setProspect($prospect)
+                ->setObject(json_encode($objectArray))
+                ->setPoints($storyMapping->getPoints())
+                ->setSecretKey($secretKey);
             $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
 
             $storyTellingService->tellStory($storyTelling);

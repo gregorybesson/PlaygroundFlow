@@ -86,6 +86,8 @@ class OpenGraphAction implements InputFilterAwareInterface
     public function setId ($id)
     {
         $this->id = $id;
+        
+        return $this;
     }
     
     /**
@@ -104,6 +106,8 @@ class OpenGraphAction implements InputFilterAwareInterface
     public function setCode ($code)
     {
         $this->code = $code;
+        
+        return $this;
     }
 
     /**
@@ -120,6 +124,8 @@ class OpenGraphAction implements InputFilterAwareInterface
     public function setLabel($label)
     {
         $this->label = $label;
+        
+        return $this;
     }
 
     /**
@@ -136,6 +142,8 @@ class OpenGraphAction implements InputFilterAwareInterface
     public function setDefinition($definition)
     {
         $this->definition = $definition;
+        
+        return $this;
     }
 
     /**
@@ -152,6 +160,8 @@ class OpenGraphAction implements InputFilterAwareInterface
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -168,6 +178,8 @@ class OpenGraphAction implements InputFilterAwareInterface
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**

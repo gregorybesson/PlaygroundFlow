@@ -167,12 +167,15 @@ class OpenGraphStoryMapping
     public function setId ($id)
     {
         $this->id = $id;
+        
+        return $this;
     }
 
     /**
 	 * @return the $story
 	 */
 	public function getStory() {
+	    
 		return $this->story;
 	}
 
@@ -180,13 +183,17 @@ class OpenGraphStoryMapping
 	 * @param field_type $story
 	 */
 	public function setStory($story) {
+	    
 		$this->story = $story;
+		
+		return $this;
 	}
 
     /**
      * @return the $leaderboardType
      */
     public function getLeaderboardType() {
+        
         return $this->leaderboardType;
     }
 
@@ -194,13 +201,17 @@ class OpenGraphStoryMapping
      * @param leaderboardType $leaderboardType
      */
     public function setLeaderboardType($leaderboardType) {
+        
         $this->leaderboardType = $leaderboardType;
+        
+        return $this;
     }
 
 	/**
 	 * @return the $domain
 	 */
 	public function getDomain() {
+	    
 		return $this->domain;
 	}
 
@@ -208,14 +219,18 @@ class OpenGraphStoryMapping
 	 * @param field_type $domain
 	 */
 	public function setDomain($domain) {
+	    
 		$domain->addStoryMapping($this);
 		$this->domain = $domain;
+		
+		return $this;
 	}
 
     /**
      * @return the $webTechno
      */
     public function getWebTechno() {
+        
         return $this->webTechno;
     }
 
@@ -223,8 +238,11 @@ class OpenGraphStoryMapping
      * @param field_type $webTechno
      */
     public function setWebTechno($webTechno) {
+        
         $webTechno->addStoryMapping($this);
         $this->webTechno = $webTechno;
+        
+        return $this;
     }
 
 	/**
@@ -241,6 +259,8 @@ class OpenGraphStoryMapping
     public function setPoints($points)
     {
         $this->points = $points;
+        
+        return $this;
     }
 
 	/**
@@ -257,6 +277,8 @@ class OpenGraphStoryMapping
     public function setPicto($picto)
     {
         $this->picto = $picto;
+        
+        return $this;
     }
 
 	/**
@@ -273,6 +295,8 @@ class OpenGraphStoryMapping
     public function setHint($hint)
     {
         $this->hint = $hint;
+        
+        return $this;
     }
 
 	/**
@@ -289,6 +313,8 @@ class OpenGraphStoryMapping
     public function setDisplayNotification($displayNotification)
     {
         $this->displayNotification = $displayNotification;
+        
+        return $this;
     }
 
 	/**
@@ -305,6 +331,8 @@ class OpenGraphStoryMapping
     public function setDisplayActivityStream($displayActivityStream)
     {
         $this->displayActivityStream = $displayActivityStream;
+        
+        return $this;
     }
 
 	/**
@@ -321,6 +349,8 @@ class OpenGraphStoryMapping
     public function setNotification($notification)
     {
         $this->notification = $notification;
+        
+        return $this;
     }
 
 	/**
@@ -337,6 +367,8 @@ class OpenGraphStoryMapping
     public function setActivityStream($activityStream)
     {
         $this->activityStream = $activityStream;
+        
+        return $this;
     }
 
 	/**
@@ -353,6 +385,8 @@ class OpenGraphStoryMapping
     public function setCountLimit($countLimit)
     {
         $this->countLimit = $countLimit;
+        
+        return $this;
     }
 
 	public function addObject($object)
@@ -364,6 +398,7 @@ class OpenGraphStoryMapping
 	 * @return the $attributes
 	 */
 	public function getObjects() {
+	    
 		return $this->objects;
 	}
 
@@ -371,13 +406,17 @@ class OpenGraphStoryMapping
 	 * @param field_type $attributes
 	 */
 	public function setObjects($objects) {
+	    
 		$this->objects = $objects;
+		
+		return $this;
 	}
 
 	/**
 	 * @return the $conditionsUrl
 	 */
 	public function getConditionsUrl() {
+	    
 		return $this->conditionsUrl;
 	}
 
@@ -385,13 +424,17 @@ class OpenGraphStoryMapping
 	 * @param field_type $conditionsUrl
 	 */
 	public function setConditionsUrl($conditionsUrl) {
+	    
 		$this->conditionsUrl = $conditionsUrl;
+		
+		return $this;
 	}
 
 	/**
 	 * @return the $conditionsXpath
 	 */
 	public function getConditionsXpath() {
+	    
 		return $this->conditionsXpath;
 	}
 
@@ -399,13 +442,17 @@ class OpenGraphStoryMapping
 	 * @param field_type $conditionsXpath
 	 */
 	public function setConditionsXpath($conditionsXpath) {
+	    
 		$this->conditionsXpath = $conditionsXpath;
+		
+		return $this;
 	}
 
 	/**
 	 * @return the $eventBeforeUrl
 	 */
 	public function getEventBeforeUrl() {
+	    
 		return $this->eventBeforeUrl;
 	}
 
@@ -413,13 +460,17 @@ class OpenGraphStoryMapping
 	 * @param field_type $eventBeforeUrl
 	 */
 	public function setEventBeforeUrl($eventBeforeUrl) {
+	    
 		$this->eventBeforeUrl = $eventBeforeUrl;
+		
+		return $this;
 	}
 
 	/**
 	 * @return the $eventBeforeXpath
 	 */
 	public function getEventBeforeXpath() {
+	    
 		return $this->eventBeforeXpath;
 	}
 
@@ -427,13 +478,17 @@ class OpenGraphStoryMapping
 	 * @param field_type $eventBeforeXpath
 	 */
 	public function setEventBeforeXpath($eventBeforeXpath) {
+	    
 		$this->eventBeforeXpath = $eventBeforeXpath;
+		
+		return $this;
 	}
 
 	/**
 	 * @return the $eventAfterUrl
 	 */
 	public function getEventAfterUrl() {
+	    
 		return $this->eventAfterUrl;
 	}
 
@@ -441,13 +496,17 @@ class OpenGraphStoryMapping
 	 * @param field_type $eventAfterUrl
 	 */
 	public function setEventAfterUrl($eventAfterUrl) {
+	    
 		$this->eventAfterUrl = $eventAfterUrl;
+		
+		return $this;
 	}
 
 	/**
 	 * @return the $eventAfterXpath
 	 */
 	public function getEventAfterXpath() {
+	    
 		return $this->eventAfterXpath;
 	}
 
@@ -455,7 +514,10 @@ class OpenGraphStoryMapping
 	 * @param field_type $eventAfterXpath
 	 */
 	public function setEventAfterXpath($eventAfterXpath) {
+	    
 		$this->eventAfterXpath = $eventAfterXpath;
+		
+		return $this;
 	}
 
 	/**
@@ -472,6 +534,8 @@ class OpenGraphStoryMapping
     public function setCreatedAt($created_at)
     {
         $this->created_at = $created_at;
+        
+        return $this;
     }
 
     /**
@@ -488,6 +552,8 @@ class OpenGraphStoryMapping
     public function setUpdatedAt($updated_at)
     {
         $this->updated_at = $updated_at;
+        
+        return $this;
     }
 
     /**
