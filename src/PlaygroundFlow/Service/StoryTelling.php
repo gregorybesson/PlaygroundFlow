@@ -38,6 +38,7 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
         
         // TODO : apiKey is ... the key ! factorize it
         $args = array( 'apiKey' => 'key_first', 'userId' => $userId );
+        $args["container"] = 'body';
          
         //TODO : Make it dynamic too ! (this has to be taken from the storyMapping's domain)
         $url = "http://localhost:93/notification";
@@ -48,14 +49,21 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
         if($storyTelling->getOpenGraphStoryMapping()->getDisplayNotification()){
             
             $notification = str_replace($placeholders, $values, $storyTelling->getOpenGraphStoryMapping()->getNotification());
-            $args["container"] = '#col-droite';
-            $message =
-            '<div id="chrono">' .
-                '<div class="header" >' .
-                $notification .
-                '</div>' .
-            '</div>';
+            if($storyTelling->getOpenGraphStoryMapping()->getWidget() && $storyTelling->getOpenGraphStoryMapping()->getWidget()->getAnchor()){
+                $args["container"] = $storyTelling->getOpenGraphStoryMapping()->getWidget()->getAnchor(); //'#right-column';
+            }
+            if($storyTelling->getOpenGraphStoryMapping()->getWidget() && $storyTelling->getOpenGraphStoryMapping()->getWidget()->getTemplate()){
+                $message = str_replace("{notification}", $notification, $storyTelling->getOpenGraphStoryMapping()->getWidget()->getTemplate());
+            }else{
+                $message = '<div id="pgActivityStream" class="playground" ><div >' .
+                        '<a href="#" onclick="document.getElementById(\'pgActivityStream\').parentNode.removeChild(document.getElementById(\'pgActivityStream\'));">' .
+                    'X</a>' .
+                    $notification .
+                    '</div></div>';
+            }
+
             $args["who"]    = 'self';
+            $args["style"]      = 'http://playground.local/lib/css/mouth.css';
             $args["html"]   = str_replace("=", "%3D", $message);
             
             $this->sendRequest($url, $args);
@@ -64,8 +72,7 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
         if($storyTelling->getOpenGraphStoryMapping()->getDisplayActivityStream()){
             $activityStream = str_replace($placeholders, $values, $storyTelling->getOpenGraphStoryMapping()->getActivityStream());
             
-            $message = 
-                '<div id="pgActivityStream" class="playground" >' .
+            $message = '<div id="pgActivityStream" class="playground" >' .
                     '<div >' .
                         '<a href="#" onclick="document.getElementById(\'pgActivityStream\').parentNode.removeChild(document.getElementById(\'pgActivityStream\'));">' .
                         'X</a>' .

@@ -48,6 +48,11 @@ class OpenGraphStoryMapping
     protected $webTechno;
     
     /**
+     * @ORM\ManyToOne(targetEntity="OpenGraphWidget")
+     */
+    protected $widget;
+    
+    /**
      * Points associated to this story
      * @ORM\Column(type="integer")
      */
@@ -297,6 +302,22 @@ class OpenGraphStoryMapping
         $this->hint = $hint;
         
         return $this;
+    }
+
+	/**
+     * @return the $widget
+     */
+    public function getWidget()
+    {
+        return $this->widget;
+    }
+
+	/**
+     * @param field_type $widget
+     */
+    public function setWidget($widget)
+    {
+        $this->widget = $widget;
     }
 
 	/**
@@ -585,6 +606,15 @@ class OpenGraphStoryMapping
     	if (!$this->inputFilter) {
     		$inputFilter = new InputFilter();
     		$factory = new InputFactory();
+    		
+    		$inputFilter->add($factory->createInput(array(
+    		    'name'       => 'widget',
+    		    'required'   => false,
+    		    'allowEmpty' => true,
+    		    'filters'    => array(
+    		        array('name' => 'Int'),
+    		    ),
+    		)));
     
     		$this->inputFilter = $inputFilter;
     	}

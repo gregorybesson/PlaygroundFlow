@@ -64,6 +64,7 @@ class Module
             		'playgroundflow_action_service'       => 'PlaygroundFlow\Service\Action',
             		'playgroundflow_object_service'       => 'PlaygroundFlow\Service\Object',
             		'playgroundflow_story_service'        => 'PlaygroundFlow\Service\Story',
+                    'playgroundflow_widget_service'       => 'PlaygroundFlow\Service\Widget',
             		'playgroundflow_domain_service'       => 'PlaygroundFlow\Service\Domain',
                     'playgroundflow_broadcast_service'    => 'PlaygroundFlow\Service\Broadcast',
                     'playgroundflow_storytelling_service' => 'PlaygroundFlow\Service\StoryTelling',
@@ -118,6 +119,14 @@ class Module
                 	);
                 
                 	return $mapper;
+                },
+                'playgroundflow_widget_mapper' => function ($sm) {
+                    $mapper = new \PlaygroundFlow\Mapper\Widget(
+                        $sm->get('doctrine.entitymanager.orm_default'),
+                        $sm->get('playgroundflow_module_options')
+                    );
+                
+                    return $mapper;
                 },
                 'playgroundflow_domain_mapper' => function ($sm) {
                 	$mapper = new \PlaygroundFlow\Mapper\Domain(
@@ -203,6 +212,14 @@ class Module
                 	$form->setInputFilter($story->getInputFilter());
                 
                 	return $form;
+                },
+                'playgroundflow_widget_form' => function($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\Widget(null, $sm, $translator);
+                    $widget = new Entity\OpenGraphWidget();
+                    $form->setInputFilter($widget->getInputFilter());
+                
+                    return $form;
                 },
                 'playgroundflow_domain_form' => function($sm) {
                 	$translator = $sm->get('translator');

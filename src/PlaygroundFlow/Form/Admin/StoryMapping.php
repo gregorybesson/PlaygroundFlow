@@ -81,6 +81,17 @@ class StoryMapping extends ProvidesEventsForm
             )
         ));
         
+        $widgets = $this->getWidgets();
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'widget',
+            'options' => array(
+                'empty_option' => $translator->translate('Default widget', 'playgroundflow'),
+                'value_options' => $widgets,
+                'label' => $translator->translate('Widget', 'playgroundflow')
+            )
+        ));
+        
         $this->add(array(
             'name' => 'points',
             'options' => array(
@@ -314,5 +325,22 @@ class StoryMapping extends ProvidesEventsForm
         }
 
         return $leaderboardTypesArray;
+    }
+    
+    /**
+     *
+     * @return array
+     */
+    public function getWidgets()
+    {
+        $widgetsArray = array();
+        $widgetService = $this->getServiceManager()->get('playgroundflow_widget_service');
+        $widgets = $widgetService->getWidgetMapper()->findAll();
+    
+        foreach ($widgets as $widget) {
+            $widgetsArray[$widget->getId()] = $widget->getTitle();
+        }
+    
+        return $widgetsArray;
     }
 }
