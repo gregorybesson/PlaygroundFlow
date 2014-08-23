@@ -9,7 +9,7 @@ use Zend\Mvc\I18n\Translator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\ServiceManager\ServiceManager;
 
-class Action extends ProvidesEventsForm
+class Widget extends ProvidesEventsForm
 {
 
     /**
@@ -27,6 +27,9 @@ class Action extends ProvidesEventsForm
         $this->setServiceManager($sm);
 
         $entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
+        
+        $hydrator = new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphWidget');
+        $this->setHydrator($hydrator);
 
         $this->setAttribute('enctype', 'multipart/form-data');
 
@@ -39,40 +42,73 @@ class Action extends ProvidesEventsForm
         ));
 
         $this->add(array(
-            'name' => 'code',
+            'name' => 'title',
             'options' => array(
-                'label' => $translator->translate('Code', 'playgroundflow')
+                'label' => $translator->translate('Title', 'playgroundflow')
             ),
             'attributes' => array(
                 'type' => 'text',
-                'placeholder' => $translator->translate('Code', 'playgroundflow')
+                'placeholder' => $translator->translate('Title', 'playgroundflow')
             )
         ));
 
         $this->add(array(
-            'name' => 'label',
+            'name' => 'anchor',
             'options' => array(
-                'label' => $translator->translate('Label', 'playgroundflow')
+                'label' => $translator->translate('Anchor', 'playgroundflow')
             ),
             'attributes' => array(
                 'type' => 'text',
-            	'placeholder' => $translator->translate('Code', 'playgroundflow')
+            	'placeholder' => $translator->translate('Anchor', 'playgroundflow')
             )
         ));
 
         $this->add(array(
             'type' => 'Zend\Form\Element\Textarea',
-            'name' => 'definition',
+            'name' => 'template',
             'options' => array(
-                'label' => $translator->translate('Definition', 'playgroundflow')
+                'label' => $translator->translate('Template', 'playgroundflow')
             ),
             'attributes' => array(
                 'cols' => '10',
                 'rows' => '10',
-                'id' => 'definition'
+                'id' => 'template'
             )
         ));
-
+        
+        $this->add(array(
+            'name' => 'cssFile',
+            'options' => array(
+                'label' => $translator->translate('CSS File', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => $translator->translate('Css File', 'playgroundflow')
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'jsFile',
+            'options' => array(
+                'label' => $translator->translate('JS File', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => $translator->translate('JS File', 'playgroundflow')
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'timeout',
+            'options' => array(
+                'label' => $translator->translate('Display duration', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => $translator->translate('Display duration', 'playgroundflow')
+            )
+        ));
+        
         $submitElement = new Element\Button('submit');
         $submitElement->setLabel($translator->translate('Create', 'playgroundflow'))
             ->setAttributes(array(

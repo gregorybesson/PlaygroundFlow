@@ -16,6 +16,35 @@ return array(
         )
     ),
     
+    'bjyauthorize' => array(
+    
+        'resource_providers' => array(
+            'BjyAuthorize\Provider\Resource\Config' => array(
+                'flow'          => array(),
+            ),
+        ),
+    
+        'rule_providers' => array(
+            'BjyAuthorize\Provider\Rule\Config' => array(
+                'allow' => array(
+                    array(array('admin'), 'flow',           array('list','add','edit','delete')),
+                ),
+            ),
+        ),
+    
+        'guards' => array(
+            'BjyAuthorize\Guard\Controller' => array(    
+                // Admin area
+                array('controller' => 'playgroundflowadminaction',                              'roles' => array('admin')),
+                array('controller' => 'playgroundflowadminobject',                              'roles' => array('admin')),
+                array('controller' => 'playgroundflowadminstory',                               'roles' => array('admin')),
+                array('controller' => 'playgroundflowadmindomain',                              'roles' => array('admin')),
+                array('controller' => 'playgroundflowadminwebtechno',                           'roles' => array('admin')),
+                array('controller' => 'playgroundflowadminwidget',                              'roles' => array('admin')),
+            ),
+        ),
+    ),
+    
     'assetic_configuration' => array(
         'modules' => array(
             'lib_flow' => array(
@@ -85,6 +114,7 @@ return array(
         	'playgroundflowadminaction'     => 'PlaygroundFlow\Controller\Admin\ActionController',
         	'playgroundflowadminobject'     => 'PlaygroundFlow\Controller\Admin\ObjectController',
         	'playgroundflowadminstory'      => 'PlaygroundFlow\Controller\Admin\StoryController',
+            'playgroundflowadminwidget'     => 'PlaygroundFlow\Controller\Admin\WidgetController',
         	'playgroundflowadmindomain'     => 'PlaygroundFlow\Controller\Admin\DomainController',
             'playgroundflowadminwebtechno'  => 'PlaygroundFlow\Controller\Admin\WebTechnoController',
             'playgroundflow'                => 'PlaygroundFlow\Controller\IndexController',
@@ -104,6 +134,9 @@ return array(
        			'playgroundflowadminstory' => array(
        				'default_layout' => 'layout/admin',
       			),
+        	    'playgroundflowadminwidget' => array(
+        	        'default_layout' => 'layout/admin',
+        	    ),
      			'playgroundflowadmindomain' => array(
       				'default_layout' => 'layout/admin',
       			),
@@ -326,6 +359,62 @@ return array(
                    					),
                					),
                     		),
+                    	    'widget' => array(
+                    	        'type' => 'Segment',
+                    	        'options' => array(
+                    	            'route' => '/widget',
+                    	            'defaults' => array(
+                    	                'controller' => 'playgroundflowadminwidget',
+                    	                'action'     => 'list',
+                    	            ),
+                    	        ),
+                    	        'may_terminate' => true,
+                    	        'child_routes' =>array(
+                    	            'pagination' => array(
+                    	                'type' => 'Segment',
+                    	                'options' => array(
+                    	                    'route' => '/:p',
+      										'defaults' => array(
+      										    'controller' => 'playgroundflowadminwidget',
+      										    'action'     => 'list',
+      										),
+                    	                ),
+                    	            ),
+                    	            'create' => array(
+                    	                'type' => 'Segment',
+                    	                'options' => array(
+                    	                    'route' => '/create/:widgetId',
+                    	                    'defaults' => array(
+                    	                        'controller' => 'playgroundflowadminwidget',
+                    	                        'action'     => 'create',
+                    	                        'storyId'     => 0
+                    	                    ),
+                    	                ),
+                    	            ),
+                    	            'edit' => array(
+                    	                'type' => 'Segment',
+                    	                'options' => array(
+                    	                    'route' => '/edit/:widgetId',
+                    	                    'defaults' => array(
+                    	                        'controller' => 'playgroundflowadminwidget',
+                    	                        'action'     => 'edit',
+                    	                        'storyId'     => 0
+                    	                    ),
+                    	                ),
+                    	            ),
+                    	            'remove' => array(
+                    	                'type' => 'Segment',
+                    	                'options' => array(
+                    	                    'route' => '/remove/:widgetId',
+                    	                    'defaults' => array(
+                    	                        'controller' => 'playgroundflowadminwidget',
+                    	                        'action'     => 'remove',
+                    	                        'storyId'     => 0
+                    	                    ),
+                    	                ),
+                    	            ),
+                    	        ),
+                    	    ),
                             'webtechno' => array(
                                 'type' => 'Segment',
                                 'options' => array(
@@ -927,36 +1016,42 @@ return array(
     					'resource'  => 'flow',
     					'privilege' => 'list',
     				),
-    					'create' => array(
-    							'label'     => 'Create story',
-    							'route'     => 'admin/playgroundflow/story/create',
-    							'resource'  => 'flow',
-    							'privilege' => 'list',
-    					),
-    					'listactions' => array(
-    						'label'     => 'Actions list',
-    						'route'     => 'admin/playgroundflow/action',
-    						'resource'  => 'flow',
-    						'privilege' => 'list',
-    					),
-    					'listobjects' => array(
-    						'label'     => 'Objects list',
-    						'route'     => 'admin/playgroundflow/object',
-    						'resource'  => 'flow',
-   							'privilege' => 'list',
-    					),
-    					'listapps' => array(
-    							'label'     => 'Domains list',
-    							'route'     => 'admin/playgroundflow/domain',
-    							'resource'  => 'flow',
-    							'privilege' => 'list',
-    					),
-                        'listwebtechnos' => array(
-                                'label'     => 'WebTechnos list',
-                                'route'     => 'admin/playgroundflow/webtechno',
-                                'resource'  => 'flow',
-                                'privilege' => 'list',
-                        ),
+					'create' => array(
+						'label'     => 'Create story',
+						'route'     => 'admin/playgroundflow/story/create',
+						'resource'  => 'flow',
+						'privilege' => 'list',
+					),
+					'listactions' => array(
+						'label'     => 'Actions list',
+						'route'     => 'admin/playgroundflow/action',
+						'resource'  => 'flow',
+						'privilege' => 'list',
+					),
+					'listobjects' => array(
+						'label'     => 'Objects list',
+						'route'     => 'admin/playgroundflow/object',
+						'resource'  => 'flow',
+						'privilege' => 'list',
+					),
+					'listapps' => array(
+						'label'     => 'Domains list',
+						'route'     => 'admin/playgroundflow/domain',
+						'resource'  => 'flow',
+						'privilege' => 'list',
+					),
+    			    'listwidgets' => array(
+    			        'label'     => 'Widgets list',
+    			        'route'     => 'admin/playgroundflow/widget',
+    			        'resource'  => 'flow',
+    			        'privilege' => 'list',
+    			    ),
+                    'listwebtechnos' => array(
+                        'label'     => 'WebTechnos list',
+                        'route'     => 'admin/playgroundflow/webtechno',
+                        'resource'  => 'flow',
+                        'privilege' => 'list',
+                    ),
     			),
     		),
     	),

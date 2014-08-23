@@ -5,7 +5,7 @@ use PlaygroundFlow\Options\ModuleOptions;
 use Zend\Form\Form;
 use Zend\Form\Element;
 use ZfcBase\Form\ProvidesEventsForm;
-use Zend\I18n\Translator\Translator;
+use Zend\Mvc\I18n\Translator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\ServiceManager\ServiceManager;
 
@@ -78,6 +78,17 @@ class StoryMapping extends ProvidesEventsForm
             'options' => array(
                 'value_options' => $leaderboardTypes,
                 'label' => $translator->translate('leaderboardType', 'playgroundflow')
+            )
+        ));
+        
+        $widgets = $this->getWidgets();
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'widget',
+            'options' => array(
+                'empty_option' => $translator->translate('Default widget', 'playgroundflow'),
+                'value_options' => $widgets,
+                'label' => $translator->translate('Widget', 'playgroundflow')
             )
         ));
         
@@ -314,5 +325,22 @@ class StoryMapping extends ProvidesEventsForm
         }
 
         return $leaderboardTypesArray;
+    }
+    
+    /**
+     *
+     * @return array
+     */
+    public function getWidgets()
+    {
+        $widgetsArray = array();
+        $widgetService = $this->getServiceManager()->get('playgroundflow_widget_service');
+        $widgets = $widgetService->getWidgetMapper()->findAll();
+    
+        foreach ($widgets as $widget) {
+            $widgetsArray[$widget->getId()] = $widget->getTitle();
+        }
+    
+        return $widgetsArray;
     }
 }
