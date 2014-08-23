@@ -3,3 +3,5 @@
 /.buildpath
 /build
 /tests/data/*.db
+/vendor
+/composer.lock

@@ -16,14 +16,24 @@
             "homepage": "http://www.playground.gg"
         }
     ],
+    "repositories" : [{
+			"type" : "git",
+			"url" : "https://github.com/gregorybesson/hybridauth"
+		}
+	],
     "minimum-stability": "dev",
     "require": {
         "php" : ">=5.3.3",
 		"zendframework/zendframework" : "2.*",
-		"zf-commons/zfc-base" : "0.*"
+		"zf-commons/zfc-base" : "0.*",
+		"playground/core" : "2.*",
+		"playground/design" : "2.*",
+		"playground/user" : "2.*",
+		"playground/reward" : "2.*"
     },
     "require-dev": {
-        "doctrine/doctrine-orm-module": "0.*"
+        "doctrine/doctrine-orm-module": "0.*",
+        "phpunit/phpunit" : "3.7.*"
     },
     "autoload" : {
 		"psr-0" : {
