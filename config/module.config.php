@@ -32,46 +32,14 @@ return array(
         ),
     
         'guards' => array(
-            'BjyAuthorize\Guard\Controller' => array(
-                  
+            'BjyAuthorize\Guard\Controller' => array( 
                 array('controller' => 'PlaygroundFlow\Controller\Frontend\Index', 'roles' => array('guest', 'user')),
-                
-                // Admin area
                 array('controller' => 'playgroundflowadminaction',      'roles' => array('admin')),
                 array('controller' => 'playgroundflowadminobject',      'roles' => array('admin')),
                 array('controller' => 'playgroundflowadminstory',       'roles' => array('admin')),
                 array('controller' => 'playgroundflowadmindomain',      'roles' => array('admin')),
                 array('controller' => 'playgroundflowadminwebtechno',   'roles' => array('admin')),
                 array('controller' => 'playgroundflowadminwidget',      'roles' => array('admin')),
-            ),
-        ),
-    ),
-    
-    'bjyauthorize' => array(
-    
-        'resource_providers' => array(
-            'BjyAuthorize\Provider\Resource\Config' => array(
-                'flow'          => array(),
-            ),
-        ),
-    
-        'rule_providers' => array(
-            'BjyAuthorize\Provider\Rule\Config' => array(
-                'allow' => array(
-                    array(array('admin'), 'flow',           array('list','add','edit','delete')),
-                ),
-            ),
-        ),
-    
-        'guards' => array(
-            'BjyAuthorize\Guard\Controller' => array(    
-                // Admin area
-                array('controller' => 'playgroundflowadminaction',                              'roles' => array('admin')),
-                array('controller' => 'playgroundflowadminobject',                              'roles' => array('admin')),
-                array('controller' => 'playgroundflowadminstory',                               'roles' => array('admin')),
-                array('controller' => 'playgroundflowadmindomain',                              'roles' => array('admin')),
-                array('controller' => 'playgroundflowadminwebtechno',                           'roles' => array('admin')),
-                array('controller' => 'playgroundflowadminwidget',                              'roles' => array('admin')),
             ),
         ),
     ),
