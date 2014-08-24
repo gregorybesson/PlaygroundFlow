@@ -15,7 +15,6 @@ return array(
             )
         )
     ),
-    
     'bjyauthorize' => array(
     
         'resource_providers' => array(
@@ -33,14 +32,14 @@ return array(
         ),
     
         'guards' => array(
-            'BjyAuthorize\Guard\Controller' => array(    
-                // Admin area
-                array('controller' => 'playgroundflowadminaction',                              'roles' => array('admin')),
-                array('controller' => 'playgroundflowadminobject',                              'roles' => array('admin')),
-                array('controller' => 'playgroundflowadminstory',                               'roles' => array('admin')),
-                array('controller' => 'playgroundflowadmindomain',                              'roles' => array('admin')),
-                array('controller' => 'playgroundflowadminwebtechno',                           'roles' => array('admin')),
-                array('controller' => 'playgroundflowadminwidget',                              'roles' => array('admin')),
+            'BjyAuthorize\Guard\Controller' => array( 
+                array('controller' => 'PlaygroundFlow\Controller\Frontend\Index', 'roles' => array('guest', 'user')),
+                array('controller' => 'playgroundflowadminaction',      'roles' => array('admin')),
+                array('controller' => 'playgroundflowadminobject',      'roles' => array('admin')),
+                array('controller' => 'playgroundflowadminstory',       'roles' => array('admin')),
+                array('controller' => 'playgroundflowadmindomain',      'roles' => array('admin')),
+                array('controller' => 'playgroundflowadminwebtechno',   'roles' => array('admin')),
+                array('controller' => 'playgroundflowadminwidget',      'roles' => array('admin')),
             ),
         ),
     ),
@@ -121,6 +120,7 @@ return array(
             'playgroundflowrestauthent'     => 'PlaygroundFlow\Controller\RestAuthentController',
             'playgroundflowrestsend'        => 'PlaygroundFlow\Controller\RestSendController',
             'playgroundfloweasyxdm'         => 'PlaygroundFlow\Controller\Frontend\EasyXDMController',
+            'PlaygroundFlow\Controller\Frontend\Index' => 'PlaygroundFlow\Controller\Frontend\IndexController'
         ),
     ),
 
@@ -219,6 +219,50 @@ return array(
                             'defaults' => array(
                                 'controller' => 'playgroundfloweasyxdm',
                                 'action'     => 'name',
+                            ),
+                        ),
+                    ),
+                    
+                    'sponsorfriends' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => 'mon-compte/sponsor-friends',
+                            'defaults' => array(
+                                'controller' => 'PlaygroundFlow\Controller\Frontend\Index',
+                                'action'     => 'sponsorfriends',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'fbshare' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/fbshare',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundFlow\Controller\Frontend\Index',
+                                        'action'     => 'fbshare',
+                                    ),
+                                ),
+                            ),
+                            'tweet' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/tweet',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundFlow\Controller\Frontend\Index',
+                                        'action'     => 'tweet',
+                                    ),
+                                ),
+                            ),
+                            'google' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/google',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundFlow\Controller\Frontend\Index',
+                                        'action'     => 'google',
+                                    ),
+                                ),
                             ),
                         ),
                     ),
