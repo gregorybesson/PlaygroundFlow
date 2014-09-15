@@ -46,14 +46,11 @@ return array(
     
     'assetic_configuration' => array(
         'modules' => array(
-            'lib_flow' => array(
-                'root_path' => array(
-                    __DIR__ . '/../view/lib',
-                ),
+            'lib' => array(
                 'collections' => array(
                     'frontend_mouth_css' => array(
                         'assets' => array(
-                            'mouth.css'              => 'css/mouth.css',
+                            'mouth.css'              => __DIR__ . '/../view/lib/css/mouth.css',
                         ),
                         'filters' => array(),
                         'options' => array(
@@ -62,27 +59,27 @@ return array(
                     ),
                     'frontend_pg' => array(
                         'assets' => array(
-                            'json2'             => 'js/playground/json2.js',
-                            'wgxpath.install'   => 'js/playground/wgxpath.install.js',
-                            'pg'                => 'js/playground/pg.min.js',
-                            'pg.connect'        => 'js/playground/pg.connect.js',
-                            'ears.min'          => 'js/playground/ears.min.js',
+                            'json2'             => __DIR__ . '/../view/lib/js/playground/json2.js',
+                            'wgxpath.install'   => __DIR__ . '/../view/lib/js/playground/wgxpath.install.js',
+                            'pg'                => __DIR__ . '/../view/lib/js/playground/pg.min.js',
+                            'pg.connect'        => __DIR__ . '/../view/lib/js/playground/pg.connect.js',
+                            'ears.min'          => __DIR__ . '/../view/lib/js/playground/ears.min.js',
                         ),
                         'filters' => array(),
                         'options' => array(
                             'move_raw' => true,
-                            'output' => 'lib',
+                            'output' => 'lib/js/playground',
                         )
                     ),
                     'frontend_easyxdm' => array(
                         'assets' => array(
-                            'easyxdm.min' => 'js/easyxdm/easyxdm.min.js',
-                            'easyxdm'     => 'js/easyxdm/easyxdm.swf',
-                            'json2'       => 'js/easyxdm/json2.js',
+                            'easyxdm.min' => __DIR__ . '/../view/lib/js/easyxdm/easyxdm.min.js',
+                            'easyxdm'     => __DIR__ . '/../view/lib/js/easyxdm/easyxdm.swf',
+                            'json2'       => __DIR__ . '/../view/lib/js/easyxdm/json2.js',
                         ),
                         'options' => array(
                             'move_raw' => true,
-                            'output' => 'lib',
+                            'output' => 'lib/js/easyxdm',
                         )
                     ),
                 ),
