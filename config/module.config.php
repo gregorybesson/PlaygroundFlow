@@ -122,28 +122,32 @@ return array(
     ),
 
     'core_layout' => array(
-        'PlaygroundFlow' => array(
-            'default_layout' => 'layout/1column',
-        	'controllers' => array(
-       			'playgroundflowadminaction' => array(
-       				'default_layout' => 'layout/admin',
-       			),
-       			'playgroundflowadminstory' => array(
-       				'default_layout' => 'layout/admin',
-      			),
-        	    'playgroundflowadminwidget' => array(
-        	        'default_layout' => 'layout/admin',
-        	    ),
-     			'playgroundflowadmindomain' => array(
-      				'default_layout' => 'layout/admin',
-      			),
-      			'playgroundflowadminobject' => array(
-      				'default_layout' => 'layout/admin',
-       			),
-                'playgroundflowadminwebtechno' => array(
-                    'default_layout' => 'layout/admin',
+        'frontend' => array(
+            'modules' => array(
+                'PlaygroundFlow' => array(
+                    'default_layout' => 'layout/1column',
+                	'controllers' => array(
+               			'playgroundflowadminaction' => array(
+               				'default_layout' => 'layout/admin',
+               			),
+               			'playgroundflowadminstory' => array(
+               				'default_layout' => 'layout/admin',
+              			),
+                	    'playgroundflowadminwidget' => array(
+                	        'default_layout' => 'layout/admin',
+                	    ),
+             			'playgroundflowadmindomain' => array(
+              				'default_layout' => 'layout/admin',
+              			),
+              			'playgroundflowadminobject' => array(
+              				'default_layout' => 'layout/admin',
+               			),
+                        'playgroundflowadminwebtechno' => array(
+                            'default_layout' => 'layout/admin',
+                        ),
+                	),
                 ),
-        	),
+            ),
         ),
     ),
 
