@@ -50,8 +50,8 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             'domain' => $domain
         ));
 
-        foreach($storymappings as $storyMapping){
-            if($storyMapping->getEventBeforeUrl()){
+        foreach ($storymappings as $storyMapping) {
+            if ($storyMapping->getEventBeforeUrl()) {
                 $this->listeners[] = $events->getSharedManager()->attach(array(
                     '*'
                 ), $storyMapping->getEventBeforeUrl(), array(
@@ -60,7 +60,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
                 ), 100);
             }
             
-            if($storyMapping->getEventAfterUrl()){
+            if ($storyMapping->getEventAfterUrl()) {
                 $this->listeners[] = $events->getSharedManager()->attach(array(
                     '*'
                 ), $storyMapping->getEventAfterUrl(), array(
@@ -69,7 +69,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
                 ), 100);
             }
             
-        }        
+        }
     }
 
     /**
@@ -222,14 +222,14 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
         
         foreach ($stories as $storyMapping) {
             $objectArray = array();
-            foreach($storyMapping->getObjects() as $objectMapping){
+            foreach ($storyMapping->getObjects() as $objectMapping) {
                 $objectCode = $objectMapping->getObject()->getCode();
                 $instance = $e->getParam($objectCode);
-                foreach($objectMapping->getAttributes() as $attributeMapping){
+                foreach ($objectMapping->getAttributes() as $attributeMapping) {
                     //echo "object : " . $objectMapping->getObject()->getCode() . "<br>";
                     //echo "object id : " . $objectMapping->getObject()->getId() . "<br>";
                     //echo "attribut : " . $attributeMapping->getAttribute()->getCode() . "<br>";
-                    if( method_exists( $instance , $method = ( 'get' . ucfirst( $attributeMapping->getAttribute()->getCode() ) ) ) ){
+                    if (method_exists($instance, $method = ( 'get' . ucfirst($attributeMapping->getAttribute()->getCode()) ))) {
                         if (isset($data[$attributeMapping->getAttribute()->getCode()]) && $instance->$method() != $data[$attributeMapping->getAttribute()->getCode()]) {
                             $this->eventsArray[$e->getName()]['before'][$objectCode][$attributeMapping->getAttribute()->getCode()] = $instance->$method();
                             $this->eventsArray[$e->getName()]['after'][$objectCode][$attributeMapping->getAttribute()->getCode()] = $data[$attributeMapping->getAttribute()->getCode()];
@@ -262,7 +262,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
         $domain = $domainService->getDomainMapper()->findOneBy(array('domain'=>$domainId));
     
         // If the secretKey is not empty, I search th user associated with it as I want him to live the story
-        if(!empty($secretKey)){
+        if (!empty($secretKey)) {
             $sponsorStory = $storyTellingService->getStoryTellingMapper()->findOneBySecretKey($secretKey);
             if ($sponsorStory) {
                 $user = $sponsorStory->getUser();
@@ -279,18 +279,17 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             $objectArray = array();
             // an event before has been triggered
             $key = $storyMapping->getEventBeforeUrl();
-            if(!empty($key) && isset($this->eventsArray[$key]) && $this->eventsArray[$key] !== null){
+            if (!empty($key) && isset($this->eventsArray[$key]) && $this->eventsArray[$key] !== null) {
                 $objectArray = $this->eventsArray[$key];
-            } 
-            // No before event triggered
-            else{
-                foreach($storyMapping->getObjects() as $objectMapping){
+            } // No before event triggered
+            else {
+                foreach ($storyMapping->getObjects() as $objectMapping) {
                     $objectCode = $e->getParam($objectMapping->getObject()->getCode());
-                    foreach($objectMapping->getAttributes() as $attributeMapping){
+                    foreach ($objectMapping->getAttributes() as $attributeMapping) {
                         //echo "object : " . $objectMapping->getObject()->getCode() . "<br>";
                         //echo "object id : " . $objectMapping->getObject()->getId() . "<br>";
                         //echo "attribut : " . $attributeMapping->getAttribute()->getCode() . "<br>";
-                        if( method_exists( $objectCode , $method = ( 'get' . ucfirst( $attributeMapping->getAttribute()->getCode() ) ) ) ){
+                        if (method_exists($objectCode, $method = ( 'get' . ucfirst($attributeMapping->getAttribute()->getCode()) ))) {
                             $objectArray[$objectMapping->getObject()->getCode()][$attributeMapping->getAttribute()->getCode()] = $objectCode->$method();
                         }
                     }
@@ -308,7 +307,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
             $storyTellingService->tellStory($storyTelling);
             $this->getLeaderboardService()->addPoints($storyMapping, $user);
     
-            $e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId() , $this, array('storyTelling' => $storyTelling));
+            $e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId(), $this, array('storyTelling' => $storyTelling));
         }
     }
 
@@ -332,7 +331,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
      *
      * @return ServiceManager
      */
-    public function getServiceManager ()
+    public function getServiceManager()
     {
         return $this->serviceManager;
     }
@@ -343,7 +342,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
      * @param  ServiceManager $sm
      * @return User
      */
-    public function setServiceManager (ServiceManager $sm)
+    public function setServiceManager(ServiceManager $sm)
     {
         $this->serviceManager = $sm;
     

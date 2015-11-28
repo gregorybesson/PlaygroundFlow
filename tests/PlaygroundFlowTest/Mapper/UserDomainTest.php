@@ -8,8 +8,6 @@ use PlaygroundFlow\Entity\OpenGraphDomain;
 use PlaygroundUser\Entity\User;
 use PlaygroundFlow\Entity\OpenGraphUserDomain as UserDomain;
 
-
-
 class UserDomainTest extends \PHPUnit_Framework_TestCase
 {
     protected $traceError = true;

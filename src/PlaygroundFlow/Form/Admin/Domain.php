@@ -20,7 +20,7 @@ class Domain extends ProvidesEventsForm
 
     protected $serviceManager;
 
-    public function __construct ($name = null, ServiceManager $sm, Translator $translator)
+    public function __construct($name = null, ServiceManager $sm, Translator $translator)
     {
         parent::__construct($name);
 
@@ -59,7 +59,7 @@ class Domain extends ProvidesEventsForm
             ),
             'attributes' => array(
                 'type' => 'text',
-            	'placeholder' => $translator->translate('Domain', 'playgroundflow')
+                'placeholder' => $translator->translate('Domain', 'playgroundflow')
             )
         ));
 
@@ -95,7 +95,7 @@ class Domain extends ProvidesEventsForm
         $submitElement->setLabel($translator->translate('Create', 'playgroundflow'))
             ->setAttributes(array(
             'type' => 'submit'
-        ));
+            ));
 
         $this->add($submitElement, array(
             'priority' => - 100
@@ -107,7 +107,7 @@ class Domain extends ProvidesEventsForm
      *
      * @return ServiceManager
      */
-    public function getServiceManager ()
+    public function getServiceManager()
     {
         return $this->serviceManager;
     }
@@ -118,7 +118,7 @@ class Domain extends ProvidesEventsForm
      * @param  ServiceManager $serviceManager
      * @return User
      */
-    public function setServiceManager (ServiceManager $serviceManager)
+    public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
 

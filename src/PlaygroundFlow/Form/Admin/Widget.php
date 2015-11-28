@@ -20,7 +20,7 @@ class Widget extends ProvidesEventsForm
 
     protected $serviceManager;
 
-    public function __construct ($name = null, ServiceManager $sm, Translator $translator)
+    public function __construct($name = null, ServiceManager $sm, Translator $translator)
     {
         parent::__construct($name);
 
@@ -59,7 +59,7 @@ class Widget extends ProvidesEventsForm
             ),
             'attributes' => array(
                 'type' => 'text',
-            	'placeholder' => $translator->translate('Anchor', 'playgroundflow')
+                'placeholder' => $translator->translate('Anchor', 'playgroundflow')
             )
         ));
 
@@ -113,7 +113,7 @@ class Widget extends ProvidesEventsForm
         $submitElement->setLabel($translator->translate('Create', 'playgroundflow'))
             ->setAttributes(array(
             'type' => 'submit'
-        ));
+            ));
 
         $this->add($submitElement, array(
             'priority' => - 100
@@ -125,7 +125,7 @@ class Widget extends ProvidesEventsForm
      *
      * @return ServiceManager
      */
-    public function getServiceManager ()
+    public function getServiceManager()
     {
         return $this->serviceManager;
     }
@@ -136,7 +136,7 @@ class Widget extends ProvidesEventsForm
      * @param  ServiceManager $serviceManager
      * @return User
      */
-    public function setServiceManager (ServiceManager $serviceManager)
+    public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
 

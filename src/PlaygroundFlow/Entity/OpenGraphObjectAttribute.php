@@ -17,8 +17,8 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class OpenGraphObjectAttribute
 {
-	protected $inputFilter;
-	
+    protected $inputFilter;
+    
     /**
      * @ORM\Id
      * @ORM\Column(type="integer");
@@ -43,11 +43,11 @@ class OpenGraphObjectAttribute
     
     /**
      * values : Boolean
-	 *			DateTime
-	 *			Float
-	 *			Integer
-	 *			String
-	 *			Array
+     *          DateTime
+     *          Float
+     *          Integer
+     *          String
+     *          Array
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
@@ -95,7 +95,7 @@ class OpenGraphObjectAttribute
      *
      * @return the $id
      */
-    public function getId ()
+    public function getId()
     {
         return $this->id;
     }
@@ -104,7 +104,7 @@ class OpenGraphObjectAttribute
      *
      * @param field_type $id
      */
-    public function setId ($id)
+    public function setId($id)
     {
         $this->id = $id;
         
@@ -112,29 +112,31 @@ class OpenGraphObjectAttribute
     }
     
     /**
-	 * @return the $object
-	 */
-	public function getObject() {
-	    
-		return $this->object;
-	}
+     * @return the $object
+     */
+    public function getObject()
+    {
+        
+        return $this->object;
+    }
 
-	/**
-	 * @param field_type $object
-	 */
-	public function setObject($object) {
-	    
-		$object->addAttribute($this);
-		$this->object = $object;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $object
+     */
+    public function setObject($object)
+    {
+        
+        $object->addAttribute($this);
+        $this->object = $object;
+        
+        return $this;
+    }
 
-	/**
+    /**
      *
      * @return the $code
      */
-    public function getCode ()
+    public function getCode()
     {
         return $this->code;
     }
@@ -143,7 +145,7 @@ class OpenGraphObjectAttribute
      *
      * @param field_type $code
      */
-    public function setCode ($code)
+    public function setCode($code)
     {
         $this->code = $code;
         
@@ -187,24 +189,26 @@ class OpenGraphObjectAttribute
     }
 
     /**
-	 * @return the $type
-	 */
-	public function getType() {
-	    
-		return $this->type;
-	}
+     * @return the $type
+     */
+    public function getType()
+    {
+        
+        return $this->type;
+    }
 
-	/**
-	 * @param field_type $type
-	 */
-	public function setType($type) {
-	    
-		$this->type = $type;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $type
+     */
+    public function setType($type)
+    {
+        
+        $this->type = $type;
+        
+        return $this;
+    }
 
-	/**
+    /**
      * @return the $createdAt
      */
     public function getCreatedAt()
@@ -257,33 +261,33 @@ class OpenGraphObjectAttribute
      */
     public function populate($data = array())
     {
-    	if (isset($data['code']) && $data['code'] != null) {
-    		$this->code = $data['code'];
-    	}
-    	
-    	if (isset($data['label']) && $data['label'] != null) {
-    		$this->label = $data['label'];
-    	}
-    	
-    	if (isset($data['definition']) && $data['definition'] != null) {
-    		$this->definition = $data['definition'];
-    	}
+        if (isset($data['code']) && $data['code'] != null) {
+            $this->code = $data['code'];
+        }
+        
+        if (isset($data['label']) && $data['label'] != null) {
+            $this->label = $data['label'];
+        }
+        
+        if (isset($data['definition']) && $data['definition'] != null) {
+            $this->definition = $data['definition'];
+        }
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
-    	throw new \Exception("Not used");
+        throw new \Exception("Not used");
     }
     
     public function getInputFilter()
     {
-    	if (!$this->inputFilter) {
-    		$inputFilter = new InputFilter();
-    		$factory = new InputFactory();
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
     
-    		$this->inputFilter = $inputFilter;
-    	}
+            $this->inputFilter = $inputFilter;
+        }
     
-    	return $this->inputFilter;
+        return $this->inputFilter;
     }
 }

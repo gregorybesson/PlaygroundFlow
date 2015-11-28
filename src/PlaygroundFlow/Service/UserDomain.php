@@ -6,7 +6,6 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use PlaygroundFlow\Entity\OpenGraphUserDomain as UserDomainEntity;
 
-
 class UserDomain implements ServiceManagerAwareInterface
 {
     /**
@@ -38,7 +37,7 @@ class UserDomain implements ServiceManagerAwareInterface
   
     public function getUserDomainMapper()
     {
-        if($this->userDomainMapper == null) {
+        if ($this->userDomainMapper == null) {
             $this->userDomainMapper = $this->getServiceManager()->get('playgroundflow_user_domain_mapper');
         }
 

@@ -41,7 +41,7 @@ class Event extends EventProvider implements ServiceManagerAwareInterface
      * @param unknown_type $type
      * @param unknown_type $count
      */
-    public function getTotal($user, $type='', $count='points')
+    public function getTotal($user, $type = '', $count = 'points')
     {
         $em = $this->getServiceManager()->get('playgroundflow_doctrine_em');
 
@@ -94,9 +94,9 @@ class Event extends EventProvider implements ServiceManagerAwareInterface
         return $total;
     }
 
-    public function findBy($array, $sort=array())
+    public function findBy($array, $sort = array())
     {
-        return $this->getEventMapper()->findBy($array, $sort=array());
+        return $this->getEventMapper()->findBy($array, $sort = array());
     }
 
     /**

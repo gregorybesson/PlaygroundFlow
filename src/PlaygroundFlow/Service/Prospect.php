@@ -26,7 +26,7 @@ class Prospect implements ServiceManagerAwareInterface
         if (!empty($prospects)) {
             $prospectEntity = $prospects[0];
         } else {
-            // Pas de prospect : alors on en crée un 
+            // Pas de prospect : alors on en crée un
             $prospectEntity = new ProspectEntity();
             $prospectEntity->setDomain($domain)
                 ->setProspect($prospect);

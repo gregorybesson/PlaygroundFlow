@@ -20,7 +20,7 @@ class WebTechno extends ProvidesEventsForm
 
     protected $serviceManager;
 
-    public function __construct ($name = null, ServiceManager $sm, Translator $translator)
+    public function __construct($name = null, ServiceManager $sm, Translator $translator)
     {
         parent::__construct($name);
 
@@ -59,7 +59,7 @@ class WebTechno extends ProvidesEventsForm
             ),
             'attributes' => array(
                 'type' => 'text',
-            	'placeholder' => $translator->translate('Label', 'playgroundflow')
+                'placeholder' => $translator->translate('Label', 'playgroundflow')
             )
         ));
 
@@ -70,7 +70,7 @@ class WebTechno extends ProvidesEventsForm
             ),
             'attributes' => array(
                 'type' => 'text',
-            	'placeholder' => $translator->translate('Definition', 'playgroundflow')
+                'placeholder' => $translator->translate('Definition', 'playgroundflow')
             )
         ));
 
@@ -78,7 +78,7 @@ class WebTechno extends ProvidesEventsForm
         $submitElement->setLabel($translator->translate('Create', 'playgroundflow'))
             ->setAttributes(array(
             'type' => 'submit'
-        ));
+            ));
 
         $this->add($submitElement, array(
             'priority' => - 100
@@ -90,7 +90,7 @@ class WebTechno extends ProvidesEventsForm
      *
      * @return ServiceManager
      */
-    public function getServiceManager ()
+    public function getServiceManager()
     {
         return $this->serviceManager;
     }
@@ -101,7 +101,7 @@ class WebTechno extends ProvidesEventsForm
      * @param  ServiceManager $serviceManager
      * @return User
      */
-    public function setServiceManager (ServiceManager $serviceManager)
+    public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
 

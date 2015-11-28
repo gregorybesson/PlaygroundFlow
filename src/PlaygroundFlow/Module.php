@@ -26,7 +26,7 @@ class Module
             $translate = $serviceManager->get('viewhelpermanager')->get('translate');
             $translate->getTranslator()->setLocale($locale);
         }
-        AbstractValidator::setDefaultTranslator($translator,'playgroundcore');
+        AbstractValidator::setDefaultTranslator($translator, 'playgroundcore');
         
         // I don't attache listeners if the request is a console request
         if ((get_class($e->getRequest()) == 'Zend\Console\Request')) {
@@ -61,11 +61,11 @@ class Module
 
             'invokables' => array(
                     'playgroundflow_flow_service'         => 'PlaygroundFlow\Service\Flow',
-            		'playgroundflow_action_service'       => 'PlaygroundFlow\Service\Action',
-            		'playgroundflow_object_service'       => 'PlaygroundFlow\Service\Object',
-            		'playgroundflow_story_service'        => 'PlaygroundFlow\Service\Story',
+                    'playgroundflow_action_service'       => 'PlaygroundFlow\Service\Action',
+                    'playgroundflow_object_service'       => 'PlaygroundFlow\Service\Object',
+                    'playgroundflow_story_service'        => 'PlaygroundFlow\Service\Story',
                     'playgroundflow_widget_service'       => 'PlaygroundFlow\Service\Widget',
-            		'playgroundflow_domain_service'       => 'PlaygroundFlow\Service\Domain',
+                    'playgroundflow_domain_service'       => 'PlaygroundFlow\Service\Domain',
                     'playgroundflow_broadcast_service'    => 'PlaygroundFlow\Service\Broadcast',
                     'playgroundflow_storytelling_service' => 'PlaygroundFlow\Service\StoryTelling',
                     'playgroundflow_storytelling_listener'=> 'PlaygroundFlow\Service\StoryTellingListener',
@@ -81,44 +81,44 @@ class Module
                     return new Options\ModuleOptions(isset($config['playgroundflow']) ? $config['playgroundflow'] : array());
                 },
                 'playgroundflow_action_mapper' => function ($sm) {
-                	$mapper = new \PlaygroundFlow\Mapper\Action(
-                			$sm->get('doctrine.entitymanager.orm_default'),
-                			$sm->get('playgroundflow_module_options')
-                	);
+                    $mapper = new \PlaygroundFlow\Mapper\Action(
+                        $sm->get('doctrine.entitymanager.orm_default'),
+                        $sm->get('playgroundflow_module_options')
+                    );
                 
-                	return $mapper;
+                    return $mapper;
                 },
-                'playgroundflow_action_form' => function($sm) {
-                	$translator = $sm->get('translator');
-                	$form = new Form\Admin\Action(null, $sm, $translator);
-                	$action = new Entity\OpenGraphAction();
-                	$form->setInputFilter($action->getInputFilter());
+                'playgroundflow_action_form' => function ($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\Action(null, $sm, $translator);
+                    $action = new Entity\OpenGraphAction();
+                    $form->setInputFilter($action->getInputFilter());
                 
-                	return $form;
+                    return $form;
                 },
                 'playgroundflow_object_mapper' => function ($sm) {
-                	$mapper = new \PlaygroundFlow\Mapper\Object(
-                			$sm->get('doctrine.entitymanager.orm_default'),
-                			$sm->get('playgroundflow_module_options')
-                	);
+                    $mapper = new \PlaygroundFlow\Mapper\Object(
+                        $sm->get('doctrine.entitymanager.orm_default'),
+                        $sm->get('playgroundflow_module_options')
+                    );
                 
-                	return $mapper;
+                    return $mapper;
                 },
                 'playgroundflow_objectattribute_mapper' => function ($sm) {
-                	$mapper = new \PlaygroundFlow\Mapper\ObjectAttribute(
-                			$sm->get('doctrine.entitymanager.orm_default'),
-                			$sm->get('playgroundflow_module_options')
-                	);
+                    $mapper = new \PlaygroundFlow\Mapper\ObjectAttribute(
+                        $sm->get('doctrine.entitymanager.orm_default'),
+                        $sm->get('playgroundflow_module_options')
+                    );
                 
-                	return $mapper;
+                    return $mapper;
                 },
                 'playgroundflow_story_mapper' => function ($sm) {
-                	$mapper = new \PlaygroundFlow\Mapper\Story(
-                			$sm->get('doctrine.entitymanager.orm_default'),
-                			$sm->get('playgroundflow_module_options')
-                	);
+                    $mapper = new \PlaygroundFlow\Mapper\Story(
+                        $sm->get('doctrine.entitymanager.orm_default'),
+                        $sm->get('playgroundflow_module_options')
+                    );
                 
-                	return $mapper;
+                    return $mapper;
                 },
                 'playgroundflow_widget_mapper' => function ($sm) {
                     $mapper = new \PlaygroundFlow\Mapper\Widget(
@@ -129,36 +129,36 @@ class Module
                     return $mapper;
                 },
                 'playgroundflow_domain_mapper' => function ($sm) {
-                	$mapper = new \PlaygroundFlow\Mapper\Domain(
-                			$sm->get('doctrine.entitymanager.orm_default'),
-                			$sm->get('playgroundflow_module_options')
-                	);
+                    $mapper = new \PlaygroundFlow\Mapper\Domain(
+                        $sm->get('doctrine.entitymanager.orm_default'),
+                        $sm->get('playgroundflow_module_options')
+                    );
                 
-                	return $mapper;
+                    return $mapper;
                 },
                 'playgroundflow_webtechno_mapper' => function ($sm) {
                     $mapper = new \PlaygroundFlow\Mapper\WebTechno(
-                            $sm->get('doctrine.entitymanager.orm_default'),
-                            $sm->get('playgroundflow_module_options')
+                        $sm->get('doctrine.entitymanager.orm_default'),
+                        $sm->get('playgroundflow_module_options')
                     );
                 
                     return $mapper;
                 },
                 'playgroundflow_storymapping_mapper' => function ($sm) {
-                	$mapper = new \PlaygroundFlow\Mapper\StoryMapping(
-                			$sm->get('doctrine.entitymanager.orm_default'),
-                			$sm->get('playgroundflow_module_options')
-                	);
+                    $mapper = new \PlaygroundFlow\Mapper\StoryMapping(
+                        $sm->get('doctrine.entitymanager.orm_default'),
+                        $sm->get('playgroundflow_module_options')
+                    );
                 
-                	return $mapper;
+                    return $mapper;
                 },
                 'playgroundflow_objectattributemapping_mapper' => function ($sm) {
-                	$mapper = new \PlaygroundFlow\Mapper\ObjectAttributeMapping(
-                			$sm->get('doctrine.entitymanager.orm_default'),
-                			$sm->get('playgroundflow_module_options')
-                	);
+                    $mapper = new \PlaygroundFlow\Mapper\ObjectAttributeMapping(
+                        $sm->get('doctrine.entitymanager.orm_default'),
+                        $sm->get('playgroundflow_module_options')
+                    );
                 
-                	return $mapper;
+                    return $mapper;
                 },
                 'playgroundflow_objectmapping_mapper' => function ($sm) {
                     $mapper = new \PlaygroundFlow\Mapper\ObjectMapping(
@@ -189,31 +189,31 @@ class Module
                 
                     return $mapper;
                 },
-                'playgroundflow_object_form' => function($sm) {
-                	$translator = $sm->get('translator');
-                	$form = new Form\Admin\Object(null, $sm, $translator);
-                	$object = new Entity\OpenGraphObject();
-                	$form->setInputFilter($object->getInputFilter());
+                'playgroundflow_object_form' => function ($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\Object(null, $sm, $translator);
+                    $object = new Entity\OpenGraphObject();
+                    $form->setInputFilter($object->getInputFilter());
                 
-                	return $form;
+                    return $form;
                 },
-                'playgroundflow_objectattribute_form' => function($sm) {
-                	$translator = $sm->get('translator');
-                	$form = new Form\Admin\ObjectAttribute(null, $sm, $translator);
-                	$objectAttribute = new Entity\OpenGraphObjectAttribute();
-                	$form->setInputFilter($objectAttribute->getInputFilter());
+                'playgroundflow_objectattribute_form' => function ($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\ObjectAttribute(null, $sm, $translator);
+                    $objectAttribute = new Entity\OpenGraphObjectAttribute();
+                    $form->setInputFilter($objectAttribute->getInputFilter());
                 
-                	return $form;
+                    return $form;
                 },
-                'playgroundflow_story_form' => function($sm) {
-                	$translator = $sm->get('translator');
-                	$form = new Form\Admin\Story(null, $sm, $translator);
-                	$story = new Entity\OpenGraphStory();
-                	$form->setInputFilter($story->getInputFilter());
+                'playgroundflow_story_form' => function ($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\Story(null, $sm, $translator);
+                    $story = new Entity\OpenGraphStory();
+                    $form->setInputFilter($story->getInputFilter());
                 
-                	return $form;
+                    return $form;
                 },
-                'playgroundflow_widget_form' => function($sm) {
+                'playgroundflow_widget_form' => function ($sm) {
                     $translator = $sm->get('translator');
                     $form = new Form\Admin\Widget(null, $sm, $translator);
                     $widget = new Entity\OpenGraphWidget();
@@ -221,15 +221,15 @@ class Module
                 
                     return $form;
                 },
-                'playgroundflow_domain_form' => function($sm) {
-                	$translator = $sm->get('translator');
-                	$form = new Form\Admin\Domain(null, $sm, $translator);
-                	$domain = new Entity\OpenGraphDomain();
-                	$form->setInputFilter($domain->getInputFilter());
+                'playgroundflow_domain_form' => function ($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\Domain(null, $sm, $translator);
+                    $domain = new Entity\OpenGraphDomain();
+                    $form->setInputFilter($domain->getInputFilter());
                 
-                	return $form;
+                    return $form;
                 },
-                'playgroundflow_webtechno_form' => function($sm) {
+                'playgroundflow_webtechno_form' => function ($sm) {
                     $translator = $sm->get('translator');
                     $form = new Form\Admin\WebTechno(null, $sm, $translator);
                     $webtechno = new Entity\OpenGraphWebTechno();
@@ -237,23 +237,23 @@ class Module
                 
                     return $form;
                 },
-                'playgroundflow_storymapping_form' => function($sm) {
-                	$translator = $sm->get('translator');
-                	$form = new Form\Admin\StoryMapping(null, $sm, $translator);
-                	$story = new Entity\OpenGraphStoryMapping();
-                	$form->setInputFilter($story->getInputFilter());
+                'playgroundflow_storymapping_form' => function ($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\StoryMapping(null, $sm, $translator);
+                    $story = new Entity\OpenGraphStoryMapping();
+                    $form->setInputFilter($story->getInputFilter());
                 
-                	return $form;
+                    return $form;
                 },
-                'playgroundflow_objectattributemapping_form' => function($sm) {
-                	$translator = $sm->get('translator');
-                	$form = new Form\Admin\ObjectAttributeMapping(null, $sm, $translator);
-                	$attribute = new Entity\OpenGraphObjectAttributeMapping();
-                	$form->setInputFilter($attribute->getInputFilter());
+                'playgroundflow_objectattributemapping_form' => function ($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\ObjectAttributeMapping(null, $sm, $translator);
+                    $attribute = new Entity\OpenGraphObjectAttributeMapping();
+                    $form->setInputFilter($attribute->getInputFilter());
                 
-                	return $form;
+                    return $form;
                 },
-                'playgroundflow_objectmapping_form' => function($sm) {
+                'playgroundflow_objectmapping_form' => function ($sm) {
                     $translator = $sm->get('translator');
                     $form = new Form\Admin\ObjectMapping(null, $sm, $translator);
                     $object = new Entity\OpenGraphObjectMapping();

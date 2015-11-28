@@ -6,10 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\PrePersist;
 
-
 /**
  * @ORM\Entity @HasLifecycleCallbacks
- * @ORM\Table(name="opengraph_user_domain") 
+ * @ORM\Table(name="opengraph_user_domain")
  */
 class OpenGraphUserDomain
 {
@@ -151,7 +150,7 @@ class OpenGraphUserDomain
         $this->updated_at = $updated_at;
 
         return $this;
-    }   
+    }
     /*
      * @return date
      */

@@ -12,7 +12,7 @@ use Zend\ServiceManager\ServiceManager;
 
 class ObjectAttributeMappingFieldset extends Fieldset
 {
-    public function __construct($name = null,ServiceManager $serviceManager, Translator $translator)
+    public function __construct($name = null, ServiceManager $serviceManager, Translator $translator)
     {
         parent::__construct($name);
         
@@ -61,9 +61,9 @@ class ObjectAttributeMappingFieldset extends Fieldset
             'options' => array(
                 'label' => $translator->translate('Delete', 'playgroundflow'),
             ),
-			'attributes' => array(
-				'class' => 'delete-button',
-			)
+            'attributes' => array(
+                'class' => 'delete-button',
+            )
         ));
     }
     
@@ -71,7 +71,7 @@ class ObjectAttributeMappingFieldset extends Fieldset
      *
      * @return array
      */
-    public function getAttributes ()
+    public function getAttributes()
     {
         $attributesArray = array();
         $objectService = $this->getServiceManager()->get('playgroundflow_object_service');
@@ -89,7 +89,7 @@ class ObjectAttributeMappingFieldset extends Fieldset
      *
      * @return ServiceManager
      */
-    public function getServiceManager ()
+    public function getServiceManager()
     {
         return $this->serviceManager;
     }
@@ -100,7 +100,7 @@ class ObjectAttributeMappingFieldset extends Fieldset
      * @param  ServiceManager $serviceManager
      * @return User
      */
-    public function setServiceManager (ServiceManager $serviceManager)
+    public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
     

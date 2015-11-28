@@ -20,7 +20,7 @@ class Story extends ProvidesEventsForm
 
     protected $serviceManager;
 
-    public function __construct ($name = null, ServiceManager $sm, Translator $translator)
+    public function __construct($name = null, ServiceManager $sm, Translator $translator)
     {
         parent::__construct($name);
 
@@ -61,7 +61,7 @@ class Story extends ProvidesEventsForm
             ),
             'attributes' => array(
                 'type' => 'text',
-            	'placeholder' => $translator->translate('Label', 'playgroundflow')
+                'placeholder' => $translator->translate('Label', 'playgroundflow')
             )
         ));
 
@@ -80,12 +80,12 @@ class Story extends ProvidesEventsForm
         
         $actions = $this->getActions();
         $this->add(array(
-        	'type' => 'Zend\Form\Element\Select',
-        	'name' => 'action',
-        	'options' => array(
-        		'value_options' => $actions,
-       			'label' => $translator->translate('Action', 'playgroundflow')
-       		)
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'action',
+            'options' => array(
+                'value_options' => $actions,
+                'label' => $translator->translate('Action', 'playgroundflow')
+            )
         ));
         
         $this->add(array(
@@ -123,7 +123,7 @@ class Story extends ProvidesEventsForm
         $submitElement->setLabel($translator->translate('Create', 'playgroundflow'))
             ->setAttributes(array(
             'type' => 'submit'
-        ));
+            ));
 
         $this->add($submitElement, array(
             'priority' => - 100
@@ -135,7 +135,7 @@ class Story extends ProvidesEventsForm
      *
      * @return ServiceManager
      */
-    public function getServiceManager ()
+    public function getServiceManager()
     {
         return $this->serviceManager;
     }
@@ -146,7 +146,7 @@ class Story extends ProvidesEventsForm
      * @param  ServiceManager $serviceManager
      * @return User
      */
-    public function setServiceManager (ServiceManager $serviceManager)
+    public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
 
@@ -157,33 +157,33 @@ class Story extends ProvidesEventsForm
      *
      * @return array
      */
-    public function getObjects ()
+    public function getObjects()
     {
-    	$objectsArray = array();
-    	$objectService = $this->getServiceManager()->get('playgroundflow_object_service');
-    	$objects = $objectService->getObjectMapper()->findAll();
+        $objectsArray = array();
+        $objectService = $this->getServiceManager()->get('playgroundflow_object_service');
+        $objects = $objectService->getObjectMapper()->findAll();
     
-    	foreach ($objects as $object) {
-    		$objectsArray[$object->getId()] = $object->getLabel();
-    	}
+        foreach ($objects as $object) {
+            $objectsArray[$object->getId()] = $object->getLabel();
+        }
     
-    	return $objectsArray;
+        return $objectsArray;
     }
     
     /**
      *
      * @return array
      */
-    public function getActions ()
+    public function getActions()
     {
-    	$actionsArray = array();
-    	$actionService = $this->getServiceManager()->get('playgroundflow_action_service');
-    	$actions = $actionService->getActionMapper()->findAll();
+        $actionsArray = array();
+        $actionService = $this->getServiceManager()->get('playgroundflow_action_service');
+        $actions = $actionService->getActionMapper()->findAll();
     
-    	foreach ($actions as $action) {
-    		$actionsArray[$action->getId()] = $action->getLabel();
-    	}
+        foreach ($actions as $action) {
+            $actionsArray[$action->getId()] = $action->getLabel();
+        }
     
-    	return $actionsArray;
+        return $actionsArray;
     }
 }

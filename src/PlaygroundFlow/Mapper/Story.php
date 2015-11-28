@@ -47,7 +47,7 @@ class Story implements ServiceLocatorAwareInterface
         return $this->getEntityRepository()->findBy($array);
     }
 
-    public function findOneBy($array=array(), $sortBy = array('updated_at' => 'desc'))
+    public function findOneBy($array = array(), $sortBy = array('updated_at' => 'desc'))
     {
         $er = $this->getEntityRepository();
 
@@ -56,7 +56,7 @@ class Story implements ServiceLocatorAwareInterface
 
     public function findAll()
     {
-    	return $this->getEntityRepository()->findAll();
+        return $this->getEntityRepository()->findAll();
     }
     
     public function insert($entity)

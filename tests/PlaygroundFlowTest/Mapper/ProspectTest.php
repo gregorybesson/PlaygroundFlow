@@ -8,8 +8,6 @@ use PlaygroundFlow\Entity\OpenGraphDomain;
 use PlaygroundUser\Entity\User;
 use PlaygroundFlow\Entity\OpenGraphProspect as ProspectEntity;
 
-
-
 class Prospect extends \PHPUnit_Framework_TestCase
 {
     protected $traceError = true;

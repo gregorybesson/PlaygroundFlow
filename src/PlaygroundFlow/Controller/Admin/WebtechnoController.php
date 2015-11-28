@@ -11,14 +11,14 @@ use PlaygroundFlow\Entity\OpenGraphObjectMapping as ObjectMapping;
 
 class WebTechnoController extends AbstractActionController
 {
-	/**
-	 * @var WebTechnoService
-	 */
-	protected $adminWebTechnoService;
-	
-	public function listAction()
-	{
-		$service = $this->getAdminWebTechnoService();
+    /**
+     * @var WebTechnoService
+     */
+    protected $adminWebTechnoService;
+    
+    public function listAction()
+    {
+        $service = $this->getAdminWebTechnoService();
         
         $webtechnos = $service->getWebTechnoMapper()->findAll();
         
@@ -35,9 +35,9 @@ class WebTechnoController extends AbstractActionController
         return array(
             'webtechnos' => $paginator
         );
-	}
+    }
 
-	public function createAction()
+    public function createAction()
     {
         $service = $this->getAdminWebTechnoService();
         $viewModel = new ViewModel();
@@ -51,7 +51,7 @@ class WebTechnoController extends AbstractActionController
         $form->setAttribute('action', $this->url()
             ->fromRoute('admin/playgroundflow/webtechno/create', array(
             'webTechnoId' => 0
-        )));
+            )));
         $form->setAttribute('method', 'post');
         
         $request = $this->getRequest();
@@ -96,7 +96,7 @@ class WebTechnoController extends AbstractActionController
         $form->setAttribute('action', $this->url()
             ->fromRoute('admin/playgroundflow/webtechno/edit', array(
             'webTechnoId' => $webTechnoId
-        )));
+            )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
         
@@ -200,7 +200,7 @@ class WebTechnoController extends AbstractActionController
             ->fromRoute('admin/playgroundflow/webtechno/story/create', array(
             'webTechnoId' => $webTechnoId,
             'mappingId' => 0
-        )));
+            )));
         $form->setAttribute('method', 'post');
         
         $request = $this->getRequest();
@@ -254,7 +254,7 @@ class WebTechnoController extends AbstractActionController
             ->fromRoute('admin/playgroundflow/webtechno/story/edit', array(
             'webTechnoId' => $webTechnoId,
             'mappingId' => $mappingId
-        )));
+            )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
         
@@ -390,7 +390,7 @@ class WebTechnoController extends AbstractActionController
             'webTechnoId' => $webTechnoId,
             'mappingId' => $mappingId,
             'objectId' => 0
-        )));
+            )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
         
@@ -440,7 +440,7 @@ class WebTechnoController extends AbstractActionController
         $viewModel = new ViewModel();
         $viewModel->setTemplate('playground-flow/web-techno/object');
         
-        $objectsArray = array();  
+        $objectsArray = array();
         foreach ($storyMapping->getStory()->getObjects() as $object) {
             $objectsArray[$object->getId()] = $object->getLabel();
         }
@@ -453,7 +453,7 @@ class WebTechnoController extends AbstractActionController
             'webTechnoId' => $webTechnoId,
             'mappingId' => $mappingId,
             'objectId' => $objectMapping->getId()
-        )));
+            )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
         
@@ -522,7 +522,7 @@ class WebTechnoController extends AbstractActionController
         ));
     }
 
-	public function getAdminWebTechnoService()
+    public function getAdminWebTechnoService()
     {
         if (! $this->adminWebTechnoService) {
             $this->adminWebTechnoService = $this->getServiceLocator()->get('playgroundflow_webtechno_service');
@@ -530,6 +530,4 @@ class WebTechnoController extends AbstractActionController
         
         return $this->adminWebTechnoService;
     }
-
 }
-	

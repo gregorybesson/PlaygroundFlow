@@ -47,7 +47,7 @@ class StoryTelling implements ServiceLocatorAwareInterface
         return $this->getEntityRepository()->findBy($array);
     }
 
-    public function findOneBy($array=array(), $sortBy = array('updated_at' => 'desc'))
+    public function findOneBy($array = array(), $sortBy = array('updated_at' => 'desc'))
     {
         $er = $this->getEntityRepository();
 
@@ -63,7 +63,7 @@ class StoryTelling implements ServiceLocatorAwareInterface
 
     public function findAll()
     {
-    	return $this->getEntityRepository()->findAll();
+        return $this->getEntityRepository()->findAll();
     }
     
     public function insert($entity)
@@ -90,7 +90,7 @@ class StoryTelling implements ServiceLocatorAwareInterface
         $this->em->flush();
     }
 
-    public function findWithStoryMappingByUser($user) 
+    public function findWithStoryMappingByUser($user)
     {
         $qb = $this->em->createQueryBuilder();
 

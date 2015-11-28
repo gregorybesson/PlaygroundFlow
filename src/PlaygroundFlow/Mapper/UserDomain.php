@@ -25,7 +25,7 @@ class UserDomain extends AbstractDbMapper
         return $this->getRepository()->find($id);
     }
 
-    public function findBy($filters) 
+    public function findBy($filters)
     {
         return $this->getRepository()->findBy($filters);
     }

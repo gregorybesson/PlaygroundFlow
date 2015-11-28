@@ -44,14 +44,14 @@ class Event extends AbstractDbMapper implements ActionInterface
         return $er->findOneBy(array('secretKey' => $secretKey));
     }
 
-    public function findBy($array, $sort=array())
+    public function findBy($array, $sort = array())
     {
         $er = $this->getEntityRepository();
 
         return $er->findBy($array, $sort);
     }
 
-    public function findActivity($user, $type='')
+    public function findActivity($user, $type = '')
     {
         switch ($type) {
             case 'game':

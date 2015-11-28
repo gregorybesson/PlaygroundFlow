@@ -79,7 +79,7 @@ class OpenGraphWebTechno
      *
      * @return the $id
      */
-    public function getId ()
+    public function getId()
     {
         return $this->id;
     }
@@ -88,7 +88,7 @@ class OpenGraphWebTechno
      *
      * @param field_type $id
      */
-    public function setId ($id)
+    public function setId($id)
     {
         $this->id = $id;
         
@@ -99,7 +99,7 @@ class OpenGraphWebTechno
      *
      * @return the $code
      */
-    public function getCode ()
+    public function getCode()
     {
         return $this->code;
     }
@@ -108,7 +108,7 @@ class OpenGraphWebTechno
      *
      * @param field_type $code
      */
-    public function setCode ($code)
+    public function setCode($code)
     {
         $this->code = $code;
         
@@ -162,7 +162,8 @@ class OpenGraphWebTechno
     /**
      * @return the $storyMapping
      */
-    public function addStoryMapping($storyMapping) {
+    public function addStoryMapping($storyMapping)
+    {
         
         $this->storyMappings[] = $storyMapping;
     }
@@ -170,7 +171,8 @@ class OpenGraphWebTechno
     /**
      * @return the $storyMappings
      */
-    public function getStoryMappings() {
+    public function getStoryMappings()
+    {
         
         return $this->storyMappings;
     }
@@ -178,7 +180,8 @@ class OpenGraphWebTechno
     /**
      * @param field_type $storyMappings
      */
-    public function setStoryMappings($storyMappings) {
+    public function setStoryMappings($storyMappings)
+    {
         
         $this->storyMappings = $storyMappings;
         
@@ -232,7 +235,7 @@ class OpenGraphWebTechno
     {
     }
 
-     public function setInputFilter(InputFilterInterface $inputFilter)
+    public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }

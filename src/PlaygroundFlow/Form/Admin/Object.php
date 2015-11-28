@@ -20,7 +20,7 @@ class Object extends ProvidesEventsForm
 
     protected $serviceManager;
 
-    public function __construct ($name = null, ServiceManager $sm, Translator $translator)
+    public function __construct($name = null, ServiceManager $sm, Translator $translator)
     {
         parent::__construct($name);
 
@@ -33,7 +33,7 @@ class Object extends ProvidesEventsForm
         // so i've extended DoctrineHydrator ...
         $hydrator = new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphObject');
         $hydrator->addStrategy('parent', new \PlaygroundCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
-   		$this->setHydrator($hydrator);
+        $this->setHydrator($hydrator);
 
         $this->setAttribute('enctype', 'multipart/form-data');
 
@@ -63,7 +63,7 @@ class Object extends ProvidesEventsForm
             ),
             'attributes' => array(
                 'type' => 'text',
-            	'placeholder' => $translator->translate('Code', 'playgroundflow')
+                'placeholder' => $translator->translate('Code', 'playgroundflow')
             )
         ));
 
@@ -82,20 +82,20 @@ class Object extends ProvidesEventsForm
         
         $objects = $this->getObjects();
         $this->add(array(
-        	'type' => 'Zend\Form\Element\Select',
-        	'name' => 'parent',
-       		'options' => array(
-      			'empty_option' => $translator->translate('This object is the root', 'playgroundflow'),
-      			'value_options' => $objects,
-      			'label' => $translator->translate('Inherits', 'playgroundflow')
-       		)
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'parent',
+            'options' => array(
+                'empty_option' => $translator->translate('This object is the root', 'playgroundflow'),
+                'value_options' => $objects,
+                'label' => $translator->translate('Inherits', 'playgroundflow')
+            )
         ));
 
         $submitElement = new Element\Button('submit');
         $submitElement->setLabel($translator->translate('Create', 'playgroundflow'))
             ->setAttributes(array(
             'type' => 'submit'
-        ));
+            ));
 
         $this->add($submitElement, array(
             'priority' => - 100
@@ -107,7 +107,7 @@ class Object extends ProvidesEventsForm
      *
      * @return ServiceManager
      */
-    public function getServiceManager ()
+    public function getServiceManager()
     {
         return $this->serviceManager;
     }
@@ -118,7 +118,7 @@ class Object extends ProvidesEventsForm
      * @param  ServiceManager $serviceManager
      * @return User
      */
-    public function setServiceManager (ServiceManager $serviceManager)
+    public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
 
@@ -129,16 +129,16 @@ class Object extends ProvidesEventsForm
      *
      * @return array
      */
-    public function getObjects ()
+    public function getObjects()
     {
-    	$objectsArray = array();
-    	$objectService = $this->getServiceManager()->get('playgroundflow_object_service');
-    	$objects = $objectService->getObjectMapper()->findAll();
+        $objectsArray = array();
+        $objectService = $this->getServiceManager()->get('playgroundflow_object_service');
+        $objects = $objectService->getObjectMapper()->findAll();
     
-    	foreach ($objects as $object) {
-    		$objectsArray[$object->getId()] = $object->getLabel();
-    	}
+        foreach ($objects as $object) {
+            $objectsArray[$object->getId()] = $object->getLabel();
+        }
     
-    	return $objectsArray;
+        return $objectsArray;
     }
 }
