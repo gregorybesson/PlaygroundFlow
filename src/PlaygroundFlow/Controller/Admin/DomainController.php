@@ -52,7 +52,7 @@ class DomainController extends AbstractActionController
         $form->setAttribute('action', $this->url()
             ->fromRoute('admin/playgroundflow/domain/create', array(
             'domainId' => 0
-        )));
+            )));
         $form->setAttribute('method', 'post');
         
         $request = $this->getRequest();
@@ -98,7 +98,7 @@ class DomainController extends AbstractActionController
         $form->setAttribute('action', $this->url()
             ->fromRoute('admin/playgroundflow/domain/edit', array(
             'domainId' => $domainId
-        )));
+            )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
         
@@ -202,7 +202,7 @@ class DomainController extends AbstractActionController
             ->fromRoute('admin/playgroundflow/domain/story/create', array(
             'domainId' => $domainId,
             'mappingId' => 0
-        )));
+            )));
         $form->setAttribute('method', 'post');
         
         $request = $this->getRequest();
@@ -256,7 +256,7 @@ class DomainController extends AbstractActionController
             ->fromRoute('admin/playgroundflow/domain/story/edit', array(
             'domainId' => $domainId,
             'mappingId' => $mappingId
-        )));
+            )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
         
@@ -391,7 +391,7 @@ class DomainController extends AbstractActionController
             'domainId' => $domainId,
             'mappingId' => $mappingId,
             'objectId' => 0
-        )));
+            )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
         
@@ -441,7 +441,7 @@ class DomainController extends AbstractActionController
         $viewModel = new ViewModel();
         $viewModel->setTemplate('playground-flow/admin/domain/object');
         
-        $objectsArray = array();  
+        $objectsArray = array();
         foreach ($storyMapping->getStory()->getObjects() as $object) {
             $objectsArray[$object->getId()] = $object->getLabel();
         }
@@ -454,7 +454,7 @@ class DomainController extends AbstractActionController
             'domainId' => $domainId,
             'mappingId' => $mappingId,
             'objectId' => $objectMapping->getId()
-        )));
+            )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
         

@@ -2,22 +2,20 @@
 return array(
     'modules' => array(
         'DoctrineModule',
-    	'DoctrineORMModule',
-   		'DoctrineDataFixtureModule',
-   		'ZendDeveloperTools',
-   		'Jhu\ZdtLoggerModule',
-    	'AsseticBundle',
-    	'ZfcBase',
-   		'PlaygroundCore',
+        'DoctrineORMModule',
+        'DoctrineDataFixtureModule',
+        'AsseticBundle',
+        'ZfcBase',
+        'PlaygroundCore',
         'PlaygroundDesign',
         'PlaygroundUser',
         'PlaygroundReward',
-    	'PlaygroundFlow',
+        'PlaygroundFlow',
     ),
     'module_listener_options' => array(
         'config_glob_paths'    => array(
             '../../../config/autoload/{,*.}{global,local,testing}.php',
-        	'./config/{,*.}{testing}.php',
+            './config/{,*.}{testing}.php',
         ),
         'module_paths' => array(
             'module',

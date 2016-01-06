@@ -17,8 +17,8 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class OpenGraphStory
 {
-	protected $inputFilter;
-	
+    protected $inputFilter;
+    
     /**
      * @ORM\Id
      * @ORM\Column(type="integer");
@@ -68,7 +68,6 @@ class OpenGraphStory
     public function __construct()
     {
         $this->objects = new \Doctrine\Common\Collections\ArrayCollection();
-
     }
 
     /** @PrePersist */
@@ -88,7 +87,7 @@ class OpenGraphStory
      *
      * @return the $id
      */
-    public function getId ()
+    public function getId()
     {
         return $this->id;
     }
@@ -97,7 +96,7 @@ class OpenGraphStory
      *
      * @param field_type $id
      */
-    public function setId ($id)
+    public function setId($id)
     {
         $this->id = $id;
         
@@ -108,7 +107,7 @@ class OpenGraphStory
      *
      * @return the $code
      */
-    public function getCode ()
+    public function getCode()
     {
         return $this->code;
     }
@@ -117,7 +116,7 @@ class OpenGraphStory
      *
      * @param field_type $code
      */
-    public function setCode ($code)
+    public function setCode($code)
     {
         $this->code = $code;
         
@@ -161,24 +160,24 @@ class OpenGraphStory
     }
 
     /**
-	 * @return the $action
-	 */
-	public function getAction() {
-	    
-		return $this->action;
-	}
+     * @return the $action
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
 
-	/**
-	 * @param field_type $action
-	 */
-	public function setAction($action) {
-	    
-		$this->action = $action;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $action
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+        
+        return $this;
+    }
 
-	/**
+    /**
      * @return the $objects
      */
     public function getObjects()
@@ -186,7 +185,7 @@ class OpenGraphStory
         return $this->objects;
     }
 
-	/**
+    /**
      * @param \Doctrine\Common\Collections\ArrayCollection $objects
      */
     public function setObjects($objects)
@@ -224,7 +223,7 @@ class OpenGraphStory
         }
     }
 
-	/**
+    /**
      * @return the $createdAt
      */
     public function getCreatedAt()
@@ -281,18 +280,18 @@ class OpenGraphStory
     
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
-    	throw new \Exception("Not used");
+        throw new \Exception("Not used");
     }
     
     public function getInputFilter()
     {
-    	if (!$this->inputFilter) {
-    		$inputFilter = new InputFilter();
-    		$factory = new InputFactory();
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
     
-    		$this->inputFilter = $inputFilter;
-    	}
+            $this->inputFilter = $inputFilter;
+        }
     
-    	return $this->inputFilter;
+        return $this->inputFilter;
     }
 }

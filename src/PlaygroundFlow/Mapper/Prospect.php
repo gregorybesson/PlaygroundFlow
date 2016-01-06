@@ -20,12 +20,12 @@ class Prospect extends AbstractDbMapper
 
     public function findBy($filters)
     {
-         return $this->getRepository()->findBy($filters);
+        return $this->getRepository()->findBy($filters);
     }
 
     public function findOneBy($filters)
     {
-         return $this->getRepository()->findOneBy($filters);
+        return $this->getRepository()->findOneBy($filters);
     }
 
 

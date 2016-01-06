@@ -27,32 +27,31 @@ class Story extends EventProvider implements ServiceManagerAwareInterface
 
     public function create(array $data)
     {
-    	$story  = new \PlaygroundFlow\Entity\OpenGraphStory();
-    	$form  = $this->getServiceManager()->get('playgroundflow_story_form');
-    	$form->bind($story);
-    	$form->setData($data);
-    	
-    	if (!$form->isValid()) {
-    		return false;
-    	}
-    	
-    	$this->getEventManager()->trigger(__FUNCTION__, $this, array('story' => $story, 'data' => $data));
-    	$this->getStoryMapper()->insert($story);
-    	$this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('story' => $story, 'data' => $data));
-    	
-    	return $story;
-
+        $story  = new \PlaygroundFlow\Entity\OpenGraphStory();
+        $form  = $this->getServiceManager()->get('playgroundflow_story_form');
+        $form->bind($story);
+        $form->setData($data);
+        
+        if (!$form->isValid()) {
+            return false;
+        }
+        
+        $this->getEventManager()->trigger(__FUNCTION__, $this, array('story' => $story, 'data' => $data));
+        $this->getStoryMapper()->insert($story);
+        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('story' => $story, 'data' => $data));
+        
+        return $story;
     }
 
     public function edit(array $data, $story)
     {
-    	$form  = $this->getServiceManager()->get('playgroundflow_story_form');
-    	$form->bind($story);
-    	$form->setData($data);
-    	 
-    	if (!$form->isValid()) {
-    		return false;
-    	}
+        $form  = $this->getServiceManager()->get('playgroundflow_story_form');
+        $form->bind($story);
+        $form->setData($data);
+         
+        if (!$form->isValid()) {
+            return false;
+        }
         
         $this->getEventManager()->trigger(__FUNCTION__, $this, array('story' => $story, 'data' => $data));
         $this->getStoryMapper()->update($story);

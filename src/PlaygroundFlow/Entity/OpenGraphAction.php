@@ -18,8 +18,8 @@ use Zend\InputFilter\InputFilterInterface;
 class OpenGraphAction implements InputFilterAwareInterface
 {
 
-	protected $inputFilter;
-	
+    protected $inputFilter;
+    
     /**
      * @ORM\Id
      * @ORM\Column(type="integer");
@@ -54,7 +54,6 @@ class OpenGraphAction implements InputFilterAwareInterface
 
     public function __construct()
     {
-
     }
 
     /** @PrePersist */
@@ -74,7 +73,7 @@ class OpenGraphAction implements InputFilterAwareInterface
      *
      * @return the $id
      */
-    public function getId ()
+    public function getId()
     {
         return $this->id;
     }
@@ -83,7 +82,7 @@ class OpenGraphAction implements InputFilterAwareInterface
      *
      * @param field_type $id
      */
-    public function setId ($id)
+    public function setId($id)
     {
         $this->id = $id;
         
@@ -94,7 +93,7 @@ class OpenGraphAction implements InputFilterAwareInterface
      *
      * @return the $code
      */
-    public function getCode ()
+    public function getCode()
     {
         return $this->code;
     }
@@ -103,7 +102,7 @@ class OpenGraphAction implements InputFilterAwareInterface
      *
      * @param field_type $code
      */
-    public function setCode ($code)
+    public function setCode($code)
     {
         $this->code = $code;
         
@@ -199,33 +198,33 @@ class OpenGraphAction implements InputFilterAwareInterface
      */
     public function populate($data = array())
     {
-    	if (isset($data['code']) && $data['code'] != null) {
-    		$this->code = $data['code'];
-    	}
-    	
-    	if (isset($data['label']) && $data['label'] != null) {
-    		$this->label = $data['label'];
-    	}
-    	
-    	if (isset($data['definition']) && $data['definition'] != null) {
-    		$this->definition = $data['definition'];
-    	}
+        if (isset($data['code']) && $data['code'] != null) {
+            $this->code = $data['code'];
+        }
+        
+        if (isset($data['label']) && $data['label'] != null) {
+            $this->label = $data['label'];
+        }
+        
+        if (isset($data['definition']) && $data['definition'] != null) {
+            $this->definition = $data['definition'];
+        }
     }
     
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
-    	throw new \Exception("Not used");
+        throw new \Exception("Not used");
     }
     
     public function getInputFilter()
     {
-    	if (!$this->inputFilter) {
-    		$inputFilter = new InputFilter();
-    		$factory = new InputFactory();
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
     
-    		$this->inputFilter = $inputFilter;
-    	}
+            $this->inputFilter = $inputFilter;
+        }
     
-    	return $this->inputFilter;
+        return $this->inputFilter;
     }
 }

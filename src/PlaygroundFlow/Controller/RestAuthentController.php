@@ -283,7 +283,8 @@ class RestAuthentController extends AbstractRestfulController
 
     // POST
     public function create($data)
-    {}
+    {
+    }
 
     public function update($id, $data)
     {

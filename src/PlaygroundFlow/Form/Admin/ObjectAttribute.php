@@ -20,7 +20,7 @@ class ObjectAttribute extends ProvidesEventsForm
 
     protected $serviceManager;
 
-    public function __construct ($name = null, ServiceManager $sm, Translator $translator)
+    public function __construct($name = null, ServiceManager $sm, Translator $translator)
     {
         parent::__construct($name);
 
@@ -32,7 +32,7 @@ class ObjectAttribute extends ProvidesEventsForm
         // having to fix a DoctrineModule bug :( https://github.com/doctrine/DoctrineModule/issues/180
         // so i've extended DoctrineHydrator ...
         $hydrator = new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphObjectAttribute');
-   		$this->setHydrator($hydrator);
+        $this->setHydrator($hydrator);
 
         $this->setAttribute('enctype', 'multipart/form-data');
 
@@ -45,11 +45,11 @@ class ObjectAttribute extends ProvidesEventsForm
         ));
         
         $this->add(array(
-        	'name' => 'objectId',
-        	'type'  => 'Zend\Form\Element\Hidden',
-       		'attributes' => array(
-       			'value' => 0,
-       		),
+            'name' => 'objectId',
+            'type'  => 'Zend\Form\Element\Hidden',
+            'attributes' => array(
+                'value' => 0,
+            ),
         ));
 
         $this->add(array(
@@ -70,7 +70,7 @@ class ObjectAttribute extends ProvidesEventsForm
             ),
             'attributes' => array(
                 'type' => 'text',
-            	'placeholder' => $translator->translate('Code', 'playgroundflow')
+                'placeholder' => $translator->translate('Code', 'playgroundflow')
             )
         ));
 
@@ -88,43 +88,43 @@ class ObjectAttribute extends ProvidesEventsForm
         ));
         
         $this->add(array(
-        	'type' => 'Zend\Form\Element\Select',
-        	'name' => 'type',
-        	'attributes' =>  array(
-       			'id' => 'type',
-      			'options' => array(
-       				'boolean' => $translator->translate('Boolean', 'playgroundflow'),
-    				'float' => $translator->translate('Float', 'playgroundflow'),
-        			'integer' => $translator->translate('Integer', 'playgroundflow'),
-    				'string' => $translator->translate('String', 'playgroundflow'),
-        			'array' => $translator->translate('Array', 'playgroundflow'),
-      			    'datetime' => $translator->translate('DateTime', 'playgroundflow'),
-      			    'date' => $translator->translate('Date', 'playgroundflow'),
-   				),
-       		),
-       		'options' => array(
-      			'empty_option' => $translator->translate('Type de l\'attribut', 'playgroundflow'),
-       			'label' => $translator->translate('Type de l\'attribut', 'playgroundflow'),
-       		),
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'type',
+            'attributes' =>  array(
+                'id' => 'type',
+                'options' => array(
+                    'boolean' => $translator->translate('Boolean', 'playgroundflow'),
+                    'float' => $translator->translate('Float', 'playgroundflow'),
+                    'integer' => $translator->translate('Integer', 'playgroundflow'),
+                    'string' => $translator->translate('String', 'playgroundflow'),
+                    'array' => $translator->translate('Array', 'playgroundflow'),
+                    'datetime' => $translator->translate('DateTime', 'playgroundflow'),
+                    'date' => $translator->translate('Date', 'playgroundflow'),
+                ),
+            ),
+            'options' => array(
+                'empty_option' => $translator->translate('Type de l\'attribut', 'playgroundflow'),
+                'label' => $translator->translate('Type de l\'attribut', 'playgroundflow'),
+            ),
         ));
 
         $this->add(array(
-        	'type' => 'Zend\Form\Element\Select',
-        	'name' => 'mandatory',
-       		'options' => array(
-       			'value_options' => array(
-       				'0' => $translator->translate('No', 'playgroundflow'),
-       				'1' => $translator->translate('Yes', 'playgroundflow'),
-       			),
-   				'label' => $translator->translate('Is this attribute mandatory ?', 'playgroundflow'),
-       		),
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'mandatory',
+            'options' => array(
+                'value_options' => array(
+                    '0' => $translator->translate('No', 'playgroundflow'),
+                    '1' => $translator->translate('Yes', 'playgroundflow'),
+                ),
+                'label' => $translator->translate('Is this attribute mandatory ?', 'playgroundflow'),
+            ),
         ));
         
         $submitElement = new Element\Button('submit');
         $submitElement->setLabel($translator->translate('Create', 'playgroundflow'))
             ->setAttributes(array(
             'type' => 'submit'
-        ));
+            ));
 
         $this->add($submitElement, array(
             'priority' => - 100
@@ -136,7 +136,7 @@ class ObjectAttribute extends ProvidesEventsForm
      *
      * @return ServiceManager
      */
-    public function getServiceManager ()
+    public function getServiceManager()
     {
         return $this->serviceManager;
     }
@@ -147,7 +147,7 @@ class ObjectAttribute extends ProvidesEventsForm
      * @param  ServiceManager $serviceManager
      * @return User
      */
-    public function setServiceManager (ServiceManager $serviceManager)
+    public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
 

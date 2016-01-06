@@ -16,7 +16,7 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class OpenGraphDomain
 {
-	protected $inputFilter;
+    protected $inputFilter;
 
     /**
      * @ORM\Id
@@ -68,8 +68,8 @@ class OpenGraphDomain
 
     public function __construct()
     {
-    	$this->apps = new \Doctrine\Common\Collections\ArrayCollection();
-    	$this->storyMappings = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->apps = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->storyMappings = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /** @PrePersist */
@@ -89,7 +89,7 @@ class OpenGraphDomain
      *
      * @return the $id
      */
-    public function getId ()
+    public function getId()
     {
         return $this->id;
     }
@@ -98,7 +98,7 @@ class OpenGraphDomain
      *
      * @param field_type $id
      */
-    public function setId ($id)
+    public function setId($id)
     {
         $this->id = $id;
         
@@ -106,51 +106,51 @@ class OpenGraphDomain
     }
     
     /**
-	 * @return the $title
-	 */
-	public function getTitle() {
-	    
-		return $this->title;
-	}
+     * @return the $title
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @param field_type $title
-	 */
-	public function setTitle($title) {
-	    
-		$this->title = $title;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        
+        return $this;
+    }
 
-	/**
-	 * @return the $apps
-	 */
-	public function getApps() {
-	    
-		return $this->apps;
-	}
+    /**
+     * @return the $apps
+     */
+    public function getApps()
+    {
+        return $this->apps;
+    }
 
-	/**
-	 * @param field_type $apps
-	 */
-	public function setApps($apps) {
-	    
-		$this->apps = $apps;
-		
-		return $this;
-	}
-	
-	public function addApp($app)
-	{
-		$this->apps[] = $app;
-	}
+    /**
+     * @param field_type $apps
+     */
+    public function setApps($apps)
+    {
+        $this->apps = $apps;
+        
+        return $this;
+    }
+    
+    public function addApp($app)
+    {
+        $this->apps[] = $app;
+    }
 
-	/**
+    /**
      *
      * @return the $domain
      */
-    public function getDomain ()
+    public function getDomain()
     {
         return $this->domain;
     }
@@ -159,7 +159,7 @@ class OpenGraphDomain
      *
      * @param field_type $domain
      */
-    public function setDomain ($domain)
+    public function setDomain($domain)
     {
         $this->domain = $domain;
         
@@ -188,28 +188,28 @@ class OpenGraphDomain
     /**
      * @return the $storyMapping
      */
-    public function addStoryMapping($storyMapping) {
-        
-    	$this->storyMappings[] = $storyMapping;
+    public function addStoryMapping($storyMapping)
+    {
+        $this->storyMappings[] = $storyMapping;
     }
     
     /**
-	 * @return the $storyMappings
-	 */
-	public function getStoryMappings() {
-	    
-		return $this->storyMappings;
-	}
+     * @return the $storyMappings
+     */
+    public function getStoryMappings()
+    {
+        return $this->storyMappings;
+    }
 
-	/**
-	 * @param field_type $storyMappings
-	 */
-	public function setStoryMappings($storyMappings) {
-	    
-		$this->storyMappings = $storyMappings;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $storyMappings
+     */
+    public function setStoryMappings($storyMappings)
+    {
+        $this->storyMappings = $storyMappings;
+        
+        return $this;
+    }
 
     /**
      * @return the unknown_type
@@ -229,7 +229,7 @@ class OpenGraphDomain
         return $this;
     }
 
-	/**
+    /**
      * @return the $createdAt
      */
     public function getCreatedAt()
@@ -286,18 +286,18 @@ class OpenGraphDomain
     
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
-    	throw new \Exception("Not used");
+        throw new \Exception("Not used");
     }
     
     public function getInputFilter()
     {
-    	if (!$this->inputFilter) {
-    		$inputFilter = new InputFilter();
-    		$factory = new InputFactory();
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
     
-    		$this->inputFilter = $inputFilter;
-    	}
+            $this->inputFilter = $inputFilter;
+        }
     
-    	return $this->inputFilter;
+        return $this->inputFilter;
     }
 }

@@ -27,32 +27,31 @@ class Widget extends EventProvider implements ServiceManagerAwareInterface
 
     public function create(array $data)
     {
-    	$widget  = new \PlaygroundFlow\Entity\OpenGraphWidget();
-    	$form  = $this->getServiceManager()->get('playgroundflow_widget_form');
-    	$form->bind($widget);
-    	$form->setData($data);
-    	
-    	if (!$form->isValid()) {
-    		return false;
-    	}
-    	
-    	$this->getEventManager()->trigger(__FUNCTION__, $this, array('widget' => $widget, 'data' => $data));
-    	$this->getWidgetMapper()->insert($widget);
-    	$this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('widget' => $widget, 'data' => $data));
-    	
-    	return $widget;
-
+        $widget  = new \PlaygroundFlow\Entity\OpenGraphWidget();
+        $form  = $this->getServiceManager()->get('playgroundflow_widget_form');
+        $form->bind($widget);
+        $form->setData($data);
+        
+        if (!$form->isValid()) {
+            return false;
+        }
+        
+        $this->getEventManager()->trigger(__FUNCTION__, $this, array('widget' => $widget, 'data' => $data));
+        $this->getWidgetMapper()->insert($widget);
+        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('widget' => $widget, 'data' => $data));
+        
+        return $widget;
     }
 
     public function edit(array $data, $widget)
     {
-    	$form  = $this->getServiceManager()->get('playgroundflow_widget_form');
-    	$form->bind($widget);
-    	$form->setData($data);
-    	 
-    	if (!$form->isValid()) {
-    		return false;
-    	}
+        $form  = $this->getServiceManager()->get('playgroundflow_widget_form');
+        $form->bind($widget);
+        $form->setData($data);
+         
+        if (!$form->isValid()) {
+            return false;
+        }
         
         $this->getEventManager()->trigger(__FUNCTION__, $this, array('widget' => $widget, 'data' => $data));
         $this->getWidgetMapper()->update($widget);

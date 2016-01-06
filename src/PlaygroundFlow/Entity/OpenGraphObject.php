@@ -18,7 +18,7 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class OpenGraphObject
 {
-	protected $inputFilter;
+    protected $inputFilter;
 
     /**
      * @ORM\Id
@@ -90,7 +90,7 @@ class OpenGraphObject
      *
      * @return the $id
      */
-    public function getId ()
+    public function getId()
     {
         return $this->id;
     }
@@ -99,7 +99,7 @@ class OpenGraphObject
      *
      * @param field_type $id
      */
-    public function setId ($id)
+    public function setId($id)
     {
         $this->id = $id;
         
@@ -107,46 +107,46 @@ class OpenGraphObject
     }
     
     /**
-	 * @return the $children
-	 */
-	public function getChildren() {
-	    
-		return $this->children;
-	}
+     * @return the $children
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
 
-	/**
-	 * @param \Doctrine\Common\Collections\ArrayCollection $children
-	 */
-	public function setChildren($children) {
-	    
-		$this->children = $children;
-		
-		return $this;
-	}
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection $children
+     */
+    public function setChildren($children)
+    {
+        $this->children = $children;
+        
+        return $this;
+    }
 
-	/**
-	 * @return the $parent
-	 */
-	public function getParent() {
-	    
-		return $this->parent;
-	}
+    /**
+     * @return the $parent
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
 
-	/**
-	 * @param array $parent
-	 */
-	public function setParent($parent) {
-	    
-		$this->parent = $parent;
-		
-		return $this;
-	}
+    /**
+     * @param array $parent
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+        
+        return $this;
+    }
 
-	/**
+    /**
      *
      * @return the $code
      */
-    public function getCode ()
+    public function getCode()
     {
         return $this->code;
     }
@@ -155,7 +155,7 @@ class OpenGraphObject
      *
      * @param field_type $code
      */
-    public function setCode ($code)
+    public function setCode($code)
     {
         $this->code = $code;
         
@@ -200,28 +200,28 @@ class OpenGraphObject
 
     public function addAttribute($attribute)
     {
-    	$this->attributes[] = $attribute;
+        $this->attributes[] = $attribute;
     }
     
     /**
-	 * @return the $attributes
-	 */
-	public function getAttributes() {
-	    
-		return $this->attributes;
-	}
+     * @return the $attributes
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
 
-	/**
-	 * @param field_type $attributes
-	 */
-	public function setAttributes($attributes) {
-	    
-		$this->attributes = $attributes;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $attributes
+     */
+    public function setAttributes($attributes)
+    {
+        $this->attributes = $attributes;
+        
+        return $this;
+    }
 
-	/**
+    /**
      * @return the $createdAt
      */
     public function getCreatedAt()
@@ -274,42 +274,42 @@ class OpenGraphObject
      */
     public function populate($data = array())
     {
-    	if (isset($data['code']) && $data['code'] != null) {
-    		$this->code = $data['code'];
-    	}
-    	 
-    	if (isset($data['label']) && $data['label'] != null) {
-    		$this->label = $data['label'];
-    	}
-    	 
-    	if (isset($data['definition']) && $data['definition'] != null) {
-    		$this->definition = $data['definition'];
-    	}
-    	
-    	if (isset($data['parent']) && $data['parent'] != null) {
-    		$this->parent = $data['parent'];
-    	}
+        if (isset($data['code']) && $data['code'] != null) {
+            $this->code = $data['code'];
+        }
+         
+        if (isset($data['label']) && $data['label'] != null) {
+            $this->label = $data['label'];
+        }
+         
+        if (isset($data['definition']) && $data['definition'] != null) {
+            $this->definition = $data['definition'];
+        }
+        
+        if (isset($data['parent']) && $data['parent'] != null) {
+            $this->parent = $data['parent'];
+        }
     }
     
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
-    	throw new \Exception("Not used");
+        throw new \Exception("Not used");
     }
     
     public function getInputFilter()
     {
-    	if (!$this->inputFilter) {
-    		$inputFilter = new InputFilter();
-    		$factory = new InputFactory();
-    		
-    		$inputFilter->add($factory->createInput(array(
-    			'name' => 'parent',
-    			'required' => false
-    		)));
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
+            
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'parent',
+                'required' => false
+            )));
     
-    		$this->inputFilter = $inputFilter;
-    	}
+            $this->inputFilter = $inputFilter;
+        }
     
-    	return $this->inputFilter;
+        return $this->inputFilter;
     }
 }

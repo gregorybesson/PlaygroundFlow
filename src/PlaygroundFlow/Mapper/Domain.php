@@ -47,7 +47,7 @@ class Domain implements ServiceLocatorAwareInterface
         return $this->getEntityRepository()->findBy($array);
     }
 
-    public function findOneBy($array=array())
+    public function findOneBy($array = array())
     {
         $er = $this->getEntityRepository();
 
@@ -56,7 +56,7 @@ class Domain implements ServiceLocatorAwareInterface
 
     public function findAll()
     {
-    	return $this->getEntityRepository()->findAll();
+        return $this->getEntityRepository()->findAll();
     }
     
     public function insert($entity)

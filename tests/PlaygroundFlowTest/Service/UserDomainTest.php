@@ -7,7 +7,6 @@ use PlaygroundFlow\Entity\OpenGraphDomain;
 use PlaygroundUser\Entity\User;
 use PlaygroundFlow\Entity\OpenGraphUserDomain as UserDomainEntity;
 
-
 class UserDomainTest extends \PHPUnit_Framework_TestCase
 {
     protected $traceError = true;
@@ -27,7 +26,7 @@ class UserDomainTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testFindUserDomainOrCreateByUserAndDomain()
-    {   
+    {
         $userDomainService = $this->sm->get('playgroundflow_user_domain_service');
 
         $this->userData = array(
@@ -72,7 +71,7 @@ class UserDomainTest extends \PHPUnit_Framework_TestCase
 
          $mapper->expects($this->any())
             ->method('findBy')
-            ->will($this->returnValue(array($userDomain)));    
+            ->will($this->returnValue(array($userDomain)));
 
         $userDomainService->setUserDomainMapper($mapper);
 

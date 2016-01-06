@@ -20,7 +20,7 @@ class ObjectMapping extends ProvidesEventsForm
 
     protected $serviceManager;
 
-    public function __construct ($name = null, ServiceManager $sm, Translator $translator)
+    public function __construct($name = null, ServiceManager $sm, Translator $translator)
     {
         parent::__construct($name);
 
@@ -33,7 +33,7 @@ class ObjectMapping extends ProvidesEventsForm
         // so i've extended DoctrineHydrator ...
         $hydrator = new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphObjectMapping');
         $hydrator->addStrategy('object', new \PlaygroundCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
-   		$this->setHydrator($hydrator);
+        $this->setHydrator($hydrator);
 
         $this->setAttribute('enctype', 'multipart/form-data');
 
@@ -61,17 +61,17 @@ class ObjectMapping extends ProvidesEventsForm
         ));
         
         $this->add(array(
-        	'name' => 'xpath',
-        	'options' => array(
-       			'label' => $translator->translate('Xpath', 'playgroundflow')
-       		),
-       		'attributes' => array(
-       			'type' => 'text',
-       			'placeholder' => $translator->translate('Xpath', 'playgroundflow')
-       		)
+            'name' => 'xpath',
+            'options' => array(
+                'label' => $translator->translate('Xpath', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => $translator->translate('Xpath', 'playgroundflow')
+            )
         ));
         
-        $objectAttributeMappingFieldset = new ObjectAttributeMappingFieldset(null,$sm,$translator);
+        $objectAttributeMappingFieldset = new ObjectAttributeMappingFieldset(null, $sm, $translator);
         $this->add(array(
             'type'    => 'Zend\Form\Element\Collection',
             'name'    => 'attributes',
@@ -90,7 +90,7 @@ class ObjectMapping extends ProvidesEventsForm
         $submitElement->setLabel($translator->translate('Create', 'playgroundflow'))
             ->setAttributes(array(
             'type' => 'submit'
-        ));
+            ));
 
         $this->add($submitElement, array(
             'priority' => - 100
@@ -102,7 +102,7 @@ class ObjectMapping extends ProvidesEventsForm
      *
      * @return ServiceManager
      */
-    public function getServiceManager ()
+    public function getServiceManager()
     {
         return $this->serviceManager;
     }
@@ -113,7 +113,7 @@ class ObjectMapping extends ProvidesEventsForm
      * @param  ServiceManager $serviceManager
      * @return User
      */
-    public function setServiceManager (ServiceManager $serviceManager)
+    public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
 
@@ -124,7 +124,7 @@ class ObjectMapping extends ProvidesEventsForm
      *
      * @return array
      */
-    public function getObjects ()
+    public function getObjects()
     {
         $objectsArray = array();
         $objectService = $this->getServiceManager()->get('playgroundflow_object_service');

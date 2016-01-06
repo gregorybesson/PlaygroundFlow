@@ -12,7 +12,7 @@ use Zend\ServiceManager\ServiceManager;
 
 class StoryObjectFieldset extends Fieldset
 {
-    public function __construct($name = null,ServiceManager $serviceManager, Translator $translator)
+    public function __construct($name = null, ServiceManager $serviceManager, Translator $translator)
     {
         parent::__construct($name);
         
@@ -30,12 +30,12 @@ class StoryObjectFieldset extends Fieldset
         
         $objects = $this->getObjects();
         $this->add(array(
-        	'type' => 'Zend\Form\Element\Select',
-        	'name' => 'object',
-       		'options' => array(
-   				'value_options' => $objects,
-   				'label' => $translator->translate('Object', 'playgroundflow')
-       		)
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'object',
+            'options' => array(
+                'value_options' => $objects,
+                'label' => $translator->translate('Object', 'playgroundflow')
+            )
         ));
 
         $this->add(array(
@@ -44,9 +44,9 @@ class StoryObjectFieldset extends Fieldset
             'options' => array(
                 'label' => $translator->translate('Delete', 'playgroundreward'),
             ),
-			'attributes' => array(
-				'class' => 'delete-button',
-			)
+            'attributes' => array(
+                'class' => 'delete-button',
+            )
         ));
     }
     
@@ -54,7 +54,7 @@ class StoryObjectFieldset extends Fieldset
      *
      * @return array
      */
-    public function getObjects ()
+    public function getObjects()
     {
         $objectsArray = array();
         $objectService = $this->getServiceManager()->get('playgroundflow_object_service');
@@ -72,7 +72,7 @@ class StoryObjectFieldset extends Fieldset
      *
      * @return ServiceManager
      */
-    public function getServiceManager ()
+    public function getServiceManager()
     {
         return $this->serviceManager;
     }
@@ -83,7 +83,7 @@ class StoryObjectFieldset extends Fieldset
      * @param  ServiceManager $serviceManager
      * @return User
      */
-    public function setServiceManager (ServiceManager $serviceManager)
+    public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
     

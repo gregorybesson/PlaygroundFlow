@@ -49,13 +49,13 @@ class IndexController extends AbstractActionController
     /**
      * user sponsor friend
      */
-    public function sponsorfriendsAction ()
+    public function sponsorfriendsAction()
     {
-        $user 		 = $this->zfcUserAuthentication()->getIdentity();
+        $user        = $this->zfcUserAuthentication()->getIdentity();
         $subjectMail = "Gagnez pleins de cadeaux sur Playground";
-        $topic 		 = "Parrainage depuis l'espace client";
+        $topic       = "Parrainage depuis l'espace client";
         $statusMail  = null;
-        $sg 		 = $this->getGameService();
+        $sg          = $this->getGameService();
         
         $form = $this->getServiceLocator()->get('playgroundgame_sharemail_form');
         $form->setAttribute('method', 'post');
@@ -73,7 +73,7 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $secretKey = strtoupper(substr(sha1($user->getId().'####'.time()),0,15));
+        $secretKey = strtoupper(substr(sha1($user->getId().'####'.time()), 0, 15));
         $socialLinkUrl = $this->url()->fromRoute('frontend', array(), array('force_canonical' => true)).'?key='.$secretKey;
         // With core shortener helper
         $socialLinkUrl = $this->shortenUrl()->shortenUrl($socialLinkUrl);
@@ -99,7 +99,7 @@ class IndexController extends AbstractActionController
                     $matchToFilter = true;
                 }
             }
-            if($matchToFilter) {
+            if ($matchToFilter) {
                 $activities[] = array("object" => json_decode($story->getObject(), true),
                                       "openGraphMapping" => $story->getOpenGraphStoryMapping()->getId(),
                                       "hint"   => $story->getOpenGraphStoryMapping()->getHint(),
@@ -116,7 +116,7 @@ class IndexController extends AbstractActionController
             'statusMail'    => $statusMail,
             'form'          => $form,
             'socialLinkUrl' => $socialLinkUrl,
-            'secretKey'		=> $secretKey
+            'secretKey'         => $secretKey
         ));
 
         return $viewModel;
@@ -136,10 +136,9 @@ class IndexController extends AbstractActionController
             return false;
         }
 
-        $this->getServiceLocator()->get('playgroundgame_lottery_service')->postFbWall($fbId, NULL, $user, $topic);
+        $this->getServiceLocator()->get('playgroundgame_lottery_service')->postFbWall($fbId, null, $user, $topic);
 
         return true;
-
     }
 
     public function tweetAction()
@@ -156,10 +155,9 @@ class IndexController extends AbstractActionController
             return false;
         }
 
-        $this->getServiceLocator()->get('playgroundgame_lottery_service')->postTwitter($tweetId, NULL, $user, $topic);
+        $this->getServiceLocator()->get('playgroundgame_lottery_service')->postTwitter($tweetId, null, $user, $topic);
 
         return true;
-
     }
 
     public function googleAction()
@@ -176,10 +174,9 @@ class IndexController extends AbstractActionController
             return false;
         }
 
-        $this->getServiceLocator()->get('playgroundgame_lottery_service')->postGoogle($googleId, NULL, $user, $topic);
+        $this->getServiceLocator()->get('playgroundgame_lottery_service')->postGoogle($googleId, null, $user, $topic);
 
         return true;
-
     }
 
     public function getGameService()

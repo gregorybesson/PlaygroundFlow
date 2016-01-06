@@ -46,15 +46,14 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
         $placeholders = array('{username}','{points}', '{title}');
         $values = array($userId, $storyTelling->getPoints(), $storyTelling->getOpenGraphStoryMapping()->getStory()->getLabel());
         
-        if($storyTelling->getOpenGraphStoryMapping()->getDisplayNotification()){
-            
+        if ($storyTelling->getOpenGraphStoryMapping()->getDisplayNotification()) {
             $notification = str_replace($placeholders, $values, $storyTelling->getOpenGraphStoryMapping()->getNotification());
-            if($storyTelling->getOpenGraphStoryMapping()->getWidget() && $storyTelling->getOpenGraphStoryMapping()->getWidget()->getAnchor()){
+            if ($storyTelling->getOpenGraphStoryMapping()->getWidget() && $storyTelling->getOpenGraphStoryMapping()->getWidget()->getAnchor()) {
                 $args["container"] = $storyTelling->getOpenGraphStoryMapping()->getWidget()->getAnchor(); //'#right-column';
             }
-            if($storyTelling->getOpenGraphStoryMapping()->getWidget() && $storyTelling->getOpenGraphStoryMapping()->getWidget()->getTemplate()){
+            if ($storyTelling->getOpenGraphStoryMapping()->getWidget() && $storyTelling->getOpenGraphStoryMapping()->getWidget()->getTemplate()) {
                 $message = str_replace("{notification}", $notification, $storyTelling->getOpenGraphStoryMapping()->getWidget()->getTemplate());
-            }else{
+            } else {
                 $message = '<div id="pgActivityStream" class="playground" ><div >' .
                         '<a href="#" onclick="document.getElementById(\'pgActivityStream\').parentNode.removeChild(document.getElementById(\'pgActivityStream\'));">' .
                     'X</a>' .
@@ -69,7 +68,7 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
             $this->sendRequest($url, $args);
         }
         
-        if($storyTelling->getOpenGraphStoryMapping()->getDisplayActivityStream()){
+        if ($storyTelling->getOpenGraphStoryMapping()->getDisplayActivityStream()) {
             $activityStream = str_replace($placeholders, $values, $storyTelling->getOpenGraphStoryMapping()->getActivityStream());
             
             $message = '<div id="pgActivityStream" class="playground" >' .
@@ -181,7 +180,6 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
      */
     public function sendRequest($url, $args)
     {
-    
         $ch = curl_init();
         $curlConfig = array(
             CURLOPT_URL            => $url,

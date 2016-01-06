@@ -53,7 +53,7 @@ class OpenGraphApplication
 
     public function __construct()
     {
-    	$this->domains = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->domains = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /** @PrePersist */
@@ -73,7 +73,7 @@ class OpenGraphApplication
      *
      * @return the $id
      */
-    public function getId ()
+    public function getId()
     {
         return $this->id;
     }
@@ -82,7 +82,7 @@ class OpenGraphApplication
      *
      * @param field_type $id
      */
-    public function setId ($id)
+    public function setId($id)
     {
         $this->id = $id;
         
@@ -93,7 +93,7 @@ class OpenGraphApplication
      *
      * @return the $appKey
      */
-    public function getAppKey ()
+    public function getAppKey()
     {
         return $this->appKey;
     }
@@ -102,7 +102,7 @@ class OpenGraphApplication
      *
      * @param field_type $appKey
      */
-    public function setAppKey ($appKey)
+    public function setAppKey($appKey)
     {
         $this->appKey = $appKey;
         
@@ -110,24 +110,24 @@ class OpenGraphApplication
     }
 
     /**
-	 * @return the $domains
-	 */
-	public function getDomains() {
-	    
-		return $this->domains;
-	}
+     * @return the $domains
+     */
+    public function getDomains()
+    {
+        return $this->domains;
+    }
 
-	/**
-	 * @param field_type $domains
-	 */
-	public function setDomains($domains) {
-	    
-		$this->domains = $domains;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $domains
+     */
+    public function setDomains($domains)
+    {
+        $this->domains = $domains;
+        
+        return $this;
+    }
 
-	/**
+    /**
      * @return the $label
      */
     public function getLabel()

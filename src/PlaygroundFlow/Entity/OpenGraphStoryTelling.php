@@ -197,7 +197,7 @@ class OpenGraphStoryTelling
         return $this->points;
     }
 
-	/**
+    /**
      * @param field_type $points
      */
     public function setPoints($points)
@@ -207,11 +207,11 @@ class OpenGraphStoryTelling
         return $this;
     }
 
-	/**
+    /**
      *
      * @return the $createdAt
      */
-    public function getCreatedAt ()
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
@@ -220,7 +220,7 @@ class OpenGraphStoryTelling
      *
      * @param \DateTime $createdAt
      */
-    public function setCreatedAt ($createdAt)
+    public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
         
@@ -231,7 +231,7 @@ class OpenGraphStoryTelling
      *
      * @return the $updatedAt
      */
-    public function getUpdatedAt ()
+    public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
@@ -240,7 +240,7 @@ class OpenGraphStoryTelling
      *
      * @param \DateTime $updatedAt
      */
-    public function setUpdatedAt ($updatedAt)
+    public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
         

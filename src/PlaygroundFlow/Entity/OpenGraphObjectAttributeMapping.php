@@ -17,7 +17,7 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class OpenGraphObjectAttributeMapping
 {
-	protected $inputFilter;
+    protected $inputFilter;
 
     /**
      * @ORM\Id
@@ -53,7 +53,6 @@ class OpenGraphObjectAttributeMapping
 
     public function __construct()
     {
-
     }
 
     /** @PrePersist */
@@ -73,7 +72,7 @@ class OpenGraphObjectAttributeMapping
      *
      * @return the $id
      */
-    public function getId ()
+    public function getId()
     {
         return $this->id;
     }
@@ -82,68 +81,68 @@ class OpenGraphObjectAttributeMapping
      *
      * @param field_type $id
      */
-    public function setId ($id)
+    public function setId($id)
     {
         $this->id = $id;
         
         return $this;
     }
 
-	/**
-	 * @return the $objectMapping
-	 */
-	public function getObjectMapping() {
-	    
-		return $this->objectMapping;
-	}
+    /**
+     * @return the $objectMapping
+     */
+    public function getObjectMapping()
+    {
+        return $this->objectMapping;
+    }
 
-	/**
-	 * @param field_type $objectMapping
-	 */
-	public function setObjectMapping($objectMapping) {
-	    
-		$this->objectMapping = $objectMapping;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $objectMapping
+     */
+    public function setObjectMapping($objectMapping)
+    {
+        $this->objectMapping = $objectMapping;
+        
+        return $this;
+    }
 
-	/**
-	 * @return the $attribute
-	 */
-	public function getAttribute() {
-	    
-		return $this->attribute;
-	}
+    /**
+     * @return the $attribute
+     */
+    public function getAttribute()
+    {
+        return $this->attribute;
+    }
 
-	/**
-	 * @param field_type $attribute
-	 */
-	public function setAttribute($attribute) {
-	    
-		$this->attribute = $attribute;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $attribute
+     */
+    public function setAttribute($attribute)
+    {
+        $this->attribute = $attribute;
+        
+        return $this;
+    }
 
-	/**
-	 * @return the $xpath
-	 */
-	public function getXpath() {
-	    
-		return $this->xpath;
-	}
+    /**
+     * @return the $xpath
+     */
+    public function getXpath()
+    {
+        return $this->xpath;
+    }
 
-	/**
-	 * @param field_type $xpath
-	 */
-	public function setXpath($xpath) {
-	    
-		$this->xpath = $xpath;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $xpath
+     */
+    public function setXpath($xpath)
+    {
+        $this->xpath = $xpath;
+        
+        return $this;
+    }
 
-	/**
+    /**
      * @return the $created_at
      */
     public function getCreatedAt()
@@ -200,24 +199,24 @@ class OpenGraphObjectAttributeMapping
     
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
-    	throw new \Exception("Not used");
+        throw new \Exception("Not used");
     }
     
     public function getInputFilter()
     {
-    	if (!$this->inputFilter) {
-    		$inputFilter = new InputFilter();
-    		$factory = new InputFactory();
-    		
-    		$inputFilter->add($factory->createInput(array(
-    		    'name' => 'attribute',
-    		    'required' => false,
-    		    'allowEmpty' => true,
-    		)));
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
+            
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'attribute',
+                'required' => false,
+                'allowEmpty' => true,
+            )));
     
-    		$this->inputFilter = $inputFilter;
-    	}
+            $this->inputFilter = $inputFilter;
+        }
     
-    	return $this->inputFilter;
+        return $this->inputFilter;
     }
 }

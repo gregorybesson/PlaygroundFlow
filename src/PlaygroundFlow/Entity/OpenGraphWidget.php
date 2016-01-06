@@ -16,7 +16,7 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class OpenGraphWidget
 {
-	protected $inputFilter;
+    protected $inputFilter;
 
     /**
      * @ORM\Id
@@ -67,7 +67,6 @@ class OpenGraphWidget
 
     public function __construct()
     {
-
     }
 
     /** @PrePersist */
@@ -91,7 +90,7 @@ class OpenGraphWidget
         return $this->id;
     }
 
-	/**
+    /**
      * @param field_type $id
      */
     public function setId($id)
@@ -99,7 +98,7 @@ class OpenGraphWidget
         $this->id = $id;
     }
 
-	/**
+    /**
      * @return the $title
      */
     public function getTitle()
@@ -107,7 +106,7 @@ class OpenGraphWidget
         return $this->title;
     }
 
-	/**
+    /**
      * @param field_type $title
      */
     public function setTitle($title)
@@ -115,7 +114,7 @@ class OpenGraphWidget
         $this->title = $title;
     }
 
-	/**
+    /**
      * @return the $anchor
      */
     public function getAnchor()
@@ -123,7 +122,7 @@ class OpenGraphWidget
         return $this->anchor;
     }
 
-	/**
+    /**
      * @param field_type $anchor
      */
     public function setAnchor($anchor)
@@ -131,7 +130,7 @@ class OpenGraphWidget
         $this->anchor = $anchor;
     }
 
-	/**
+    /**
      * @return the $template
      */
     public function getTemplate()
@@ -139,7 +138,7 @@ class OpenGraphWidget
         return $this->template;
     }
 
-	/**
+    /**
      * @param field_type $template
      */
     public function setTemplate($template)
@@ -147,7 +146,7 @@ class OpenGraphWidget
         $this->template = $template;
     }
 
-	/**
+    /**
      * @return the $cssFile
      */
     public function getCssFile()
@@ -155,7 +154,7 @@ class OpenGraphWidget
         return $this->cssFile;
     }
 
-	/**
+    /**
      * @param field_type $cssFile
      */
     public function setCssFile($cssFile)
@@ -163,7 +162,7 @@ class OpenGraphWidget
         $this->cssFile = $cssFile;
     }
 
-	/**
+    /**
      * @return the $jsFile
      */
     public function getJsFile()
@@ -171,7 +170,7 @@ class OpenGraphWidget
         return $this->jsFile;
     }
 
-	/**
+    /**
      * @param field_type $jsFile
      */
     public function setJsFile($jsFile)
@@ -179,7 +178,7 @@ class OpenGraphWidget
         $this->jsFile = $jsFile;
     }
 
-	/**
+    /**
      * @return the $timeout
      */
     public function getTimeout()
@@ -187,7 +186,7 @@ class OpenGraphWidget
         return $this->timeout;
     }
 
-	/**
+    /**
      * @param field_type $timeout
      */
     public function setTimeout($timeout)
@@ -195,7 +194,7 @@ class OpenGraphWidget
         $this->timeout = $timeout;
     }
 
-	/**
+    /**
      * @return the $createdAt
      */
     public function getCreatedAt()
@@ -203,7 +202,7 @@ class OpenGraphWidget
         return $this->createdAt;
     }
 
-	/**
+    /**
      * @param \DateTime $createdAt
      */
     public function setCreatedAt($createdAt)
@@ -211,7 +210,7 @@ class OpenGraphWidget
         $this->createdAt = $createdAt;
     }
 
-	/**
+    /**
      * @return the $updatedAt
      */
     public function getUpdatedAt()
@@ -219,7 +218,7 @@ class OpenGraphWidget
         return $this->updatedAt;
     }
 
-	/**
+    /**
      * @param \DateTime $updatedAt
      */
     public function setUpdatedAt($updatedAt)
@@ -227,7 +226,7 @@ class OpenGraphWidget
         $this->updatedAt = $updatedAt;
     }
 
-	/**
+    /**
      * Convert the object to an array.
      *
      * @return array
@@ -248,18 +247,18 @@ class OpenGraphWidget
     
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
-    	throw new \Exception("Not used");
+        throw new \Exception("Not used");
     }
     
     public function getInputFilter()
     {
-    	if (!$this->inputFilter) {
-    		$inputFilter = new InputFilter();
-    		$factory = new InputFactory();
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
     
-    		$this->inputFilter = $inputFilter;
-    	}
+            $this->inputFilter = $inputFilter;
+        }
     
-    	return $this->inputFilter;
+        return $this->inputFilter;
     }
 }

@@ -44,7 +44,7 @@ class ObjectAttribute implements ServiceLocatorAwareInterface
 
     public function findByObjectId($object)
     {
-    	return $this->getEntityRepository()->findBy(array('object' => $object));
+        return $this->getEntityRepository()->findBy(array('object' => $object));
     }
     
     public function findBy($array)
@@ -52,7 +52,7 @@ class ObjectAttribute implements ServiceLocatorAwareInterface
         return $this->getEntityRepository()->findBy($array);
     }
 
-    public function findOneBy($array=array(), $sortBy = array('updated_at' => 'desc'))
+    public function findOneBy($array = array(), $sortBy = array('updated_at' => 'desc'))
     {
         $er = $this->getEntityRepository();
 
@@ -61,7 +61,7 @@ class ObjectAttribute implements ServiceLocatorAwareInterface
 
     public function findAll()
     {
-    	return $this->getEntityRepository()->findAll();
+        return $this->getEntityRepository()->findAll();
     }
     
     public function insert($entity)

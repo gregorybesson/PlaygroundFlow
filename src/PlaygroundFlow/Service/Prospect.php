@@ -4,7 +4,6 @@ namespace PlaygroundFlow\Service;
 
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
-
 use PlaygroundFlow\Entity\OpenGraphProspect as ProspectEntity;
 
 class Prospect implements ServiceManagerAwareInterface
@@ -26,7 +25,7 @@ class Prospect implements ServiceManagerAwareInterface
         if (!empty($prospects)) {
             $prospectEntity = $prospects[0];
         } else {
-            // Pas de prospect : alors on en crée un 
+            // Pas de prospect : alors on en crée un
             $prospectEntity = new ProspectEntity();
             $prospectEntity->setDomain($domain)
                 ->setProspect($prospect);

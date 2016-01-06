@@ -18,7 +18,7 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class OpenGraphStoryMapping
 {
-	protected $inputFilter;
+    protected $inputFilter;
 
     /**
      * @ORM\Id
@@ -140,7 +140,7 @@ class OpenGraphStoryMapping
 
     public function __construct()
     {
-    	$this->properties = new ArrayCollection();
+        $this->properties = new ArrayCollection();
     }
 
     /** @PrePersist */
@@ -160,7 +160,7 @@ class OpenGraphStoryMapping
      *
      * @return the $id
      */
-    public function getId ()
+    public function getId()
     {
         return $this->id;
     }
@@ -169,7 +169,7 @@ class OpenGraphStoryMapping
      *
      * @param field_type $id
      */
-    public function setId ($id)
+    public function setId($id)
     {
         $this->id = $id;
         
@@ -177,80 +177,80 @@ class OpenGraphStoryMapping
     }
 
     /**
-	 * @return the $story
-	 */
-	public function getStory() {
-	    
-		return $this->story;
-	}
+     * @return the $story
+     */
+    public function getStory()
+    {
+        return $this->story;
+    }
 
-	/**
-	 * @param field_type $story
-	 */
-	public function setStory($story) {
-	    
-		$this->story = $story;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $story
+     */
+    public function setStory($story)
+    {
+        $this->story = $story;
+        
+        return $this;
+    }
 
     /**
      * @return the $leaderboardType
      */
-    public function getLeaderboardType() {
-        
+    public function getLeaderboardType()
+    {
         return $this->leaderboardType;
     }
 
     /**
      * @param leaderboardType $leaderboardType
      */
-    public function setLeaderboardType($leaderboardType) {
-        
+    public function setLeaderboardType($leaderboardType)
+    {
         $this->leaderboardType = $leaderboardType;
         
         return $this;
     }
 
-	/**
-	 * @return the $domain
-	 */
-	public function getDomain() {
-	    
-		return $this->domain;
-	}
+    /**
+     * @return the $domain
+     */
+    public function getDomain()
+    {
+        return $this->domain;
+    }
 
-	/**
-	 * @param field_type $domain
-	 */
-	public function setDomain($domain) {
-	    
-		$domain->addStoryMapping($this);
-		$this->domain = $domain;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $domain
+     */
+    public function setDomain($domain)
+    {
+        $domain->addStoryMapping($this);
+        $this->domain = $domain;
+        
+        return $this;
+    }
 
     /**
      * @return the $webTechno
      */
-    public function getWebTechno() {
-        
+    public function getWebTechno()
+    {
         return $this->webTechno;
     }
 
     /**
      * @param field_type $webTechno
      */
-    public function setWebTechno($webTechno) {
-        
+    public function setWebTechno($webTechno)
+    {
         $webTechno->addStoryMapping($this);
         $this->webTechno = $webTechno;
         
         return $this;
     }
 
-	/**
+    /**
      * @return the $points
      */
     public function getPoints()
@@ -258,7 +258,7 @@ class OpenGraphStoryMapping
         return $this->points;
     }
 
-	/**
+    /**
      * @param field_type $points
      */
     public function setPoints($points)
@@ -268,7 +268,7 @@ class OpenGraphStoryMapping
         return $this;
     }
 
-	/**
+    /**
      * @return the $picto
      */
     public function getPicto()
@@ -276,7 +276,7 @@ class OpenGraphStoryMapping
         return $this->picto;
     }
 
-	/**
+    /**
      * @param field_type $picto
      */
     public function setPicto($picto)
@@ -286,7 +286,7 @@ class OpenGraphStoryMapping
         return $this;
     }
 
-	/**
+    /**
      * @return the $hint
      */
     public function getHint()
@@ -294,7 +294,7 @@ class OpenGraphStoryMapping
         return $this->hint;
     }
 
-	/**
+    /**
      * @param field_type $hint
      */
     public function setHint($hint)
@@ -304,7 +304,7 @@ class OpenGraphStoryMapping
         return $this;
     }
 
-	/**
+    /**
      * @return the $widget
      */
     public function getWidget()
@@ -312,7 +312,7 @@ class OpenGraphStoryMapping
         return $this->widget;
     }
 
-	/**
+    /**
      * @param field_type $widget
      */
     public function setWidget($widget)
@@ -320,7 +320,7 @@ class OpenGraphStoryMapping
         $this->widget = $widget;
     }
 
-	/**
+    /**
      * @return the $displayNotification
      */
     public function getDisplayNotification()
@@ -328,7 +328,7 @@ class OpenGraphStoryMapping
         return $this->displayNotification;
     }
 
-	/**
+    /**
      * @param number $displayNotification
      */
     public function setDisplayNotification($displayNotification)
@@ -338,7 +338,7 @@ class OpenGraphStoryMapping
         return $this;
     }
 
-	/**
+    /**
      * @return the $displayActivityStream
      */
     public function getDisplayActivityStream()
@@ -346,7 +346,7 @@ class OpenGraphStoryMapping
         return $this->displayActivityStream;
     }
 
-	/**
+    /**
      * @param number $displayActivityStream
      */
     public function setDisplayActivityStream($displayActivityStream)
@@ -356,7 +356,7 @@ class OpenGraphStoryMapping
         return $this;
     }
 
-	/**
+    /**
      * @return the $notification
      */
     public function getNotification()
@@ -364,7 +364,7 @@ class OpenGraphStoryMapping
         return $this->notification;
     }
 
-	/**
+    /**
      * @param number $notification
      */
     public function setNotification($notification)
@@ -374,7 +374,7 @@ class OpenGraphStoryMapping
         return $this;
     }
 
-	/**
+    /**
      * @return the $activityStream
      */
     public function getActivityStream()
@@ -382,7 +382,7 @@ class OpenGraphStoryMapping
         return $this->activityStream;
     }
 
-	/**
+    /**
      * @param number $activityStream
      */
     public function setActivityStream($activityStream)
@@ -392,7 +392,7 @@ class OpenGraphStoryMapping
         return $this;
     }
 
-	/**
+    /**
      * @return the $countLimit
      */
     public function getCountLimit()
@@ -400,7 +400,7 @@ class OpenGraphStoryMapping
         return $this->countLimit;
     }
 
-	/**
+    /**
      * @param number $countLimit
      */
     public function setCountLimit($countLimit)
@@ -410,138 +410,138 @@ class OpenGraphStoryMapping
         return $this;
     }
 
-	public function addObject($object)
-	{
-		$this->objects[] = $object;
-	}
-	
-	/**
-	 * @return the $attributes
-	 */
-	public function getObjects() {
-	    
-		return $this->objects;
-	}
+    public function addObject($object)
+    {
+        $this->objects[] = $object;
+    }
+    
+    /**
+     * @return the $attributes
+     */
+    public function getObjects()
+    {
+        return $this->objects;
+    }
 
-	/**
-	 * @param field_type $attributes
-	 */
-	public function setObjects($objects) {
-	    
-		$this->objects = $objects;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $attributes
+     */
+    public function setObjects($objects)
+    {
+        $this->objects = $objects;
+        
+        return $this;
+    }
 
-	/**
-	 * @return the $conditionsUrl
-	 */
-	public function getConditionsUrl() {
-	    
-		return $this->conditionsUrl;
-	}
+    /**
+     * @return the $conditionsUrl
+     */
+    public function getConditionsUrl()
+    {
+        return $this->conditionsUrl;
+    }
 
-	/**
-	 * @param field_type $conditionsUrl
-	 */
-	public function setConditionsUrl($conditionsUrl) {
-	    
-		$this->conditionsUrl = $conditionsUrl;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $conditionsUrl
+     */
+    public function setConditionsUrl($conditionsUrl)
+    {
+        $this->conditionsUrl = $conditionsUrl;
+        
+        return $this;
+    }
 
-	/**
-	 * @return the $conditionsXpath
-	 */
-	public function getConditionsXpath() {
-	    
-		return $this->conditionsXpath;
-	}
+    /**
+     * @return the $conditionsXpath
+     */
+    public function getConditionsXpath()
+    {
+        return $this->conditionsXpath;
+    }
 
-	/**
-	 * @param field_type $conditionsXpath
-	 */
-	public function setConditionsXpath($conditionsXpath) {
-	    
-		$this->conditionsXpath = $conditionsXpath;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $conditionsXpath
+     */
+    public function setConditionsXpath($conditionsXpath)
+    {
+        $this->conditionsXpath = $conditionsXpath;
+        
+        return $this;
+    }
 
-	/**
-	 * @return the $eventBeforeUrl
-	 */
-	public function getEventBeforeUrl() {
-	    
-		return $this->eventBeforeUrl;
-	}
+    /**
+     * @return the $eventBeforeUrl
+     */
+    public function getEventBeforeUrl()
+    {
+        return $this->eventBeforeUrl;
+    }
 
-	/**
-	 * @param field_type $eventBeforeUrl
-	 */
-	public function setEventBeforeUrl($eventBeforeUrl) {
-	    
-		$this->eventBeforeUrl = $eventBeforeUrl;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $eventBeforeUrl
+     */
+    public function setEventBeforeUrl($eventBeforeUrl)
+    {
+        $this->eventBeforeUrl = $eventBeforeUrl;
+        
+        return $this;
+    }
 
-	/**
-	 * @return the $eventBeforeXpath
-	 */
-	public function getEventBeforeXpath() {
-	    
-		return $this->eventBeforeXpath;
-	}
+    /**
+     * @return the $eventBeforeXpath
+     */
+    public function getEventBeforeXpath()
+    {
+        return $this->eventBeforeXpath;
+    }
 
-	/**
-	 * @param field_type $eventBeforeXpath
-	 */
-	public function setEventBeforeXpath($eventBeforeXpath) {
-	    
-		$this->eventBeforeXpath = $eventBeforeXpath;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $eventBeforeXpath
+     */
+    public function setEventBeforeXpath($eventBeforeXpath)
+    {
+        $this->eventBeforeXpath = $eventBeforeXpath;
+        
+        return $this;
+    }
 
-	/**
-	 * @return the $eventAfterUrl
-	 */
-	public function getEventAfterUrl() {
-	    
-		return $this->eventAfterUrl;
-	}
+    /**
+     * @return the $eventAfterUrl
+     */
+    public function getEventAfterUrl()
+    {
+        return $this->eventAfterUrl;
+    }
 
-	/**
-	 * @param field_type $eventAfterUrl
-	 */
-	public function setEventAfterUrl($eventAfterUrl) {
-	    
-		$this->eventAfterUrl = $eventAfterUrl;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $eventAfterUrl
+     */
+    public function setEventAfterUrl($eventAfterUrl)
+    {
+        $this->eventAfterUrl = $eventAfterUrl;
+        
+        return $this;
+    }
 
-	/**
-	 * @return the $eventAfterXpath
-	 */
-	public function getEventAfterXpath() {
-	    
-		return $this->eventAfterXpath;
-	}
+    /**
+     * @return the $eventAfterXpath
+     */
+    public function getEventAfterXpath()
+    {
+        return $this->eventAfterXpath;
+    }
 
-	/**
-	 * @param field_type $eventAfterXpath
-	 */
-	public function setEventAfterXpath($eventAfterXpath) {
-	    
-		$this->eventAfterXpath = $eventAfterXpath;
-		
-		return $this;
-	}
+    /**
+     * @param field_type $eventAfterXpath
+     */
+    public function setEventAfterXpath($eventAfterXpath)
+    {
+        $this->eventAfterXpath = $eventAfterXpath;
+        
+        return $this;
+    }
 
-	/**
+    /**
      * @return the $created_at
      */
     public function getCreatedAt()
@@ -598,27 +598,27 @@ class OpenGraphStoryMapping
     
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
-    	throw new \Exception("Not used");
+        throw new \Exception("Not used");
     }
     
     public function getInputFilter()
     {
-    	if (!$this->inputFilter) {
-    		$inputFilter = new InputFilter();
-    		$factory = new InputFactory();
-    		
-    		$inputFilter->add($factory->createInput(array(
-    		    'name'       => 'widget',
-    		    'required'   => false,
-    		    'allowEmpty' => true,
-    		    'filters'    => array(
-    		        array('name' => 'Int'),
-    		    ),
-    		)));
+        if (!$this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
+            
+            $inputFilter->add($factory->createInput(array(
+                'name'       => 'widget',
+                'required'   => false,
+                'allowEmpty' => true,
+                'filters'    => array(
+                    array('name' => 'Int'),
+                ),
+            )));
     
-    		$this->inputFilter = $inputFilter;
-    	}
+            $this->inputFilter = $inputFilter;
+        }
     
-    	return $this->inputFilter;
+        return $this->inputFilter;
     }
 }

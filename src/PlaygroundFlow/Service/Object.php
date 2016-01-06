@@ -32,33 +32,32 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
 
     public function create(array $data)
     {
-    	$object  = new \PlaygroundFlow\Entity\OpenGraphObject();
-    	$form  = $this->getServiceManager()->get('playgroundflow_object_form');
-    	$form->bind($object);
-    	$form->setData($data);
-    	
-    	if (!$form->isValid()) {
-    		return false;
-    	}
-    	
-    	$this->getEventManager()->trigger(__FUNCTION__, $this, array('object' => $object, 'data' => $data));
-    	$this->getObjectMapper()->insert($object);
-    	$this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('object' => $object, 'data' => $data));
-    	
-    	return $object;
-
+        $object  = new \PlaygroundFlow\Entity\OpenGraphObject();
+        $form  = $this->getServiceManager()->get('playgroundflow_object_form');
+        $form->bind($object);
+        $form->setData($data);
+        
+        if (!$form->isValid()) {
+            return false;
+        }
+        
+        $this->getEventManager()->trigger(__FUNCTION__, $this, array('object' => $object, 'data' => $data));
+        $this->getObjectMapper()->insert($object);
+        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('object' => $object, 'data' => $data));
+        
+        return $object;
     }
 
     public function edit(array $data, $object)
     {
-    	$form  = $this->getServiceManager()->get('playgroundflow_object_form');
-    	$form->bind($object);
-    	$form->setData($data);
-    	 
-    	if (!$form->isValid()) {
-    		return false;
-    	}
-    	
+        $form  = $this->getServiceManager()->get('playgroundflow_object_form');
+        $form->bind($object);
+        $form->setData($data);
+         
+        if (!$form->isValid()) {
+            return false;
+        }
+        
         $this->getObjectMapper()->update($object);
         $this->getEventManager()->trigger(__FUNCTION__, $this, array('object' => $object, 'data' => $data));
         $this->getObjectMapper()->insert($object);
@@ -69,42 +68,41 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
 
     public function createAttribute(array $data)
     {
-    	$attribute  = new \PlaygroundFlow\Entity\OpenGraphObjectAttribute();
-    	$form  = $this->getServiceManager()->get('playgroundflow_objectattribute_form');
-    	$form->bind($attribute);
-    	$form->setData($data);
-    	
-		$object = $this->getObjectMapper()->findById($data['objectId']);
-		
-    	if (!$form->isValid()) {
-    		return false;
-    	}
-    	
-    	$attribute->setObject($object);
-    	
-    	$this->getEventManager()->trigger(__FUNCTION__, $this, array('attribute' => $attribute, 'data' => $data));
-    	$this->getObjectAttributeMapper()->insert($attribute);
-    	$this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('attribute' => $attribute, 'data' => $data));
-    	 
-    	return $attribute;
-    
+        $attribute  = new \PlaygroundFlow\Entity\OpenGraphObjectAttribute();
+        $form  = $this->getServiceManager()->get('playgroundflow_objectattribute_form');
+        $form->bind($attribute);
+        $form->setData($data);
+        
+        $object = $this->getObjectMapper()->findById($data['objectId']);
+        
+        if (!$form->isValid()) {
+            return false;
+        }
+        
+        $attribute->setObject($object);
+        
+        $this->getEventManager()->trigger(__FUNCTION__, $this, array('attribute' => $attribute, 'data' => $data));
+        $this->getObjectAttributeMapper()->insert($attribute);
+        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('attribute' => $attribute, 'data' => $data));
+         
+        return $attribute;
     }
     
     public function editAttribute(array $data, $attribute)
     {
-    	$form  = $this->getServiceManager()->get('playgroundflow_objectattribute_form');
-    	$form->bind($attribute);
-    	$form->setData($data);
-    	
-    	if (!$form->isValid()) {
-    		return false;
-    	}
-    	
-    	$this->getEventManager()->trigger(__FUNCTION__, $this, array('attribute' => $attribute, 'data' => $data));
-    	$this->getObjectAttributeMapper()->update($attribute);
-    	$this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('attribute' => $attribute, 'data' => $data));
+        $form  = $this->getServiceManager()->get('playgroundflow_objectattribute_form');
+        $form->bind($attribute);
+        $form->setData($data);
+        
+        if (!$form->isValid()) {
+            return false;
+        }
+        
+        $this->getEventManager()->trigger(__FUNCTION__, $this, array('attribute' => $attribute, 'data' => $data));
+        $this->getObjectAttributeMapper()->update($attribute);
+        $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('attribute' => $attribute, 'data' => $data));
     
-    	return $attribute;
+        return $attribute;
     }
 
     /**
@@ -141,11 +139,11 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
      */
     public function getObjectAttributeMapper()
     {
-    	if (null === $this->objectAttributeMapper) {
-    		$this->objectAttributeMapper = $this->getServiceManager()->get('playgroundflow_objectattribute_mapper');
-    	}
+        if (null === $this->objectAttributeMapper) {
+            $this->objectAttributeMapper = $this->getServiceManager()->get('playgroundflow_objectattribute_mapper');
+        }
     
-    	return $this->objectAttributeMapper;
+        return $this->objectAttributeMapper;
     }
     
     /**
@@ -156,9 +154,9 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
      */
     public function setObjectAttributeMapper(ObjectAttributeMapperInterface $objectAttributeMapper)
     {
-    	$this->objectAttributeMapper = $objectAttributeMapper;
+        $this->objectAttributeMapper = $objectAttributeMapper;
     
-    	return $this;
+        return $this;
     }
 
     public function setOptions(ModuleOptions $options)

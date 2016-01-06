@@ -7,7 +7,6 @@ use PlaygroundFlow\Entity\OpenGraphDomain;
 use PlaygroundUser\Entity\User;
 use PlaygroundFlow\Entity\OpenGraphProspect as ProspectEntity;
 
-
 class ProspectTest extends \PHPUnit_Framework_TestCase
 {
     protected $traceError = true;
@@ -26,7 +25,7 @@ class ProspectTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testFindProspectOrCreateByProspectAndDomain()
-    {   
+    {
         $prospectService = $this->sm->get('playgroundflow_prospect_service');
 
         $domain = new OpenGraphDomain();
@@ -54,11 +53,11 @@ class ProspectTest extends \PHPUnit_Framework_TestCase
 
         $mapper->expects($this->any())
             ->method('findBy')
-            ->will($this->returnValue(array($prospect)));    
+            ->will($this->returnValue(array($prospect)));
 
         $prospectService->setProspectMapper($mapper);
 
         $prospects = $prospectService->findProspectOrCreateByProspectAndDomain($prospect, $domain);
         $this->assertEquals(count($prospects), 1);
-    }    
+    }
 }
