@@ -58,7 +58,6 @@ class WebTechno extends EventProvider implements ServiceManagerAwareInterface
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('webTechno' => $webTechno, 'data' => $data));
         
         return $webTechno;
-
     }
 
     public function edit(array $data, $webTechno)
@@ -135,7 +134,6 @@ class WebTechno extends EventProvider implements ServiceManagerAwareInterface
             
         }*/
         return $mapping;
-    
     }
 
     public function editStory(array $data, $mapping)

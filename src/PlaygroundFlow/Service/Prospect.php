@@ -4,7 +4,6 @@ namespace PlaygroundFlow\Service;
 
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
-
 use PlaygroundFlow\Entity\OpenGraphProspect as ProspectEntity;
 
 class Prospect implements ServiceManagerAwareInterface

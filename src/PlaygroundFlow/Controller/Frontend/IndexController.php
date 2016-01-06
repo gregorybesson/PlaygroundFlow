@@ -139,7 +139,6 @@ class IndexController extends AbstractActionController
         $this->getServiceLocator()->get('playgroundgame_lottery_service')->postFbWall($fbId, null, $user, $topic);
 
         return true;
-
     }
 
     public function tweetAction()
@@ -159,7 +158,6 @@ class IndexController extends AbstractActionController
         $this->getServiceLocator()->get('playgroundgame_lottery_service')->postTwitter($tweetId, null, $user, $topic);
 
         return true;
-
     }
 
     public function googleAction()
@@ -179,7 +177,6 @@ class IndexController extends AbstractActionController
         $this->getServiceLocator()->get('playgroundgame_lottery_service')->postGoogle($googleId, null, $user, $topic);
 
         return true;
-
     }
 
     public function getGameService()

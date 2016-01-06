@@ -46,7 +46,6 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('object' => $object, 'data' => $data));
         
         return $object;
-
     }
 
     public function edit(array $data, $object)
@@ -87,7 +86,6 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('attribute' => $attribute, 'data' => $data));
          
         return $attribute;
-    
     }
     
     public function editAttribute(array $data, $attribute)

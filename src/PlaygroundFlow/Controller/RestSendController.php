@@ -116,7 +116,6 @@ class RestSendController extends AbstractRestfulController
             $userDomain = $this->getUserDomainService()->findUserDomainOrCreateByUserAndDomain($user, $domain);
             // Association story telling à un utilisateur
             $storyTelling->setUser($user);
-        
         } elseif (!empty($data['user']['anonymous'])) {
             // J'ai un anonymous
             $prospect = $this->getProspectService()->findProspectOrCreateByProspectAndDomain($data['user']['anonymous'], $domain);
@@ -258,7 +257,6 @@ class RestSendController extends AbstractRestfulController
      */
     public function getLeaderboardService()
     {
-
         if (! $this->leaderboardService) {
             $this->leaderboardService = $this->getServiceLocator()->get('playgroundreward_leaderboard_service');
         }

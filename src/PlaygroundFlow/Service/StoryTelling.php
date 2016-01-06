@@ -180,7 +180,6 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
      */
     public function sendRequest($url, $args)
     {
-    
         $ch = curl_init();
         $curlConfig = array(
             CURLOPT_URL            => $url,

@@ -75,7 +75,6 @@ class OpenGraphObjectAttribute
 
     public function __construct()
     {
-
     }
 
     /** @PrePersist */
@@ -116,7 +115,6 @@ class OpenGraphObjectAttribute
      */
     public function getObject()
     {
-        
         return $this->object;
     }
 
@@ -125,7 +123,6 @@ class OpenGraphObjectAttribute
      */
     public function setObject($object)
     {
-        
         $object->addAttribute($this);
         $this->object = $object;
         
@@ -193,7 +190,6 @@ class OpenGraphObjectAttribute
      */
     public function getType()
     {
-        
         return $this->type;
     }
 
@@ -202,7 +198,6 @@ class OpenGraphObjectAttribute
      */
     public function setType($type)
     {
-        
         $this->type = $type;
         
         return $this;

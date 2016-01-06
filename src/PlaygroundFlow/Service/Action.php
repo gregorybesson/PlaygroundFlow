@@ -41,7 +41,6 @@ class Action extends EventProvider implements ServiceManagerAwareInterface
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('action' => $action, 'data' => $data));
         
         return $action;
-
     }
 
     public function edit(array $data, $action)

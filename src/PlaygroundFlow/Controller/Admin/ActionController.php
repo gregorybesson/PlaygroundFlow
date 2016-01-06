@@ -16,7 +16,6 @@ class ActionController extends AbstractActionController
     
     public function listAction()
     {
-    
         $service    = $this->getAdminActionService();
 
         $actions = $service->getActionMapper()->findAll();

@@ -59,7 +59,6 @@ class OpenGraphWebTechno
 
     public function __construct()
     {
-
     }
 
     /** @PrePersist */
@@ -164,7 +163,6 @@ class OpenGraphWebTechno
      */
     public function addStoryMapping($storyMapping)
     {
-        
         $this->storyMappings[] = $storyMapping;
     }
     
@@ -173,7 +171,6 @@ class OpenGraphWebTechno
      */
     public function getStoryMappings()
     {
-        
         return $this->storyMappings;
     }
 
@@ -182,7 +179,6 @@ class OpenGraphWebTechno
      */
     public function setStoryMappings($storyMappings)
     {
-        
         $this->storyMappings = $storyMappings;
         
         return $this;

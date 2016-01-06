@@ -17,7 +17,6 @@ class ObjectController extends AbstractActionController
     
     public function listAction()
     {
-    
         $service    = $this->getAdminObjectService();
 
         $objects = $service->getObjectMapper()->findAll();

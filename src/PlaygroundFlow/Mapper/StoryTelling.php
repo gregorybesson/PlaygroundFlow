@@ -104,7 +104,6 @@ class StoryTelling implements ServiceLocatorAwareInterface
         ->setParameter('user', $user->getId());
         
         return $qb->getQuery()->getResult();
-
     }
 
     public function getEntityRepository()

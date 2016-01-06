@@ -41,7 +41,6 @@ class Widget extends EventProvider implements ServiceManagerAwareInterface
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('widget' => $widget, 'data' => $data));
         
         return $widget;
-
     }
 
     public function edit(array $data, $widget)

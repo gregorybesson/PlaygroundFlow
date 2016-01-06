@@ -41,7 +41,6 @@ class Story extends EventProvider implements ServiceManagerAwareInterface
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('story' => $story, 'data' => $data));
         
         return $story;
-
     }
 
     public function edit(array $data, $story)

@@ -58,7 +58,6 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('domain' => $domain, 'data' => $data));
         
         return $domain;
-
     }
 
     public function edit(array $data, $domain)
@@ -113,29 +112,28 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
         $mapping = $this->getStoryMappingMapper()->update($mapping);
     
         /*
-    	$objectAttributes = $mapping->getStory()->getObject()->getAttributes();
-    	$existingMapping = $mapping->getAttributes();
-    	$existingMappingArray = array();
-    	if($existingMappingArray){
-	    	foreach($existingMapping as $attMap){
-	    		$existingMappingArray[]=$attMap->getAttribute()->getCode();
-	    	}
-    	}
-    	foreach($objectAttributes as $attribute){
-    		
-    		if(! in_array($attribute->getCode(), $existingMappingArray)){
-    			$attributeMapping = new \PlaygroundFlow\Entity\OpenGraphObjectAttributeMapping();
-    			$attributeMapping->setStoryMapping($mapping);
-    			$attributeMapping->setObject($mapping->getStory()->getObject());
-    			$attributeMapping->setAttribute($attribute);
-    			$attributeMapping->setXpath='';
-    			
-    			$this->getObjectAttributeMappingMapper()->insert($attributeMapping);
-    		}
-    		
-    	}*/
+        $objectAttributes = $mapping->getStory()->getObject()->getAttributes();
+        $existingMapping = $mapping->getAttributes();
+        $existingMappingArray = array();
+        if($existingMappingArray){
+            foreach($existingMapping as $attMap){
+                $existingMappingArray[]=$attMap->getAttribute()->getCode();
+            }
+        }
+        foreach($objectAttributes as $attribute){
+            
+            if(! in_array($attribute->getCode(), $existingMappingArray)){
+                $attributeMapping = new \PlaygroundFlow\Entity\OpenGraphObjectAttributeMapping();
+                $attributeMapping->setStoryMapping($mapping);
+                $attributeMapping->setObject($mapping->getStory()->getObject());
+                $attributeMapping->setAttribute($attribute);
+                $attributeMapping->setXpath='';
+                
+                $this->getObjectAttributeMappingMapper()->insert($attributeMapping);
+            }
+            
+        }*/
         return $mapping;
-    
     }
     
     public function editStory(array $data, $mapping)

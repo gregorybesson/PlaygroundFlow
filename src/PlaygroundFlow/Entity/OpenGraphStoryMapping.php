@@ -181,7 +181,6 @@ class OpenGraphStoryMapping
      */
     public function getStory()
     {
-        
         return $this->story;
     }
 
@@ -190,7 +189,6 @@ class OpenGraphStoryMapping
      */
     public function setStory($story)
     {
-        
         $this->story = $story;
         
         return $this;
@@ -201,7 +199,6 @@ class OpenGraphStoryMapping
      */
     public function getLeaderboardType()
     {
-        
         return $this->leaderboardType;
     }
 
@@ -210,7 +207,6 @@ class OpenGraphStoryMapping
      */
     public function setLeaderboardType($leaderboardType)
     {
-        
         $this->leaderboardType = $leaderboardType;
         
         return $this;
@@ -221,7 +217,6 @@ class OpenGraphStoryMapping
      */
     public function getDomain()
     {
-        
         return $this->domain;
     }
 
@@ -230,7 +225,6 @@ class OpenGraphStoryMapping
      */
     public function setDomain($domain)
     {
-        
         $domain->addStoryMapping($this);
         $this->domain = $domain;
         
@@ -242,7 +236,6 @@ class OpenGraphStoryMapping
      */
     public function getWebTechno()
     {
-        
         return $this->webTechno;
     }
 
@@ -251,7 +244,6 @@ class OpenGraphStoryMapping
      */
     public function setWebTechno($webTechno)
     {
-        
         $webTechno->addStoryMapping($this);
         $this->webTechno = $webTechno;
         
@@ -428,7 +420,6 @@ class OpenGraphStoryMapping
      */
     public function getObjects()
     {
-        
         return $this->objects;
     }
 
@@ -437,7 +428,6 @@ class OpenGraphStoryMapping
      */
     public function setObjects($objects)
     {
-        
         $this->objects = $objects;
         
         return $this;
@@ -448,7 +438,6 @@ class OpenGraphStoryMapping
      */
     public function getConditionsUrl()
     {
-        
         return $this->conditionsUrl;
     }
 
@@ -457,7 +446,6 @@ class OpenGraphStoryMapping
      */
     public function setConditionsUrl($conditionsUrl)
     {
-        
         $this->conditionsUrl = $conditionsUrl;
         
         return $this;
@@ -468,7 +456,6 @@ class OpenGraphStoryMapping
      */
     public function getConditionsXpath()
     {
-        
         return $this->conditionsXpath;
     }
 
@@ -477,7 +464,6 @@ class OpenGraphStoryMapping
      */
     public function setConditionsXpath($conditionsXpath)
     {
-        
         $this->conditionsXpath = $conditionsXpath;
         
         return $this;
@@ -488,7 +474,6 @@ class OpenGraphStoryMapping
      */
     public function getEventBeforeUrl()
     {
-        
         return $this->eventBeforeUrl;
     }
 
@@ -497,7 +482,6 @@ class OpenGraphStoryMapping
      */
     public function setEventBeforeUrl($eventBeforeUrl)
     {
-        
         $this->eventBeforeUrl = $eventBeforeUrl;
         
         return $this;
@@ -508,7 +492,6 @@ class OpenGraphStoryMapping
      */
     public function getEventBeforeXpath()
     {
-        
         return $this->eventBeforeXpath;
     }
 
@@ -517,7 +500,6 @@ class OpenGraphStoryMapping
      */
     public function setEventBeforeXpath($eventBeforeXpath)
     {
-        
         $this->eventBeforeXpath = $eventBeforeXpath;
         
         return $this;
@@ -528,7 +510,6 @@ class OpenGraphStoryMapping
      */
     public function getEventAfterUrl()
     {
-        
         return $this->eventAfterUrl;
     }
 
@@ -537,7 +518,6 @@ class OpenGraphStoryMapping
      */
     public function setEventAfterUrl($eventAfterUrl)
     {
-        
         $this->eventAfterUrl = $eventAfterUrl;
         
         return $this;
@@ -548,7 +528,6 @@ class OpenGraphStoryMapping
      */
     public function getEventAfterXpath()
     {
-        
         return $this->eventAfterXpath;
     }
 
@@ -557,7 +536,6 @@ class OpenGraphStoryMapping
      */
     public function setEventAfterXpath($eventAfterXpath)
     {
-        
         $this->eventAfterXpath = $eventAfterXpath;
         
         return $this;

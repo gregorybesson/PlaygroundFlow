@@ -100,7 +100,6 @@ class OpenGraphObjectMapping
      */
     public function getStoryMapping()
     {
-        
         return $this->storyMapping;
     }
 
@@ -109,7 +108,6 @@ class OpenGraphObjectMapping
      */
     public function setStoryMapping($storyMapping)
     {
-        
         $storyMapping->addObject($this);
         $this->storyMapping = $storyMapping;
         
@@ -121,7 +119,6 @@ class OpenGraphObjectMapping
      */
     public function getObject()
     {
-        
         return $this->object;
     }
 
@@ -130,7 +127,6 @@ class OpenGraphObjectMapping
      */
     public function setObject($object)
     {
-        
         $this->object = $object;
         
         return $this;
@@ -147,7 +143,6 @@ class OpenGraphObjectMapping
      */
     public function getAttributes()
     {
-        
         return $this->attributes;
     }
     
@@ -156,7 +151,6 @@ class OpenGraphObjectMapping
      */
     public function setAttributes($attributes)
     {
-        
         $this->attributes = $attributes;
         
         return $this;
@@ -191,7 +185,6 @@ class OpenGraphObjectMapping
      */
     public function getXpath()
     {
-        
         return $this->xpath;
     }
 
@@ -200,7 +193,6 @@ class OpenGraphObjectMapping
      */
     public function setXpath($xpath)
     {
-        
         $this->xpath = $xpath;
         
         return $this;

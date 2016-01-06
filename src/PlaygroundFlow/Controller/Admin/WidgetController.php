@@ -16,7 +16,6 @@ class WidgetController extends AbstractActionController
     
     public function listAction()
     {
-    
         $service    = $this->getAdminWidgetService();
 
         $widgets = $service->getWidgetMapper()->findAll();

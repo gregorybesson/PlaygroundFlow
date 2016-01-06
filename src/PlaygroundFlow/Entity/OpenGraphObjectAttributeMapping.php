@@ -53,7 +53,6 @@ class OpenGraphObjectAttributeMapping
 
     public function __construct()
     {
-
     }
 
     /** @PrePersist */
@@ -94,7 +93,6 @@ class OpenGraphObjectAttributeMapping
      */
     public function getObjectMapping()
     {
-        
         return $this->objectMapping;
     }
 
@@ -103,7 +101,6 @@ class OpenGraphObjectAttributeMapping
      */
     public function setObjectMapping($objectMapping)
     {
-        
         $this->objectMapping = $objectMapping;
         
         return $this;
@@ -114,7 +111,6 @@ class OpenGraphObjectAttributeMapping
      */
     public function getAttribute()
     {
-        
         return $this->attribute;
     }
 
@@ -123,7 +119,6 @@ class OpenGraphObjectAttributeMapping
      */
     public function setAttribute($attribute)
     {
-        
         $this->attribute = $attribute;
         
         return $this;
@@ -134,7 +129,6 @@ class OpenGraphObjectAttributeMapping
      */
     public function getXpath()
     {
-        
         return $this->xpath;
     }
 
@@ -143,7 +137,6 @@ class OpenGraphObjectAttributeMapping
      */
     public function setXpath($xpath)
     {
-        
         $this->xpath = $xpath;
         
         return $this;

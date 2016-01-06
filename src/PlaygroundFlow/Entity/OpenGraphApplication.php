@@ -114,7 +114,6 @@ class OpenGraphApplication
      */
     public function getDomains()
     {
-        
         return $this->domains;
     }
 
@@ -123,7 +122,6 @@ class OpenGraphApplication
      */
     public function setDomains($domains)
     {
-        
         $this->domains = $domains;
         
         return $this;

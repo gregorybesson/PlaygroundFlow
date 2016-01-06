@@ -16,7 +16,6 @@ class StoryController extends AbstractActionController
     
     public function listAction()
     {
-    
         $service    = $this->getAdminStoryService();
 
         $stories = $service->getStoryMapper()->findAll();

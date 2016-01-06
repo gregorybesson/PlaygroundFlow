@@ -9,7 +9,7 @@ use PlaygroundFlow\Entity\OpenGraphStoryMapping as Mapping;
 use PlaygroundFlow\Entity\OpenGraphWebTechno as WebTechno;
 use PlaygroundFlow\Entity\OpenGraphObjectMapping as ObjectMapping;
 
-class WebTechnoController extends AbstractActionController
+class WebtechnoController extends AbstractActionController
 {
     /**
      * @var WebTechnoService

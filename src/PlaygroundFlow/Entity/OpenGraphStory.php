@@ -68,7 +68,6 @@ class OpenGraphStory
     public function __construct()
     {
         $this->objects = new \Doctrine\Common\Collections\ArrayCollection();
-
     }
 
     /** @PrePersist */
@@ -165,7 +164,6 @@ class OpenGraphStory
      */
     public function getAction()
     {
-        
         return $this->action;
     }
 
@@ -174,7 +172,6 @@ class OpenGraphStory
      */
     public function setAction($action)
     {
-        
         $this->action = $action;
         
         return $this;

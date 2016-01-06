@@ -67,7 +67,6 @@ class OpenGraphWidget
 
     public function __construct()
     {
-
     }
 
     /** @PrePersist */

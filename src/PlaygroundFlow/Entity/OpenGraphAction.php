@@ -54,7 +54,6 @@ class OpenGraphAction implements InputFilterAwareInterface
 
     public function __construct()
     {
-
     }
 
     /** @PrePersist */

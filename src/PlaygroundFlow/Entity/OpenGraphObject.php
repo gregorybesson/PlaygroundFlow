@@ -111,7 +111,6 @@ class OpenGraphObject
      */
     public function getChildren()
     {
-        
         return $this->children;
     }
 
@@ -120,7 +119,6 @@ class OpenGraphObject
      */
     public function setChildren($children)
     {
-        
         $this->children = $children;
         
         return $this;
@@ -131,7 +129,6 @@ class OpenGraphObject
      */
     public function getParent()
     {
-        
         return $this->parent;
     }
 
@@ -140,7 +137,6 @@ class OpenGraphObject
      */
     public function setParent($parent)
     {
-        
         $this->parent = $parent;
         
         return $this;
@@ -212,7 +208,6 @@ class OpenGraphObject
      */
     public function getAttributes()
     {
-        
         return $this->attributes;
     }
 
@@ -221,7 +216,6 @@ class OpenGraphObject
      */
     public function setAttributes($attributes)
     {
-        
         $this->attributes = $attributes;
         
         return $this;

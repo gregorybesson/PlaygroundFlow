@@ -110,7 +110,6 @@ class OpenGraphDomain
      */
     public function getTitle()
     {
-        
         return $this->title;
     }
 
@@ -119,7 +118,6 @@ class OpenGraphDomain
      */
     public function setTitle($title)
     {
-        
         $this->title = $title;
         
         return $this;
@@ -130,7 +128,6 @@ class OpenGraphDomain
      */
     public function getApps()
     {
-        
         return $this->apps;
     }
 
@@ -139,7 +136,6 @@ class OpenGraphDomain
      */
     public function setApps($apps)
     {
-        
         $this->apps = $apps;
         
         return $this;
@@ -194,7 +190,6 @@ class OpenGraphDomain
      */
     public function addStoryMapping($storyMapping)
     {
-        
         $this->storyMappings[] = $storyMapping;
     }
     
@@ -203,7 +198,6 @@ class OpenGraphDomain
      */
     public function getStoryMappings()
     {
-        
         return $this->storyMappings;
     }
 
@@ -212,7 +206,6 @@ class OpenGraphDomain
      */
     public function setStoryMappings($storyMappings)
     {
-        
         $this->storyMappings = $storyMappings;
         
         return $this;
