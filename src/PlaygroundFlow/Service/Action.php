@@ -2,12 +2,12 @@
 
 namespace PlaygroundFlow\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundFlow\Options\ModuleOptions;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Action extends EventProvider implements ServiceManagerAwareInterface
+class Action extends EventProvider
 {
 
     /**
@@ -16,19 +16,25 @@ class Action extends EventProvider implements ServiceManagerAwareInterface
     protected $actionMapper;
 
     /**
-     * @var ServiceManager
-     */
-    protected $serviceManager;
-
-    /**
      * @var ActionServiceOptionsInterface
      */
     protected $options;
 
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
+
     public function create(array $data)
     {
         $action  = new \PlaygroundFlow\Entity\OpenGraphAction();
-        $form  = $this->getServiceManager()->get('playgroundflow_action_form');
+        $form  = $this->serviceLocator->get('playgroundflow_action_form');
         $form->bind($action);
         $form->setData($data);
         
@@ -45,7 +51,7 @@ class Action extends EventProvider implements ServiceManagerAwareInterface
 
     public function edit(array $data, $action)
     {
-        $form  = $this->getServiceManager()->get('playgroundflow_action_form');
+        $form  = $this->serviceLocator->get('playgroundflow_action_form');
         $form->bind($action);
         $form->setData($data);
          
@@ -69,7 +75,7 @@ class Action extends EventProvider implements ServiceManagerAwareInterface
     public function getActionMapper()
     {
         if (null === $this->actionMapper) {
-            $this->actionMapper = $this->getServiceManager()->get('playgroundflow_action_mapper');
+            $this->actionMapper = $this->serviceLocator->get('playgroundflow_action_mapper');
         }
 
         return $this->actionMapper;
@@ -98,32 +104,9 @@ class Action extends EventProvider implements ServiceManagerAwareInterface
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceManager()->get('playgroundflow_module_options'));
+            $this->setOptions($this->serviceLocator->get('playgroundflow_module_options'));
         }
 
         return $this->options;
-    }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return Action
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
     }
 }

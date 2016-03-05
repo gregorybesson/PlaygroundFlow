@@ -2,14 +2,14 @@
 
 namespace PlaygroundFlow\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundFlow\Options\ModuleOptions;
 use PlaygroundCore\Filter\Sanitize;
 use Zend\Stdlib\ErrorHandler;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Domain extends EventProvider implements ServiceManagerAwareInterface
+class Domain extends EventProvider
 {
 
     /**
@@ -31,21 +31,27 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
      * @var ObjectMapperInterface
      */
     protected $objectMappingMapper;
-    
-    /**
-     * @var ServiceManager
-     */
-    protected $serviceManager;
 
     /**
      * @var DomainServiceOptionsInterface
      */
     protected $options;
 
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
+
     public function create(array $data)
     {
         $domain  = new \PlaygroundFlow\Entity\OpenGraphDomain();
-        $form  = $this->getServiceManager()->get('playgroundflow_domain_form');
+        $form  = $this->serviceLocator->get('playgroundflow_domain_form');
         $form->bind($domain);
         $form->setData($data);
         
@@ -62,7 +68,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
 
     public function edit(array $data, $domain)
     {
-        $form  = $this->getServiceManager()->get('playgroundflow_domain_form');
+        $form  = $this->serviceLocator->get('playgroundflow_domain_form');
         $form->bind($domain);
         $form->setData($data);
          
@@ -80,7 +86,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     public function createStory(array $data)
     {
         $mapping  = new \PlaygroundFlow\Entity\OpenGraphStoryMapping();
-        $form  = $this->getServiceManager()->get('playgroundflow_storymapping_form');
+        $form  = $this->serviceLocator->get('playgroundflow_storymapping_form');
         $form->bind($mapping);
         $form->setData($data);
         
@@ -138,7 +144,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     
     public function editStory(array $data, $mapping)
     {
-        $form  = $this->getServiceManager()->get('playgroundflow_storymapping_form');
+        $form  = $this->serviceLocator->get('playgroundflow_storymapping_form');
         $form->bind($mapping);
         $form->setData($data);
         
@@ -195,7 +201,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
 
     public function createObject(array $data, $objectMapping)
     {
-        $form  = $this->getServiceManager()->get('playgroundflow_objectmapping_form');
+        $form  = $this->serviceLocator->get('playgroundflow_objectmapping_form');
         $form->bind($objectMapping);
         $form->setData($data);
     
@@ -212,7 +218,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     
     public function editObject(array $data, $objectMapping)
     {
-        $form  = $this->getServiceManager()->get('playgroundflow_objectmapping_form');
+        $form  = $this->serviceLocator->get('playgroundflow_objectmapping_form');
         
         // When the last attribute is removed, we have to do this trick...
         // https://github.com/zendframework/zf2/issues/2761
@@ -238,7 +244,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     
     public function editAttribute(array $data, $attributeMapping)
     {
-        $form  = $this->getServiceManager()->get('playgroundflow_objectattributemapping_form');
+        $form  = $this->serviceLocator->get('playgroundflow_objectattributemapping_form');
         $form->bind($attributeMapping);
         $form->setData($data);
     
@@ -285,7 +291,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     public function getDomainMapper()
     {
         if (null === $this->domainMapper) {
-            $this->domainMapper = $this->getServiceManager()->get('playgroundflow_domain_mapper');
+            $this->domainMapper = $this->serviceLocator->get('playgroundflow_domain_mapper');
         }
 
         return $this->domainMapper;
@@ -312,7 +318,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     public function getStoryMappingMapper()
     {
         if (null === $this->storyMappingMapper) {
-            $this->storyMappingMapper = $this->getServiceManager()->get('playgroundflow_storyMapping_mapper');
+            $this->storyMappingMapper = $this->serviceLocator->get('playgroundflow_storyMapping_mapper');
         }
     
         return $this->storyMappingMapper;
@@ -339,7 +345,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     public function getObjectAttributeMappingMapper()
     {
         if (null === $this->objectAttributeMappingMapper) {
-            $this->objectAttributeMappingMapper = $this->getServiceManager()->get('playgroundflow_objectattributemapping_mapper');
+            $this->objectAttributeMappingMapper = $this->serviceLocator->get('playgroundflow_objectattributemapping_mapper');
         }
     
         return $this->objectAttributeMappingMapper;
@@ -366,7 +372,7 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     public function getObjectMappingMapper()
     {
         if (null === $this->objectMappingMapper) {
-            $this->objectMappingMapper = $this->getServiceManager()->get('playgroundflow_objectmapping_mapper');
+            $this->objectMappingMapper = $this->serviceLocator->get('playgroundflow_objectmapping_mapper');
         }
     
         return $this->objectMappingMapper;
@@ -395,33 +401,10 @@ class Domain extends EventProvider implements ServiceManagerAwareInterface
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceManager()->get('playgroundflow_module_options'));
+            $this->setOptions($this->serviceLocator->get('playgroundflow_module_options'));
         }
 
         return $this->options;
-    }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return Domain
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
     }
     
     public function fileNewname($path, $filename, $generate = false)

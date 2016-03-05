@@ -121,6 +121,26 @@ return array(
         ),
     ),
 
+    'service_manager' => array(
+        'aliases' => array(
+            'playgroundflow_doctrine_em' => 'doctrine.entitymanager.orm_default',
+        ),
+        'factories' => array(
+            'playgroundflow_flow_service'         => 'PlaygroundFlow\Service\FlowFactory',
+            'playgroundflow_action_service'       => 'PlaygroundFlow\Service\ActionFactory',
+            'playgroundflow_object_service'       => 'PlaygroundFlow\Service\ObjectFactory',
+            'playgroundflow_story_service'        => 'PlaygroundFlow\Service\StoryFactory',
+            'playgroundflow_widget_service'       => 'PlaygroundFlow\Service\WidgetFactory',
+            'playgroundflow_domain_service'       => 'PlaygroundFlow\Service\DomainFactory',
+            'playgroundflow_broadcast_service'    => 'PlaygroundFlow\Service\BroadcastFactory',
+            'playgroundflow_storytelling_service' => 'PlaygroundFlow\Service\StoryTellingFactory',
+            'playgroundflow_storytelling_listener'=> 'PlaygroundFlow\Service\StoryTellingListenerFactory',
+            'playgroundflow_webtechno_service'    => 'PlaygroundFlow\Service\WebTechnoFactory',
+            'playgroundflow_user_domain_service'  => 'PlaygroundFlow\Service\UserDomainFactory',
+            'playgroundflow_prospect_service'     => 'PlaygroundFlow\Service\ProspectFactory',
+        ),
+    ),
+
     'core_layout' => array(
         'frontend' => array(
             'modules' => array(

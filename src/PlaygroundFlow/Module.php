@@ -55,25 +55,6 @@ class Module
     public function getServiceConfig()
     {
         return array(
-            'aliases' => array(
-                    'playgroundflow_doctrine_em' => 'doctrine.entitymanager.orm_default',
-            ),
-
-            'invokables' => array(
-                    'playgroundflow_flow_service'         => 'PlaygroundFlow\Service\Flow',
-                    'playgroundflow_action_service'       => 'PlaygroundFlow\Service\Action',
-                    'playgroundflow_object_service'       => 'PlaygroundFlow\Service\Object',
-                    'playgroundflow_story_service'        => 'PlaygroundFlow\Service\Story',
-                    'playgroundflow_widget_service'       => 'PlaygroundFlow\Service\Widget',
-                    'playgroundflow_domain_service'       => 'PlaygroundFlow\Service\Domain',
-                    'playgroundflow_broadcast_service'    => 'PlaygroundFlow\Service\Broadcast',
-                    'playgroundflow_storytelling_service' => 'PlaygroundFlow\Service\StoryTelling',
-                    'playgroundflow_storytelling_listener'=> 'PlaygroundFlow\Service\StoryTellingListener',
-                    'playgroundflow_webtechno_service'    => 'PlaygroundFlow\Service\WebTechno',
-                    'playgroundflow_user_domain_service'  => 'PlaygroundFlow\Service\UserDomain',
-                    'playgroundflow_prospect_service'     => 'PlaygroundFlow\Service\Prospect',
-            ),
-
             'factories' => array(
                 'playgroundflow_module_options' => function ($sm) {
                     $config = $sm->get('Configuration');

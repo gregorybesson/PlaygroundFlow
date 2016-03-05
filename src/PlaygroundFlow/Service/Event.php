@@ -2,12 +2,12 @@
 
 namespace PlaygroundFlow\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundFlow\Options\ModuleOptions;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Event extends EventProvider implements ServiceManagerAwareInterface
+class Event extends EventProvider
 {
 
     /**
@@ -16,14 +16,20 @@ class Event extends EventProvider implements ServiceManagerAwareInterface
     protected $eventMapper;
 
     /**
-     * @var ServiceManager
-     */
-    protected $serviceManager;
-
-    /**
      * @var EventServiceOptionsInterface
      */
     protected $options;
+
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
 
     public function edit(array $data, $event)
     {
@@ -43,7 +49,7 @@ class Event extends EventProvider implements ServiceManagerAwareInterface
      */
     public function getTotal($user, $type = '', $count = 'points')
     {
-        $em = $this->getServiceManager()->get('playgroundflow_doctrine_em');
+        $em = $this->serviceLocator->get('playgroundflow_doctrine_em');
 
         if ($count == 'points') {
             $aggregate = 'SUM(e.points)';
@@ -107,7 +113,7 @@ class Event extends EventProvider implements ServiceManagerAwareInterface
     public function getEventMapper()
     {
         if (null === $this->eventMapper) {
-            $this->eventMapper = $this->getServiceManager()->get('playgroundflow_event_mapper');
+            $this->eventMapper = $this->serviceLocator->get('playgroundflow_event_mapper');
         }
 
         return $this->eventMapper;
@@ -136,32 +142,9 @@ class Event extends EventProvider implements ServiceManagerAwareInterface
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceManager()->get('playgroundflow_module_options'));
+            $this->setOptions($this->serviceLocator->get('playgroundflow_module_options'));
         }
 
         return $this->options;
-    }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return Event
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
     }
 }

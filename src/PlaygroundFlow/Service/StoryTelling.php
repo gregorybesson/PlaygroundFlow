@@ -2,14 +2,13 @@
 
 namespace PlaygroundFlow\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundFlow\Options\ModuleOptions;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
+class StoryTelling extends EventProvider
 {
-
 
     /**
      * @var EventMapperInterface
@@ -22,14 +21,20 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
     protected $storyMappingMapper;
 
     /**
-     * @var ServiceManager
-     */
-    protected $serviceManager;
-
-    /**
      * @var EventServiceOptionsInterface
      */
     protected $options;
+
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
     
     public function tellStory($storyTelling)
     {
@@ -94,7 +99,7 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
     public function getStoryTellingMapper()
     {
         if (null === $this->storyTellingMapper) {
-            $this->storyTellingMapper = $this->getServiceManager()->get('playgroundflow_storytelling_mapper');
+            $this->storyTellingMapper = $this->serviceLocator->get('playgroundflow_storytelling_mapper');
         }
 
         return $this->storyTellingMapper;
@@ -108,7 +113,7 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
     public function getStoryMappingMapper()
     {
         if (null === $this->storyMappingMapper) {
-            $this->storyMappingMapper = $this->getServiceManager()->get('playgroundflow_storyMapping_mapper');
+            $this->storyMappingMapper = $this->serviceLocator->get('playgroundflow_storyMapping_mapper');
         }
     
         return $this->storyMappingMapper;
@@ -144,33 +149,10 @@ class StoryTelling extends EventProvider implements ServiceManagerAwareInterface
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceManager()->get('playgroundflow_module_options'));
+            $this->setOptions($this->serviceLocator->get('playgroundflow_module_options'));
         }
 
         return $this->options;
-    }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return Event
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
     }
     
     /**

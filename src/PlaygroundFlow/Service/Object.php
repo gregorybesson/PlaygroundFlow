@@ -2,12 +2,12 @@
 
 namespace PlaygroundFlow\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundFlow\Options\ModuleOptions;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Object extends EventProvider implements ServiceManagerAwareInterface
+class Object extends EventProvider
 {
 
     /**
@@ -21,19 +21,25 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
     protected $objectAttributeMapper;
 
     /**
-     * @var ServiceManager
-     */
-    protected $serviceManager;
-
-    /**
      * @var ObjectServiceOptionsInterface
      */
     protected $options;
 
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
+
     public function create(array $data)
     {
         $object  = new \PlaygroundFlow\Entity\OpenGraphObject();
-        $form  = $this->getServiceManager()->get('playgroundflow_object_form');
+        $form  = $this->serviceLocator->get('playgroundflow_object_form');
         $form->bind($object);
         $form->setData($data);
         
@@ -50,7 +56,7 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
 
     public function edit(array $data, $object)
     {
-        $form  = $this->getServiceManager()->get('playgroundflow_object_form');
+        $form  = $this->serviceLocator->get('playgroundflow_object_form');
         $form->bind($object);
         $form->setData($data);
          
@@ -69,7 +75,7 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
     public function createAttribute(array $data)
     {
         $attribute  = new \PlaygroundFlow\Entity\OpenGraphObjectAttribute();
-        $form  = $this->getServiceManager()->get('playgroundflow_objectattribute_form');
+        $form  = $this->serviceLocator->get('playgroundflow_objectattribute_form');
         $form->bind($attribute);
         $form->setData($data);
         
@@ -90,7 +96,7 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
     
     public function editAttribute(array $data, $attribute)
     {
-        $form  = $this->getServiceManager()->get('playgroundflow_objectattribute_form');
+        $form  = $this->serviceLocator->get('playgroundflow_objectattribute_form');
         $form->bind($attribute);
         $form->setData($data);
         
@@ -113,7 +119,7 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
     public function getObjectMapper()
     {
         if (null === $this->objectMapper) {
-            $this->objectMapper = $this->getServiceManager()->get('playgroundflow_object_mapper');
+            $this->objectMapper = $this->serviceLocator->get('playgroundflow_object_mapper');
         }
 
         return $this->objectMapper;
@@ -140,7 +146,7 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
     public function getObjectAttributeMapper()
     {
         if (null === $this->objectAttributeMapper) {
-            $this->objectAttributeMapper = $this->getServiceManager()->get('playgroundflow_objectattribute_mapper');
+            $this->objectAttributeMapper = $this->serviceLocator->get('playgroundflow_objectattribute_mapper');
         }
     
         return $this->objectAttributeMapper;
@@ -169,32 +175,9 @@ class Object extends EventProvider implements ServiceManagerAwareInterface
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceManager()->get('playgroundflow_module_options'));
+            $this->setOptions($this->serviceLocator->get('playgroundflow_module_options'));
         }
 
         return $this->options;
-    }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return Object
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
     }
 }
