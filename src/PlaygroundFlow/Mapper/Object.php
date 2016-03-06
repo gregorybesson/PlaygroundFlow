@@ -9,7 +9,7 @@ use ZfcBase\Mapper\AbstractDbMapper;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use PlaygroundFlow\Options\ModuleOptions;
 
-class Object implements ServiceLocatorAwareInterface
+class Object
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -90,26 +90,5 @@ class Object implements ServiceLocatorAwareInterface
         }
 
         return $this->er;
-    }
-    
-    /**
-     * Set serviceManager instance
-     *
-     * @param  ServiceLocatorInterface $serviceLocator
-     * @return void
-     */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-    }
-
-    /**
-     * Retrieve serviceManager instance
-     *
-     * @return ServiceLocatorInterface
-     */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
     }
 }

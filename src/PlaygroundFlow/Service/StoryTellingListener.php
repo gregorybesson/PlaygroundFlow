@@ -6,15 +6,15 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\Event;
 use ZfcBase\EventManager\EventProvider;
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * This listener is used to gather the stories from the managed domains
  *
  * @author Gregory Besson <gregory.besson@playground.gg>
  */
-class StoryTellingListener extends EventProvider implements ListenerAggregateInterface, ServiceManagerAwareInterface
+class StoryTellingListener extends EventProvider implements ListenerAggregateInterface
 {
 
     /**
@@ -24,10 +24,19 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
     protected $listeners = array();
 
     protected $eventsArray = array();
-    
-    protected $serviceManager;
 
     protected $leaderboardService;
+
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
 
     /**
      * {@inheritDoc}
@@ -35,7 +44,7 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
     public function attach(EventManagerInterface $events)
     {
         //Creating the Pre-events
-        $sm = $this->getServiceManager();
+        $sm = $this->serviceLocator;
         
         $app = $sm->get('Application');
         $uri = $app->getRequest()->getUri();
@@ -317,32 +326,9 @@ class StoryTellingListener extends EventProvider implements ListenerAggregateInt
     public function getLeaderboardService()
     {
         if (! $this->leaderboardService) {
-            $this->leaderboardService = $this->getServiceManager()->get('playgroundreward_leaderboard_service');
+            $this->leaderboardService = $this->serviceLocator->get('playgroundreward_leaderboard_service');
         }
     
         return $this->leaderboardService;
-    }
-    
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-    
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $sm
-     * @return User
-     */
-    public function setServiceManager(ServiceManager $sm)
-    {
-        $this->serviceManager = $sm;
-    
-        return $this;
     }
 }

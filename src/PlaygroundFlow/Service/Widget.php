@@ -2,12 +2,12 @@
 
 namespace PlaygroundFlow\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundFlow\Options\ModuleOptions;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Widget extends EventProvider implements ServiceManagerAwareInterface
+class Widget extends EventProvider
 {
 
     /**
@@ -16,19 +16,25 @@ class Widget extends EventProvider implements ServiceManagerAwareInterface
     protected $widgetMapper;
 
     /**
-     * @var ServiceManager
-     */
-    protected $serviceManager;
-
-    /**
      * @var WidgetServiceOptionsInterface
      */
     protected $options;
 
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
+
     public function create(array $data)
     {
         $widget  = new \PlaygroundFlow\Entity\OpenGraphWidget();
-        $form  = $this->getServiceManager()->get('playgroundflow_widget_form');
+        $form  = $this->serviceLocator->get('playgroundflow_widget_form');
         $form->bind($widget);
         $form->setData($data);
         
@@ -45,7 +51,7 @@ class Widget extends EventProvider implements ServiceManagerAwareInterface
 
     public function edit(array $data, $widget)
     {
-        $form  = $this->getServiceManager()->get('playgroundflow_widget_form');
+        $form  = $this->serviceLocator->get('playgroundflow_widget_form');
         $form->bind($widget);
         $form->setData($data);
          
@@ -68,7 +74,7 @@ class Widget extends EventProvider implements ServiceManagerAwareInterface
     public function getWidgetMapper()
     {
         if (null === $this->widgetMapper) {
-            $this->widgetMapper = $this->getServiceManager()->get('playgroundflow_widget_mapper');
+            $this->widgetMapper = $this->serviceLocator->get('playgroundflow_widget_mapper');
         }
 
         return $this->widgetMapper;
@@ -97,32 +103,9 @@ class Widget extends EventProvider implements ServiceManagerAwareInterface
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceManager()->get('playgroundflow_module_options'));
+            $this->setOptions($this->serviceLocator->get('playgroundflow_module_options'));
         }
 
         return $this->options;
-    }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return Widget
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
     }
 }

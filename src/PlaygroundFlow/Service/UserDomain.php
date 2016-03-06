@@ -2,17 +2,27 @@
 
 namespace PlaygroundFlow\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use PlaygroundFlow\Entity\OpenGraphUserDomain as UserDomainEntity;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class UserDomain implements ServiceManagerAwareInterface
+class UserDomain
 {
     /**
     * @var Mapper\UserDomain $userDomainMapper
     */
     protected $userDomainMapper = null;
     
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
 
     /**
     * findUserDomainOrCreateByUserAndDomain : retrieve userDomain with user and domain of create if not exits
@@ -38,7 +48,7 @@ class UserDomain implements ServiceManagerAwareInterface
     public function getUserDomainMapper()
     {
         if ($this->userDomainMapper == null) {
-            $this->userDomainMapper = $this->getServiceManager()->get('playgroundflow_user_domain_mapper');
+            $this->userDomainMapper = $this->serviceLocator->get('playgroundflow_user_domain_mapper');
         }
 
         return $this->userDomainMapper;
@@ -52,29 +62,6 @@ class UserDomain implements ServiceManagerAwareInterface
     public function setUserDomainMapper($mapper)
     {
         $this->userDomainMapper = $mapper;
-
-        return $this;
-    }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return User
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
 
         return $this;
     }

@@ -2,23 +2,18 @@
 
 namespace PlaygroundFlow\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundFlow\Options\ModuleOptions;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Story extends EventProvider implements ServiceManagerAwareInterface
+class Story extends EventProvider
 {
 
     /**
      * @var StoryMapperInterface
      */
     protected $storyMapper;
-
-    /**
-     * @var ServiceManager
-     */
-    protected $serviceManager;
 
     /**
      * @var StoryServiceOptionsInterface
@@ -28,7 +23,7 @@ class Story extends EventProvider implements ServiceManagerAwareInterface
     public function create(array $data)
     {
         $story  = new \PlaygroundFlow\Entity\OpenGraphStory();
-        $form  = $this->getServiceManager()->get('playgroundflow_story_form');
+        $form  = $this->serviceLocator->get('playgroundflow_story_form');
         $form->bind($story);
         $form->setData($data);
         
@@ -45,7 +40,7 @@ class Story extends EventProvider implements ServiceManagerAwareInterface
 
     public function edit(array $data, $story)
     {
-        $form  = $this->getServiceManager()->get('playgroundflow_story_form');
+        $form  = $this->serviceLocator->get('playgroundflow_story_form');
         $form->bind($story);
         $form->setData($data);
          
@@ -68,7 +63,7 @@ class Story extends EventProvider implements ServiceManagerAwareInterface
     public function getStoryMapper()
     {
         if (null === $this->storyMapper) {
-            $this->storyMapper = $this->getServiceManager()->get('playgroundflow_story_mapper');
+            $this->storyMapper = $this->serviceLocator->get('playgroundflow_story_mapper');
         }
 
         return $this->storyMapper;
@@ -97,32 +92,9 @@ class Story extends EventProvider implements ServiceManagerAwareInterface
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceManager()->get('playgroundflow_module_options'));
+            $this->setOptions($this->serviceLocator->get('playgroundflow_module_options'));
         }
 
         return $this->options;
-    }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return Story
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
     }
 }

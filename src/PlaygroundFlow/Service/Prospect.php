@@ -2,16 +2,28 @@
 
 namespace PlaygroundFlow\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use PlaygroundFlow\Entity\OpenGraphProspect as ProspectEntity;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Prospect implements ServiceManagerAwareInterface
+class Prospect
 {
     /**
     * @var Mapper\Prospect $prospectMapper
     */
     protected $prospectMapper = null;
+
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
+
     /**
     * findProspectOrCreateByProspectAndDomain : retrieve prospect with prospect and domain of create if not exits
     * @param string $prospect
@@ -42,7 +54,7 @@ class Prospect implements ServiceManagerAwareInterface
     public function getProspectMapper()
     {
         if ($this->prospectMapper == null) {
-            $this->prospectMapper = $this->getServiceManager()->get('playgroundflow_prospect_mapper');
+            $this->prospectMapper = $this->serviceLocator->get('playgroundflow_prospect_mapper');
         }
 
         return $this->prospectMapper;
@@ -56,29 +68,6 @@ class Prospect implements ServiceManagerAwareInterface
     public function setProspectMapper($mapper)
     {
         $this->prospectMapper = $mapper;
-
-        return $this;
-    }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return User
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
 
         return $this;
     }
