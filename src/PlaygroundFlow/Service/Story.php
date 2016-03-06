@@ -20,6 +20,17 @@ class Story extends EventProvider
      */
     protected $options;
 
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
+
     public function create(array $data)
     {
         $story  = new \PlaygroundFlow\Entity\OpenGraphStory();
