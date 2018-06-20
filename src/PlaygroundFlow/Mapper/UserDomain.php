@@ -4,9 +4,9 @@ namespace PlaygroundFlow\Mapper;
 
 use Doctrine\ORM\EntityManager;
 use Zend\Stdlib\Hydrator\HydratorInterface;
-use ZfcBase\Mapper\AbstractDbMapper;
 
-class UserDomain extends AbstractDbMapper
+
+class UserDomain
 {
     /**
      * @var \Doctrine\ORM\EntityManager

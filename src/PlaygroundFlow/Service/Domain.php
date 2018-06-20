@@ -3,14 +3,15 @@
 namespace PlaygroundFlow\Service;
 
 use Zend\ServiceManager\ServiceManager;
-use ZfcBase\EventManager\EventProvider;
+use Zend\EventManager\EventManagerAwareTrait;
 use PlaygroundFlow\Options\ModuleOptions;
 use PlaygroundCore\Filter\Sanitize;
 use Zend\Stdlib\ErrorHandler;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Domain extends EventProvider
+class Domain
 {
+    use EventManagerAwareTrait;
 
     /**
      * @var DomainMapperInterface

@@ -5,7 +5,7 @@ namespace PlaygroundFlow\Mapper;
 use Doctrine\ORM\EntityManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use ZfcBase\Mapper\AbstractDbMapper;
+
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use PlaygroundFlow\Options\ModuleOptions;
 

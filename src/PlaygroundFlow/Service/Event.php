@@ -3,12 +3,13 @@
 namespace PlaygroundFlow\Service;
 
 use Zend\ServiceManager\ServiceManager;
-use ZfcBase\EventManager\EventProvider;
+use Zend\EventManager\EventManagerAwareTrait;
 use PlaygroundFlow\Options\ModuleOptions;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Event extends EventProvider
+class Event
 {
+    use EventManagerAwareTrait;
 
     /**
      * @var EventMapperInterface
