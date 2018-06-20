@@ -3,11 +3,11 @@
 namespace PlaygroundFlow\Mapper;
 
 use Doctrine\ORM\EntityManager;
-use ZfcBase\Mapper\AbstractDbMapper;
+
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use PlaygroundFlow\Options\ModuleOptions;
 
-class Event extends AbstractDbMapper implements ActionInterface
+class Event implements ActionInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManager

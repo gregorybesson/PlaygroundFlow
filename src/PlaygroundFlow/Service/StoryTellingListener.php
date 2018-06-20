@@ -5,7 +5,7 @@ use Zend\Session\Container;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\Event;
-use ZfcBase\EventManager\EventProvider;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -14,8 +14,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author Gregory Besson <gregory.besson@playground.gg>
  */
-class StoryTellingListener extends EventProvider implements ListenerAggregateInterface
+class StoryTellingListener implements ListenerAggregateInterface
 {
+    use EventManagerAwareTrait;
 
     /**
      *
