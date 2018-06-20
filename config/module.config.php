@@ -112,7 +112,7 @@ return array(
         	'playgroundflowadminstory'      => 'PlaygroundFlow\Controller\Admin\StoryController',
             'playgroundflowadminwidget'     => 'PlaygroundFlow\Controller\Admin\WidgetController',
         	'playgroundflowadmindomain'     => 'PlaygroundFlow\Controller\Admin\DomainController',
-            'playgroundflowadminwebtechno'  => 'PlaygroundFlow\Controller\Admin\WebtechnoController',
+            'playgroundflowadminwebtechno'  => 'PlaygroundFlow\Controller\Admin\WebTechnoController',
             'playgroundflow'                => 'PlaygroundFlow\Controller\IndexController',
             'playgroundflowrestauthent'     => 'PlaygroundFlow\Controller\RestAuthentController',
             'playgroundflowrestsend'        => 'PlaygroundFlow\Controller\RestSendController',
