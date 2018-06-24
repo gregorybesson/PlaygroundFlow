@@ -5,7 +5,7 @@ return array(
             'playgroundflow_entity' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => __DIR__ . '/../src/PlaygroundFlow/Entity'
+                'paths' => __DIR__ . '/../src/Entity'
             ),
 
             'orm_default' => array(
@@ -33,7 +33,7 @@ return array(
     
         'guards' => array(
             'BjyAuthorize\Guard\Controller' => array( 
-                array('controller' => 'PlaygroundFlow\Controller\Frontend\Index', 'roles' => array('guest', 'user')),
+                array('controller' => \PlaygroundFlow\Controller\Frontend\IndexController::class,    'roles' => array('guest', 'user')),
                 array('controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,      'roles' => array('admin')),
                 array('controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,      'roles' => array('admin')),
                 array('controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,       'roles' => array('admin')),
@@ -106,14 +106,13 @@ return array(
     ),
 
     'controllers' => array(
-        'invokables' => array(
-            'playgroundflow'                => 'PlaygroundFlow\Controller\IndexController',
-            'playgroundflowrestauthent'     => 'PlaygroundFlow\Controller\RestAuthentController',
-            'playgroundflowrestsend'        => 'PlaygroundFlow\Controller\RestSendController',
-            'playgroundfloweasyxdm'         => 'PlaygroundFlow\Controller\Frontend\EasyXDMController',
-            'PlaygroundFlow\Controller\Frontend\Index' => 'PlaygroundFlow\Controller\Frontend\IndexController'
-        ),
         'factories' => array(
+            \PlaygroundFlow\Controller\IndexController::class => \PlaygroundFlow\Controller\IndexControllerFactory::class,
+            \PlaygroundFlow\Controller\RestAuthentController::class => \PlaygroundFlow\Controller\RestAuthentControllerFactory::class,
+            \PlaygroundFlow\Controller\RestSendController::class => \PlaygroundFlow\Controller\RestSendControllerFactory::class,
+            \PlaygroundFlow\Controller\Frontend\EasyXDMController::class => \PlaygroundFlow\Controller\Frontend\EasyXDMControllerFactory::class,
+            \PlaygroundFlow\Controller\Frontend\IndexController::class => \PlaygroundFlow\Controller\Frontend\IndexControllerFactory::class,
+
             \PlaygroundFlow\Controller\Admin\StoryController::class => \PlaygroundFlow\Controller\Admin\StoryControllerFactory::class,
             \PlaygroundFlow\Controller\Admin\ActionController::class => \PlaygroundFlow\Controller\Admin\ActionControllerFactory::class,
             \PlaygroundFlow\Controller\Admin\WebTechnoController::class => \PlaygroundFlow\Controller\Admin\WebTechnoControllerFactory::class,
@@ -183,7 +182,7 @@ return array(
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'playgroundflowrestauthent',
+                        'controller' => \PlaygroundFlow\Controller\RestAuthentController::class,
                     ),
                 ),
             ),
@@ -195,7 +194,7 @@ return array(
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'playgroundflowrestsend',
+                        'controller' => \PlaygroundFlow\Controller\RestSendController::class,
                     ),
                 ),
             ),
@@ -204,7 +203,7 @@ return array(
                 'options' => array(
                     'route'    => '/flow[/:appId]',
                     'defaults' => array(
-                        'controller' => 'playgroundflow',
+                        'controller' => \PlaygroundFlow\Controller\IndexController::class,
                         'action'     => 'index',
                     ),
                 ),
@@ -215,7 +214,7 @@ return array(
                         'options' => array(
                             'route' => '/init',
                             'defaults' => array(
-                                'controller' => 'playgroundflow',
+                                'controller' => \PlaygroundFlow\Controller\IndexController::class,
                                 'action'     => 'init'
                             ),
                         ),
@@ -229,7 +228,7 @@ return array(
                         'options' => array(
                             'route'    => 'easyxdm/index',
                             'defaults' => array(
-                                'controller' => 'playgroundfloweasyxdm',
+                                'controller' => \PlaygroundFlow\Controller\Frontend\EasyXDMController::class,
                                 'action'     => 'index',
                             ),
                         ),
@@ -240,7 +239,7 @@ return array(
                         'options' => array(
                             'route'    => 'easyxdm/name',
                             'defaults' => array(
-                                'controller' => 'playgroundfloweasyxdm',
+                                'controller' => \PlaygroundFlow\Controller\Frontend\EasyXDMController::class,
                                 'action'     => 'name',
                             ),
                         ),
@@ -251,7 +250,7 @@ return array(
                         'options' => array(
                             'route' => 'mon-compte/sponsor-friends',
                             'defaults' => array(
-                                'controller' => 'PlaygroundFlow\Controller\Frontend\Index',
+                                'controller' => \PlaygroundFlow\Controller\Frontend\IndexController::class,
                                 'action'     => 'sponsorfriends',
                             ),
                         ),
@@ -262,7 +261,7 @@ return array(
                                 'options' => array(
                                     'route' => '/fbshare',
                                     'defaults' => array(
-                                        'controller' => 'PlaygroundFlow\Controller\Frontend\Index',
+                                        'controller' => \PlaygroundFlow\Controller\Frontend\IndexController::class,
                                         'action'     => 'fbshare',
                                     ),
                                 ),
@@ -272,7 +271,7 @@ return array(
                                 'options' => array(
                                     'route' => '/tweet',
                                     'defaults' => array(
-                                        'controller' => 'PlaygroundFlow\Controller\Frontend\Index',
+                                        'controller' => \PlaygroundFlow\Controller\Frontend\IndexController::class,
                                         'action'     => 'tweet',
                                     ),
                                 ),
@@ -282,7 +281,7 @@ return array(
                                 'options' => array(
                                     'route' => '/google',
                                     'defaults' => array(
-                                        'controller' => 'PlaygroundFlow\Controller\Frontend\Index',
+                                        'controller' => \PlaygroundFlow\Controller\Frontend\IndexController::class,
                                         'action'     => 'google',
                                     ),
                                 ),
