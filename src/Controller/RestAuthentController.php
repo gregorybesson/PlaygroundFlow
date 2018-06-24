@@ -3,6 +3,7 @@ namespace PlaygroundFlow\Controller;
 
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class RestAuthentController extends AbstractRestfulController
 {
@@ -12,7 +13,23 @@ class RestAuthentController extends AbstractRestfulController
      * @var DomainService
      */
     protected $domainService;
-    
+
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
+
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
     /*
      * GET without querystring
      * http://127.0.0.1/playground/flow/XX-XX-YY/rest/authent

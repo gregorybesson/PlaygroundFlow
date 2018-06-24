@@ -4,6 +4,7 @@ namespace PlaygroundFlow\Controller;
 
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class RestSendController extends AbstractRestfulController
 {
@@ -32,6 +33,22 @@ class RestSendController extends AbstractRestfulController
      * @var leaderboardService
      */
     protected $leaderboardService;
+
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
+
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
 
     public function getList()
     {
