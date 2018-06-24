@@ -1,15 +1,15 @@
 <?php
-namespace PlaygroundFlow\Controller\Frontend;
+namespace PlaygroundFlow\Controller;
 
-use PlaygroundFlow\Controller\Frontend\IndexController;
+use PlaygroundFlow\Controller\RestAuthentController;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
-class IndexControllerFactory implements FactoryInterface
+class RestAuthentControllerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, $options = null)
     {
-        $controller = new IndexController($container);
+        $controller = new RestAuthentController($container);
 
         return $controller;
     }
