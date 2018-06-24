@@ -34,12 +34,12 @@ return array(
         'guards' => array(
             'BjyAuthorize\Guard\Controller' => array( 
                 array('controller' => 'PlaygroundFlow\Controller\Frontend\Index', 'roles' => array('guest', 'user')),
-                array('controller' => 'playgroundflowadminaction',      'roles' => array('admin')),
-                array('controller' => 'playgroundflowadminobject',      'roles' => array('admin')),
-                array('controller' => 'playgroundflowadminstory',       'roles' => array('admin')),
-                array('controller' => 'playgroundflowadmindomain',      'roles' => array('admin')),
-                array('controller' => 'playgroundflowadminwebtechno',   'roles' => array('admin')),
-                array('controller' => 'playgroundflowadminwidget',      'roles' => array('admin')),
+                array('controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,      'roles' => array('admin')),
+                array('controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,      'roles' => array('admin')),
+                array('controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,       'roles' => array('admin')),
+                array('controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,      'roles' => array('admin')),
+                array('controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,   'roles' => array('admin')),
+                array('controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,      'roles' => array('admin')),
             ),
         ),
     ),
@@ -107,17 +107,19 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-        	'playgroundflowadminaction'     => 'PlaygroundFlow\Controller\Admin\ActionController',
-        	'playgroundflowadminobject'     => 'PlaygroundFlow\Controller\Admin\ObjectController',
-        	'playgroundflowadminstory'      => 'PlaygroundFlow\Controller\Admin\StoryController',
-            'playgroundflowadminwidget'     => 'PlaygroundFlow\Controller\Admin\WidgetController',
-        	'playgroundflowadmindomain'     => 'PlaygroundFlow\Controller\Admin\DomainController',
-            'playgroundflowadminwebtechno'  => 'PlaygroundFlow\Controller\Admin\WebTechnoController',
             'playgroundflow'                => 'PlaygroundFlow\Controller\IndexController',
             'playgroundflowrestauthent'     => 'PlaygroundFlow\Controller\RestAuthentController',
             'playgroundflowrestsend'        => 'PlaygroundFlow\Controller\RestSendController',
             'playgroundfloweasyxdm'         => 'PlaygroundFlow\Controller\Frontend\EasyXDMController',
             'PlaygroundFlow\Controller\Frontend\Index' => 'PlaygroundFlow\Controller\Frontend\IndexController'
+        ),
+        'factories' => array(
+            \PlaygroundFlow\Controller\Admin\StoryController::class => \PlaygroundFlow\Controller\Admin\StoryControllerFactory::class,
+            \PlaygroundFlow\Controller\Admin\ActionController::class => \PlaygroundFlow\Controller\Admin\ActionControllerFactory::class,
+            \PlaygroundFlow\Controller\Admin\WebTechnoController::class => \PlaygroundFlow\Controller\Admin\WebTechnoControllerFactory::class,
+            \PlaygroundFlow\Controller\Admin\ObjectController::class => \PlaygroundFlow\Controller\Admin\ObjectControllerFactory::class,
+            \PlaygroundFlow\Controller\Admin\WidgetController::class => \PlaygroundFlow\Controller\Admin\WidgetControllerFactory::class,
+            \PlaygroundFlow\Controller\Admin\DomainController::class => \PlaygroundFlow\Controller\Admin\DomainControllerFactory::class,
         ),
     ),
 
@@ -147,22 +149,22 @@ return array(
                 'PlaygroundFlow' => array(
                     'default_layout' => 'layout/1column',
                 	'controllers' => array(
-               			'playgroundflowadminaction' => array(
+               			\PlaygroundFlow\Controller\Admin\ActionController::class => array(
                				'default_layout' => 'layout/admin',
                			),
-               			'playgroundflowadminstory' => array(
+               			\PlaygroundFlow\Controller\Admin\StoryController::class => array(
                				'default_layout' => 'layout/admin',
               			),
-                	    'playgroundflowadminwidget' => array(
+                	    \PlaygroundFlow\Controller\Admin\WidgetController::class => array(
                 	        'default_layout' => 'layout/admin',
                 	    ),
-             			'playgroundflowadmindomain' => array(
+             			\PlaygroundFlow\Controller\Admin\DomainController::class => array(
               				'default_layout' => 'layout/admin',
               			),
-              			'playgroundflowadminobject' => array(
+              			\PlaygroundFlow\Controller\Admin\ObjectController::class => array(
               				'default_layout' => 'layout/admin',
                			),
-                        'playgroundflowadminwebtechno' => array(
+                        \PlaygroundFlow\Controller\Admin\WebTechnoController::class => array(
                             'default_layout' => 'layout/admin',
                         ),
                 	),
@@ -198,7 +200,7 @@ return array(
                 ),
             ),
             'flow' => array(
-                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'type' => 'Zend\Router\Http\Segment',
                 'options' => array(
                     'route'    => '/flow[/:appId]',
                     'defaults' => array(
@@ -223,7 +225,7 @@ return array(
             'frontend' => array(
                 'child_routes' => array(
                     'easyxdmindex' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Segment',
+                        'type' => 'Zend\Router\Http\Segment',
                         'options' => array(
                             'route'    => 'easyxdm/index',
                             'defaults' => array(
@@ -234,7 +236,7 @@ return array(
                     ),
             
                     'easyxdmname' => array(
-                        'type' => 'Zend\Mvc\Router\Http\Segment',
+                        'type' => 'Zend\Router\Http\Segment',
                         'options' => array(
                             'route'    => 'easyxdm/name',
                             'defaults' => array(
@@ -245,7 +247,7 @@ return array(
                     ),
                     
                     'sponsorfriends' => array(
-                        'type' => 'Literal',
+                        'type' => 'Zend\Router\Http\Literal',
                         'options' => array(
                             'route' => 'mon-compte/sponsor-friends',
                             'defaults' => array(
@@ -256,7 +258,7 @@ return array(
                         'may_terminate' => true,
                         'child_routes' => array(
                             'fbshare' => array(
-                                'type' => 'Literal',
+                                'type' => 'Zend\Router\Http\Literal',
                                 'options' => array(
                                     'route' => '/fbshare',
                                     'defaults' => array(
@@ -266,7 +268,7 @@ return array(
                                 ),
                             ),
                             'tweet' => array(
-                                'type' => 'Literal',
+                                'type' => 'Zend\Router\Http\Literal',
                                 'options' => array(
                                     'route' => '/tweet',
                                     'defaults' => array(
@@ -276,7 +278,7 @@ return array(
                                 ),
                             ),
                             'google' => array(
-                                'type' => 'Literal',
+                                'type' => 'Zend\Router\Http\Literal',
                                 'options' => array(
                                     'route' => '/google',
                                     'defaults' => array(
@@ -292,11 +294,11 @@ return array(
             'admin' => array(
                 'child_routes' => array(
                     'playgroundflow' => array(
-                        'type' => 'Literal',
+                        'type' => 'Zend\Router\Http\Literal',
                         'options' => array(
                             'route' => '/flow',
                             'defaults' => array(
-                                'controller' => 'playgroundflowadminaction',
+                                'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
                                 'action'     => 'index',
                             ),
                         ),
@@ -306,7 +308,7 @@ return array(
                					'options' => array(
               						'route' => '/list/:appId[/:p]',
             						'defaults' => array(
-          								'controller' => 'playgroundflowadminaction',
+          								'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
               							'action'     => 'list',
               							'appId'     => 0
                						),
@@ -317,7 +319,7 @@ return array(
                     			'options' => array(
                    					'route' => '/action',
                    					'defaults' => array(
-                   						'controller' => 'playgroundflowadminaction',
+                   						'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
                							'action'     => 'list',
               						),
                					),
@@ -328,7 +330,7 @@ return array(
                     					'options' => array(
            									'route' => '/:p',
                     						'defaults' => array(
-                    							'controller' => 'playgroundflowadminaction',
+                    							'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
                									'action'     => 'list',
                     						),
                     					),
@@ -338,7 +340,7 @@ return array(
                     					'options' => array(
            									'route' => '/create/:actionId',
                 							'defaults' => array(
-              	     							'controller' => 'playgroundflowadminaction',
+              	     							'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
                									'action'     => 'create',
        											'actionId'     => 0
                     						),
@@ -349,7 +351,7 @@ return array(
                     					'options' => array(
            									'route' => '/edit/:actionId',
                     						'defaults' => array(
-                    							'controller' => 'playgroundflowadminaction',
+                    							'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
               									'action'     => 'edit',
        											'actionId'     => 0
                     						),
@@ -360,7 +362,7 @@ return array(
                     					'options' => array(
            									'route' => '/remove/:actionId',
            									'defaults' => array(
-                    							'controller' => 'playgroundflowadminaction',
+                    							'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
                    								'action'     => 'remove',
        											'actionId'     => 0
                     						),
@@ -373,7 +375,7 @@ return array(
                					'options' => array(
           							'route' => '/story',
                     				'defaults' => array(
-                    					'controller' => 'playgroundflowadminstory',
+                    					'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
                     					'action'     => 'list',
                     				),
                     			),
@@ -384,7 +386,7 @@ return array(
                     					'options' => array(
                     						'route' => '/:p',
       										'defaults' => array(
-                    							'controller' => 'playgroundflowadminstory',
+                    							'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
                     							'action'     => 'list',
        										),
                     					),
@@ -394,7 +396,7 @@ return array(
                     					'options' => array(
                     						'route' => '/create/:storyId',
                     						'defaults' => array(
-                    							'controller' => 'playgroundflowadminstory',
+                    							'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
                     							'action'     => 'create',
                     							'storyId'     => 0
                     						),
@@ -405,7 +407,7 @@ return array(
                     					'options' => array(
                     						'route' => '/edit/:storyId',
                     						'defaults' => array(
-                    							'controller' => 'playgroundflowadminstory',
+                    							'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
                     							'action'     => 'edit',
                     							'storyId'     => 0
                     						),
@@ -416,7 +418,7 @@ return array(
                     					'options' => array(
                     						'route' => '/remove/:storyId',
                     						'defaults' => array(
-                    							'controller' => 'playgroundflowadminstory',
+                    							'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
                     							'action'     => 'remove',
    												'storyId'     => 0
                     						),
@@ -429,7 +431,7 @@ return array(
                     	        'options' => array(
                     	            'route' => '/widget',
                     	            'defaults' => array(
-                    	                'controller' => 'playgroundflowadminwidget',
+                    	                'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
                     	                'action'     => 'list',
                     	            ),
                     	        ),
@@ -440,7 +442,7 @@ return array(
                     	                'options' => array(
                     	                    'route' => '/:p',
       										'defaults' => array(
-      										    'controller' => 'playgroundflowadminwidget',
+      										    'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
       										    'action'     => 'list',
       										),
                     	                ),
@@ -450,7 +452,7 @@ return array(
                     	                'options' => array(
                     	                    'route' => '/create/:widgetId',
                     	                    'defaults' => array(
-                    	                        'controller' => 'playgroundflowadminwidget',
+                    	                        'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
                     	                        'action'     => 'create',
                     	                        'storyId'     => 0
                     	                    ),
@@ -461,7 +463,7 @@ return array(
                     	                'options' => array(
                     	                    'route' => '/edit/:widgetId',
                     	                    'defaults' => array(
-                    	                        'controller' => 'playgroundflowadminwidget',
+                    	                        'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
                     	                        'action'     => 'edit',
                     	                        'storyId'     => 0
                     	                    ),
@@ -472,7 +474,7 @@ return array(
                     	                'options' => array(
                     	                    'route' => '/remove/:widgetId',
                     	                    'defaults' => array(
-                    	                        'controller' => 'playgroundflowadminwidget',
+                    	                        'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
                     	                        'action'     => 'remove',
                     	                        'storyId'     => 0
                     	                    ),
@@ -485,7 +487,7 @@ return array(
                                 'options' => array(
                                     'route' => '/webtechno',
                                     'defaults' => array(
-                                        'controller' => 'playgroundflowadminwebtechno',
+                                        'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                         'action'     => 'list',
                                     ),
                                 ),
@@ -496,7 +498,7 @@ return array(
                                         'options' => array(
                                             'route' => '/:p',
                                             'defaults' => array(
-                                                'controller' => 'playgroundflowadminwebtechno',
+                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                 'action'     => 'list',
                                             ),
                                         ),
@@ -506,7 +508,7 @@ return array(
                                         'options' => array(
                                             'route' => '/create/:webTechnoId',
                                             'defaults' => array(
-                                                'controller' => 'playgroundflowadminwebtechno',
+                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                 'action'     => 'create',
                                                 'webTechnoId'     => 0
                                             ),
@@ -517,7 +519,7 @@ return array(
                                         'options' => array(
                                             'route' => '/edit/:webTechnoId',
                                             'defaults' => array(
-                                                'controller' => 'playgroundflowadminwebtechno',
+                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                 'action'     => 'edit',
                                                 'webTechnoId'     => 0
                                             ),
@@ -528,7 +530,7 @@ return array(
                                         'options' => array(
                                             'route' => '/remove/:webTechnoId',
                                             'defaults' => array(
-                                                'controller' => 'playgroundflowadminwebtechno',
+                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                 'action'     => 'remove',
                                                 'webTechnoId'     => 0
                                             ),
@@ -539,7 +541,7 @@ return array(
                                         'options' => array(
                                             'route' => '/:webTechnoId/story',
                                             'defaults' => array(
-                                                'controller' => 'playgroundflowadminwebtechno',
+                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                 'action'     => 'listStory',
                                                 'webTechnoId'     => 0
                                             ),
@@ -551,7 +553,7 @@ return array(
                                                 'options' => array(
                                                     'route' => '/:p',
                                                     'defaults' => array(
-                                                        'controller' => 'playgroundflowadminwebtechno',
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                         'action'     => 'listStory',
                                                     ),
                                                 ),
@@ -561,7 +563,7 @@ return array(
                                                 'options' => array(
                                                     'route' => '/create/:mappingId',
                                                     'defaults' => array(
-                                                        'controller' => 'playgroundflowadminwebtechno',
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                         'action'     => 'createStory',
                                                         'mappingId'     => 0
                                                     ),
@@ -572,7 +574,7 @@ return array(
                                                 'options' => array(
                                                     'route' => '/edit/:mappingId',
                                                     'defaults' => array(
-                                                        'controller' => 'playgroundflowadminwebtechno',
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                         'action'     => 'editStory',
                                                         'mappingId'     => 0
                                                     ),
@@ -583,7 +585,7 @@ return array(
                                                 'options' => array(
                                                     'route' => '/remove/:mappingId',
                                                     'defaults' => array(
-                                                        'controller' => 'playgroundflowadminwebtechno',
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                         'action'     => 'removeStory',
                                                         'mappingId'     => 0
                                                     ),
@@ -594,7 +596,7 @@ return array(
                                                 'options' => array(
                                                     'route' => '/:mappingId/attribute',
                                                     'defaults' => array(
-                                                        'controller' => 'playgroundflowadminwebtechno',
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                         'action' => 'listAttribute',
                                                         'mappingId' => 0
                                                     )
@@ -606,7 +608,7 @@ return array(
                                                         'options' => array(
                                                             'route' => '/:p',
                                                             'defaults' => array(
-                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                                 'action' => 'listAttribute'
                                                             )
                                                         )
@@ -616,7 +618,7 @@ return array(
                                                         'options' => array(
                                                             'route' => '/create/:attributeId',
                                                             'defaults' => array(
-                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                                 'action' => 'createAttribute',
                                                                 'attributeId' => 0
                                                             )
@@ -627,7 +629,7 @@ return array(
                                                         'options' => array(
                                                             'route' => '/edit/:attributeId',
                                                             'defaults' => array(
-                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                                 'action' => 'editAttribute',
                                                                 'attributeId' => 0
                                                             )
@@ -638,7 +640,7 @@ return array(
                                                         'options' => array(
                                                             'route' => '/remove/:attributeId',
                                                             'defaults' => array(
-                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                                 'action' => 'removeAttribute',
                                                                 'attributeId' => 0
                                                             )
@@ -651,7 +653,7 @@ return array(
                                                 'options' => array(
                                                     'route' => '/:mappingId/object',
                                                     'defaults' => array(
-                                                        'controller' => 'playgroundflowadminwebtechno',
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                         'action' => 'listObject',
                                                         'mappingId' => 0
                                                     )
@@ -663,7 +665,7 @@ return array(
                                                         'options' => array(
                                                             'route' => '/:p',
                                                             'defaults' => array(
-                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                                 'action' => 'listObject'
                                                             )
                                                         )
@@ -673,7 +675,7 @@ return array(
                                                         'options' => array(
                                                             'route' => '/create/:objectId',
                                                             'defaults' => array(
-                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                                 'action' => 'createObject',
                                                                 'attributeId' => 0
                                                             )
@@ -684,7 +686,7 @@ return array(
                                                         'options' => array(
                                                             'route' => '/edit/:objectId',
                                                             'defaults' => array(
-                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                                 'action' => 'editObject',
                                                                 'attributeId' => 0
                                                             )
@@ -695,7 +697,7 @@ return array(
                                                         'options' => array(
                                                             'route' => '/remove/:objectId',
                                                             'defaults' => array(
-                                                                'controller' => 'playgroundflowadminwebtechno',
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,
                                                                 'action' => 'removeObject',
                                                                 'attributeId' => 0
                                                             )
@@ -712,7 +714,7 @@ return array(
                     			'options' => array(
                     				'route' => '/domain',
                     				'defaults' => array(
-                    					'controller' => 'playgroundflowadmindomain',
+                    					'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     					'action'     => 'list',
                						),
                					),
@@ -723,7 +725,7 @@ return array(
                     					'options' => array(
                     						'route' => '/:p',
                     						'defaults' => array(
-                    							'controller' => 'playgroundflowadmindomain',
+                    							'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     							'action'     => 'list',
                     						),
                							),
@@ -733,7 +735,7 @@ return array(
                     					'options' => array(
                     						'route' => '/create/:domainId',
                     						'defaults' => array(
-                    							'controller' => 'playgroundflowadmindomain',
+                    							'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     							'action'     => 'create',
    												'domainId'     => 0
                     						),
@@ -744,7 +746,7 @@ return array(
                     					'options' => array(
                     						'route' => '/edit/:domainId',
                     						'defaults' => array(
-   												'controller' => 'playgroundflowadmindomain',
+   												'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     							'action'     => 'edit',
                     							'domainId'     => 0
                     						),
@@ -755,7 +757,7 @@ return array(
        									'options' => array(
                     						'route' => '/remove/:domainId',
                    							'defaults' => array(
-   												'controller' => 'playgroundflowadmindomain',
+   												'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     							'action'     => 'remove',
                     							'domainId'     => 0
       										),
@@ -766,7 +768,7 @@ return array(
                     					'options' => array(
            									'route' => '/:domainId/story',
                     						'defaults' => array(
-                    							'controller' => 'playgroundflowadmindomain',
+                    							'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     							'action'     => 'listStory',
                									'domainId'     => 0
                     						),
@@ -778,7 +780,7 @@ return array(
                									'options' => array(
                     								'route' => '/:p',
                     								'defaults' => array(
-           												'controller' => 'playgroundflowadmindomain',
+           												'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     									'action'     => 'listStory',
                     								),
                									),
@@ -788,7 +790,7 @@ return array(
                									'options' => array(
                     								'route' => '/create/:mappingId',
                     								'defaults' => array(
-          												'controller' => 'playgroundflowadmindomain',
+          												'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
               											'action'     => 'createStory',
                     									'mappingId'     => 0
        												),
@@ -799,7 +801,7 @@ return array(
                     							'options' => array(
                     								'route' => '/edit/:mappingId',
                     								'defaults' => array(
-                    									'controller' => 'playgroundflowadmindomain',
+                    									'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     									'action'     => 'editStory',
                     									'mappingId'     => 0
                     								),
@@ -810,7 +812,7 @@ return array(
                									'options' => array(
                     								'route' => '/remove/:mappingId',
                     								'defaults' => array(
-                    									'controller' => 'playgroundflowadmindomain',
+                    									'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     									'action'     => 'removeStory',
                     									'mappingId'     => 0
                     								),
@@ -821,7 +823,7 @@ return array(
                                                 'options' => array(
                                                     'route' => '/:mappingId/attribute',
                                                     'defaults' => array(
-                                                        'controller' => 'playgroundflowadmindomain',
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                                                         'action' => 'listAttribute',
                                                         'mappingId' => 0
                                                     )
@@ -833,7 +835,7 @@ return array(
                                                         'options' => array(
                                                             'route' => '/:p',
                                                             'defaults' => array(
-                                                                'controller' => 'playgroundflowadmindomain',
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                                                                 'action' => 'listAttribute'
                                                             )
                                                         )
@@ -843,7 +845,7 @@ return array(
                                                         'options' => array(
                                                             'route' => '/create/:attributeId',
                                                             'defaults' => array(
-                                                                'controller' => 'playgroundflowadmindomain',
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                                                                 'action' => 'createAttribute',
                                                                 'attributeId' => 0
                                                             )
@@ -854,7 +856,7 @@ return array(
                                                         'options' => array(
                                                             'route' => '/edit/:attributeId',
                                                             'defaults' => array(
-                                                                'controller' => 'playgroundflowadmindomain',
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                                                                 'action' => 'editAttribute',
                                                                 'attributeId' => 0
                                                             )
@@ -865,7 +867,7 @@ return array(
                                                         'options' => array(
                                                             'route' => '/remove/:attributeId',
                                                             'defaults' => array(
-                                                                'controller' => 'playgroundflowadmindomain',
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                                                                 'action' => 'removeAttribute',
                                                                 'attributeId' => 0
                                                             )
@@ -878,7 +880,7 @@ return array(
                     					        'options' => array(
                     					            'route' => '/:mappingId/object',
                     					            'defaults' => array(
-                    					                'controller' => 'playgroundflowadmindomain',
+                    					                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     					                'action' => 'listObject',
                     					                'mappingId' => 0
                     					            )
@@ -890,7 +892,7 @@ return array(
                     					                'options' => array(
                     					                    'route' => '/:p',
                     					                    'defaults' => array(
-                    					                        'controller' => 'playgroundflowadmindomain',
+                    					                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     					                        'action' => 'listObject'
                     					                    )
                     					                )
@@ -900,7 +902,7 @@ return array(
                     					                'options' => array(
                     					                    'route' => '/create/:objectId',
                     					                    'defaults' => array(
-                    					                        'controller' => 'playgroundflowadmindomain',
+                    					                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     					                        'action' => 'createObject',
                     					                        'attributeId' => 0
                     					                    )
@@ -911,7 +913,7 @@ return array(
                     					                'options' => array(
                     					                    'route' => '/edit/:objectId',
                     					                    'defaults' => array(
-                    					                        'controller' => 'playgroundflowadmindomain',
+                    					                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     					                        'action' => 'editObject',
                     					                        'attributeId' => 0
                     					                    )
@@ -922,7 +924,7 @@ return array(
                     					                'options' => array(
                     					                    'route' => '/remove/:objectId',
                     					                    'defaults' => array(
-                    					                        'controller' => 'playgroundflowadmindomain',
+                    					                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
                     					                        'action' => 'removeObject',
                     					                        'attributeId' => 0
                     					                    )
@@ -939,7 +941,7 @@ return array(
                     			'options' => array(
                						'route' => '/object',
                						'defaults' => array(
-          								'controller' => 'playgroundflowadminobject',
+          								'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
                   						'action'     => 'list',
                    					),
                    				),
@@ -950,7 +952,7 @@ return array(
                   						'options' => array(
                    						'route' => '/:p',
                     						'defaults' => array(
-                    							'controller' => 'playgroundflowadminobject',
+                    							'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
                     							'action'     => 'list',
                     						),
                    						),
@@ -960,7 +962,7 @@ return array(
               							'options' => array(
                    							'route' => '/create/:objectId',
                    							'defaults' => array(
-                   								'controller' => 'playgroundflowadminobject',
+                   								'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
                    								'action'     => 'create',
                    								'objectId'     => 0
                								),
@@ -971,7 +973,7 @@ return array(
                							'options' => array(
                    							'route' => '/edit/:objectId',
                    							'defaults' => array(
-                   								'controller' => 'playgroundflowadminobject',
+                   								'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
                   								'action'     => 'edit',
                     							'objectId'     => 0
                    							),
@@ -982,7 +984,7 @@ return array(
                							'options' => array(
                								'route' => '/remove/:objectId',
                								'defaults' => array(
-               									'controller' => 'playgroundflowadminobject',
+               									'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
                									'action'     => 'remove',
            										'objectId'     => 0
            									),
@@ -993,7 +995,7 @@ return array(
                							'options' => array(
            									'route' => '/:objectId/attribute',
         									'defaults' => array(
-               									'controller' => 'playgroundflowadminobject',
+               									'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
                									'action'     => 'listAttribute',
         									    'objectId'   => 0
         									    
@@ -1006,7 +1008,7 @@ return array(
        											'options' => array(
                										'route' => '/:p',
                										'defaults' => array(
-               											'controller' => 'playgroundflowadminobject',
+               											'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
 														'action'     => 'listAttribute',
                										),
                									),
@@ -1016,7 +1018,7 @@ return array(
                									'options' => array(
                										'route' => '/create/:attributeId',
                										'defaults' => array(
-               											'controller' => 'playgroundflowadminobject',
+               											'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
 														'action'     => 'createAttribute',
                											'attributeId'     => 0
                										),
@@ -1027,7 +1029,7 @@ return array(
                									'options' => array(
                										'route' => '/edit/:attributeId',
                										'defaults' => array(
-               											'controller' => 'playgroundflowadminobject',
+               											'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
                											'action'     => 'editAttribute',
                											'attributeId'     => 0
                										),
@@ -1038,7 +1040,7 @@ return array(
                									'options' => array(
        												'route' => '/remove/:attributeId',
                										'defaults' => array(
-               											'controller' => 'playgroundflowadminobject',
+               											'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
                											'action'     => 'removeAttribute',
                											'attributeId'     => 0
                										),
