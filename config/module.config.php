@@ -1075,6 +1075,7 @@ return array(
     			'route'     => 'admin/playgroundflow/story',
     			'resource'  => 'flow',
     			'privilege' => 'list',
+                'target' => 'nav-icon icon-share',
     			'pages' => array(
     				'list' => array(
     					'label'     => 'Stories list',
