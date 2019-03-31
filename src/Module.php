@@ -28,12 +28,13 @@ class Module
         }
         AbstractValidator::setDefaultTranslator($translator, 'playgroundcore');
         
-        // I don't attache listeners if the request is a console request
+        // I don't attach listeners if the request is a console request
         if ((get_class($e->getRequest()) == 'Zend\Console\Request')) {
             return;
         }
         
-        $eventManager->attach('StoryTelling', [$serviceManager->get('playgroundflow_storytelling_listener'), 'attach']);
+        $strategy = $serviceManager->get('playgroundflow_storytelling_listener');
+        $strategy->attach($eventManager);
     }
 
     public function getConfig()
@@ -67,7 +68,7 @@ class Module
                     return $form;
                 },
                 'playgroundflow_object_mapper' => function ($sm) {
-                    $mapper = new \PlaygroundFlow\Mapper\Object(
+                    $mapper = new \PlaygroundFlow\Mapper\OpenGraphObject(
                         $sm->get('doctrine.entitymanager.orm_default'),
                         $sm->get('playgroundflow_module_options')
                     );
@@ -161,7 +162,7 @@ class Module
                 },
                 'playgroundflow_object_form' => function ($sm) {
                     $translator = $sm->get('MvcTranslator');
-                    $form = new Form\Admin\Object(null, $sm, $translator);
+                    $form = new Form\Admin\OpenGraphObject(null, $sm, $translator);
                     $object = new Entity\OpenGraphObject();
                     $form->setInputFilter($object->getInputFilter());
                 

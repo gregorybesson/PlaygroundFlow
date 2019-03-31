@@ -56,6 +56,31 @@ class ObjectAttributeMappingFieldset extends Fieldset
         ));
 
         $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'comparison',
+            'options' => array(
+                    'empty_option' => $translator->translate('Comparison ?', 'playgroundflow'),
+                    'value_options' => array(
+                        'less_than'  => $translator->translate('Less than', 'playgroundflow'),
+                        'equals' => $translator->translate('Equals', 'playgroundflow'),
+                        'more_than' => $translator->translate('More than', 'playgroundflow'),
+                    ),
+                    'label' => $translator->translate('Comparison', 'playgroundflow'),
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'value',
+            'type' => 'Zend\Form\Element\Text',
+            'attributes' => array(
+                'placeholder' => $translator->translate('Value', 'playgroundflow'),
+            ),
+            'options' => array(
+                'label' => $translator->translate('Value', 'playgroundflow'),
+            ),
+        ));
+
+        $this->add(array(
             'type' => 'Zend\Form\Element\Button',
             'name' => 'remove',
             'options' => array(

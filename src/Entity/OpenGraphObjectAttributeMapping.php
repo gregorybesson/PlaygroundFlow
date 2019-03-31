@@ -40,6 +40,16 @@ class OpenGraphObjectAttributeMapping
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $xpath;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $comparison;
+    
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $value;
     
     /**
      * @ORM\Column(type="datetime")
@@ -138,6 +148,43 @@ class OpenGraphObjectAttributeMapping
     public function setXpath($xpath)
     {
         $this->xpath = $xpath;
+        
+        return $this;
+    }
+
+
+    /**
+     * @return the $comparison
+     */
+    public function getComparison()
+    {
+        return $this->comparison;
+    }
+
+    /**
+     * @param field_type $comparison
+     */
+    public function setComparison($comparison)
+    {
+        $this->comparison = $comparison;
+        
+        return $this;
+    }
+
+    /**
+     * @return the $value
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param field_type $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
         
         return $this;
     }

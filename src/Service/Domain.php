@@ -322,7 +322,7 @@ class Domain
     public function getStoryMappingMapper()
     {
         if (null === $this->storyMappingMapper) {
-            $this->storyMappingMapper = $this->serviceLocator->get('playgroundflow_storyMapping_mapper');
+            $this->storyMappingMapper = $this->serviceLocator->get('playgroundflow_storymapping_mapper');
         }
     
         return $this->storyMappingMapper;
