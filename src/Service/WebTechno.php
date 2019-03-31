@@ -103,6 +103,7 @@ class WebTechno
         $webTechno = $this->getWebTechnoMapper()->findById($data['webTechnoId']);
     
         if (!$form->isValid()) {
+
             return false;
         }
          
@@ -289,7 +290,7 @@ class WebTechno
     public function getStoryMappingMapper()
     {
         if (null === $this->storyMappingMapper) {
-            $this->storyMappingMapper = $this->serviceLocator->get('playgroundflow_storyMapping_mapper');
+            $this->storyMappingMapper = $this->serviceLocator->get('playgroundflow_storymapping_mapper');
         }
     
         return $this->storyMappingMapper;

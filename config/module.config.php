@@ -129,7 +129,7 @@ return array(
         'factories' => array(
             'playgroundflow_flow_service'         => 'PlaygroundFlow\Service\FlowFactory',
             'playgroundflow_action_service'       => 'PlaygroundFlow\Service\ActionFactory',
-            'playgroundflow_object_service'       => 'PlaygroundFlow\Service\ObjectFactory',
+            'playgroundflow_object_service'       => 'PlaygroundFlow\Service\OpenGraphObjectFactory',
             'playgroundflow_story_service'        => 'PlaygroundFlow\Service\StoryFactory',
             'playgroundflow_widget_service'       => 'PlaygroundFlow\Service\WidgetFactory',
             'playgroundflow_domain_service'       => 'PlaygroundFlow\Service\DomainFactory',
@@ -147,26 +147,26 @@ return array(
             'modules' => array(
                 'PlaygroundFlow' => array(
                     'default_layout' => 'layout/1column',
-                	'controllers' => array(
-               			\PlaygroundFlow\Controller\Admin\ActionController::class => array(
-               				'default_layout' => 'layout/admin',
-               			),
-               			\PlaygroundFlow\Controller\Admin\StoryController::class => array(
-               				'default_layout' => 'layout/admin',
-              			),
-                	    \PlaygroundFlow\Controller\Admin\WidgetController::class => array(
-                	        'default_layout' => 'layout/admin',
-                	    ),
-             			\PlaygroundFlow\Controller\Admin\DomainController::class => array(
-              				'default_layout' => 'layout/admin',
-              			),
-              			\PlaygroundFlow\Controller\Admin\ObjectController::class => array(
-              				'default_layout' => 'layout/admin',
-               			),
+                    'controllers' => array(
+                        \PlaygroundFlow\Controller\Admin\ActionController::class => array(
+                            'default_layout' => 'layout/admin',
+                        ),
+                        \PlaygroundFlow\Controller\Admin\StoryController::class => array(
+                            'default_layout' => 'layout/admin',
+                        ),
+                        \PlaygroundFlow\Controller\Admin\WidgetController::class => array(
+                            'default_layout' => 'layout/admin',
+                        ),
+                        \PlaygroundFlow\Controller\Admin\DomainController::class => array(
+                            'default_layout' => 'layout/admin',
+                        ),
+                        \PlaygroundFlow\Controller\Admin\ObjectController::class => array(
+                            'default_layout' => 'layout/admin',
+                        ),
                         \PlaygroundFlow\Controller\Admin\WebTechnoController::class => array(
                             'default_layout' => 'layout/admin',
                         ),
-                	),
+                    ),
                 ),
             ),
         ),
@@ -301,186 +301,186 @@ return array(
                                 'action'     => 'index',
                             ),
                         ),
-                    	'child_routes' =>array(
-                  			'list' => array(
-               					'type' => 'Segment',
-               					'options' => array(
-              						'route' => '/list/:appId[/:p]',
-            						'defaults' => array(
-          								'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
-              							'action'     => 'list',
-              							'appId'     => 0
-               						),
-                   				),
-                   			),
-                    		'action' => array(
-                    			'type' => 'Segment',
-                    			'options' => array(
-                   					'route' => '/action',
-                   					'defaults' => array(
-                   						'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
-               							'action'     => 'list',
-              						),
-               					),
-                    			'may_terminate' => true,
-                    			'child_routes' =>array(
-                    				'pagination' => array(
-                    					'type' => 'Segment',
-                    					'options' => array(
-           									'route' => '/:p',
-                    						'defaults' => array(
-                    							'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
-               									'action'     => 'list',
-                    						),
-                    					),
-                   					),
-                    				'create' => array(
-                    					'type' => 'Segment',
-                    					'options' => array(
-           									'route' => '/create/:actionId',
-                							'defaults' => array(
-              	     							'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
-               									'action'     => 'create',
-       											'actionId'     => 0
-                    						),
-                    					),
-                    				),
-                    				'edit' => array(
-                    					'type' => 'Segment',
-                    					'options' => array(
-           									'route' => '/edit/:actionId',
-                    						'defaults' => array(
-                    							'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
-              									'action'     => 'edit',
-       											'actionId'     => 0
-                    						),
-                   						),
-                   					),
-                    				'remove' => array(
-                    					'type' => 'Segment',
-                    					'options' => array(
-           									'route' => '/remove/:actionId',
-           									'defaults' => array(
-                    							'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
-                   								'action'     => 'remove',
-       											'actionId'     => 0
-                    						),
-                    					),
-                   					),                    					
-                   				),
-                    		),
-                    		'story' => array(
-                    			'type' => 'Segment',
-               					'options' => array(
-          							'route' => '/story',
-                    				'defaults' => array(
-                    					'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
-                    					'action'     => 'list',
-                    				),
-                    			),
-                    			'may_terminate' => true,
-                    			'child_routes' =>array(
-                    				'pagination' => array(
-                    					'type' => 'Segment',
-                    					'options' => array(
-                    						'route' => '/:p',
-      										'defaults' => array(
-                    							'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
-                    							'action'     => 'list',
-       										),
-                    					),
-                    				),
-                    				'create' => array(
-                    					'type' => 'Segment',
-                    					'options' => array(
-                    						'route' => '/create/:storyId',
-                    						'defaults' => array(
-                    							'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
-                    							'action'     => 'create',
-                    							'storyId'     => 0
-                    						),
-                    					),
-                    				),
-                    				'edit' => array(
-                    					'type' => 'Segment',
-                    					'options' => array(
-                    						'route' => '/edit/:storyId',
-                    						'defaults' => array(
-                    							'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
-                    							'action'     => 'edit',
-                    							'storyId'     => 0
-                    						),
-                    					),
-                    				),
-                    				'remove' => array(
-                    					'type' => 'Segment',
-                    					'options' => array(
-                    						'route' => '/remove/:storyId',
-                    						'defaults' => array(
-                    							'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
-                    							'action'     => 'remove',
-   												'storyId'     => 0
-                    						),
-                    					),
-                   					),
-               					),
-                    		),
-                    	    'widget' => array(
-                    	        'type' => 'Segment',
-                    	        'options' => array(
-                    	            'route' => '/widget',
-                    	            'defaults' => array(
-                    	                'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
-                    	                'action'     => 'list',
-                    	            ),
-                    	        ),
-                    	        'may_terminate' => true,
-                    	        'child_routes' =>array(
-                    	            'pagination' => array(
-                    	                'type' => 'Segment',
-                    	                'options' => array(
-                    	                    'route' => '/:p',
-      										'defaults' => array(
-      										    'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
-      										    'action'     => 'list',
-      										),
-                    	                ),
-                    	            ),
-                    	            'create' => array(
-                    	                'type' => 'Segment',
-                    	                'options' => array(
-                    	                    'route' => '/create/:widgetId',
-                    	                    'defaults' => array(
-                    	                        'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
-                    	                        'action'     => 'create',
-                    	                        'storyId'     => 0
-                    	                    ),
-                    	                ),
-                    	            ),
-                    	            'edit' => array(
-                    	                'type' => 'Segment',
-                    	                'options' => array(
-                    	                    'route' => '/edit/:widgetId',
-                    	                    'defaults' => array(
-                    	                        'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
-                    	                        'action'     => 'edit',
-                    	                        'storyId'     => 0
-                    	                    ),
-                    	                ),
-                    	            ),
-                    	            'remove' => array(
-                    	                'type' => 'Segment',
-                    	                'options' => array(
-                    	                    'route' => '/remove/:widgetId',
-                    	                    'defaults' => array(
-                    	                        'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
-                    	                        'action'     => 'remove',
-                    	                        'storyId'     => 0
-                    	                    ),
-                    	                ),
-                    	            ),
-                    	        ),
-                    	    ),
+                        'child_routes' =>array(
+                            'list' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/list/:appId[/:p]',
+                                    'defaults' => array(
+                                        'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
+                                        'action'     => 'list',
+                                        'appId'     => 0
+                                    ),
+                                ),
+                            ),
+                            'action' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/action',
+                                    'defaults' => array(
+                                        'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
+                                        'action'     => 'list',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' =>array(
+                                    'pagination' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/:p',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
+                                                'action'     => 'list',
+                                            ),
+                                        ),
+                                    ),
+                                    'create' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/create/:actionId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
+                                                'action'     => 'create',
+                                                'actionId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'edit' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/edit/:actionId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
+                                                'action'     => 'edit',
+                                                'actionId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'remove' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/remove/:actionId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,
+                                                'action'     => 'remove',
+                                                'actionId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'story' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/story',
+                                    'defaults' => array(
+                                        'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
+                                        'action'     => 'list',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' =>array(
+                                    'pagination' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/:p',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
+                                                'action'     => 'list',
+                                            ),
+                                        ),
+                                    ),
+                                    'create' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/create/:storyId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
+                                                'action'     => 'create',
+                                                'storyId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'edit' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/edit/:storyId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
+                                                'action'     => 'edit',
+                                                'storyId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'remove' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/remove/:storyId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\StoryController::class,
+                                                'action'     => 'remove',
+                                                'storyId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'widget' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/widget',
+                                    'defaults' => array(
+                                        'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
+                                        'action'     => 'list',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' =>array(
+                                    'pagination' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/:p',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
+                                                'action'     => 'list',
+                                            ),
+                                        ),
+                                    ),
+                                    'create' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/create/:widgetId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
+                                                'action'     => 'create',
+                                                'storyId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'edit' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/edit/:widgetId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
+                                                'action'     => 'edit',
+                                                'storyId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'remove' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/remove/:widgetId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,
+                                                'action'     => 'remove',
+                                                'storyId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
                             'webtechno' => array(
                                 'type' => 'Segment',
                                 'options' => array(
@@ -708,116 +708,116 @@ return array(
                                     ),
                                 ),
                             ),
-                    		'domain' => array(
-                    			'type' => 'Segment',
-                    			'options' => array(
-                    				'route' => '/domain',
-                    				'defaults' => array(
-                    					'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    					'action'     => 'list',
-               						),
-               					),
-                    			'may_terminate' => true,
-                    			'child_routes' =>array(
-                    				'pagination' => array(
-                    					'type' => 'Segment',
-                    					'options' => array(
-                    						'route' => '/:p',
-                    						'defaults' => array(
-                    							'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    							'action'     => 'list',
-                    						),
-               							),
-           							),
-                    				'create' => array(
-                    					'type' => 'Segment',
-                    					'options' => array(
-                    						'route' => '/create/:domainId',
-                    						'defaults' => array(
-                    							'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    							'action'     => 'create',
-   												'domainId'     => 0
-                    						),
-                    					),
-                   					),
-                    				'edit' => array(
-                    					'type' => 'Segment',
-                    					'options' => array(
-                    						'route' => '/edit/:domainId',
-                    						'defaults' => array(
-   												'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    							'action'     => 'edit',
-                    							'domainId'     => 0
-                    						),
-                    					),
-              						),
-                    				'remove' => array(
-                   						'type' => 'Segment',
-       									'options' => array(
-                    						'route' => '/remove/:domainId',
-                   							'defaults' => array(
-   												'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    							'action'     => 'remove',
-                    							'domainId'     => 0
-      										),
-                    					),
-                    				),
-                    				'story' => array(
-                    					'type' => 'Segment',
-                    					'options' => array(
-           									'route' => '/:domainId/story',
-                    						'defaults' => array(
-                    							'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    							'action'     => 'listStory',
-               									'domainId'     => 0
-                    						),
-                    					),
-                    					'may_terminate' => true,
-                    					'child_routes' =>array(
-                    						'pagination' => array(
-                    							'type' => 'Segment',
-               									'options' => array(
-                    								'route' => '/:p',
-                    								'defaults' => array(
-           												'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    									'action'     => 'listStory',
-                    								),
-               									),
-                    						),
-                    						'create' => array(
-                    							'type' => 'Segment',
-               									'options' => array(
-                    								'route' => '/create/:mappingId',
-                    								'defaults' => array(
-          												'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-              											'action'     => 'createStory',
-                    									'mappingId'     => 0
-       												),
-                    							),
-                    						),
-                    						'edit' => array(
-                    							'type' => 'Segment',
-                    							'options' => array(
-                    								'route' => '/edit/:mappingId',
-                    								'defaults' => array(
-                    									'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    									'action'     => 'editStory',
-                    									'mappingId'     => 0
-                    								),
-                    							),
-           									),
-                    						'remove' => array(
-                    							'type' => 'Segment',
-               									'options' => array(
-                    								'route' => '/remove/:mappingId',
-                    								'defaults' => array(
-                    									'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    									'action'     => 'removeStory',
-                    									'mappingId'     => 0
-                    								),
-                    							),
-           									),
-                    						'attribute' => array(
+                            'domain' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/domain',
+                                    'defaults' => array(
+                                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                        'action'     => 'list',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' =>array(
+                                    'pagination' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/:p',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                'action'     => 'list',
+                                            ),
+                                        ),
+                                    ),
+                                    'create' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/create/:domainId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                'action'     => 'create',
+                                                'domainId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'edit' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/edit/:domainId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                'action'     => 'edit',
+                                                'domainId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'remove' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/remove/:domainId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                'action'     => 'remove',
+                                                'domainId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'story' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/:domainId/story',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                'action'     => 'listStory',
+                                                'domainId'     => 0
+                                            ),
+                                        ),
+                                        'may_terminate' => true,
+                                        'child_routes' =>array(
+                                            'pagination' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/:p',
+                                                    'defaults' => array(
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                        'action'     => 'listStory',
+                                                    ),
+                                                ),
+                                            ),
+                                            'create' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/create/:mappingId',
+                                                    'defaults' => array(
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                        'action'     => 'createStory',
+                                                        'mappingId'     => 0
+                                                    ),
+                                                ),
+                                            ),
+                                            'edit' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/edit/:mappingId',
+                                                    'defaults' => array(
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                        'action'     => 'editStory',
+                                                        'mappingId'     => 0
+                                                    ),
+                                                ),
+                                            ),
+                                            'remove' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/remove/:mappingId',
+                                                    'defaults' => array(
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                        'action'     => 'removeStory',
+                                                        'mappingId'     => 0
+                                                    ),
+                                                ),
+                                            ),
+                                            'attribute' => array(
                                                 'type' => 'Segment',
                                                 'options' => array(
                                                     'route' => '/:mappingId/attribute',
@@ -872,185 +872,185 @@ return array(
                                                             )
                                                         )
                                                     ),
-                    							),
-                    						),
-                    					    'object' => array(
-                    					        'type' => 'Segment',
-                    					        'options' => array(
-                    					            'route' => '/:mappingId/object',
-                    					            'defaults' => array(
-                    					                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    					                'action' => 'listObject',
-                    					                'mappingId' => 0
-                    					            )
-                    					        ),
-                    					        'may_terminate' => true,
-                    					        'child_routes' => array(
-                    					            'pagination' => array(
-                    					                'type' => 'Segment',
-                    					                'options' => array(
-                    					                    'route' => '/:p',
-                    					                    'defaults' => array(
-                    					                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    					                        'action' => 'listObject'
-                    					                    )
-                    					                )
-                    					            ),
-                    					            'create' => array(
-                    					                'type' => 'Segment',
-                    					                'options' => array(
-                    					                    'route' => '/create/:objectId',
-                    					                    'defaults' => array(
-                    					                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    					                        'action' => 'createObject',
-                    					                        'attributeId' => 0
-                    					                    )
-                    					                )
-                    					            ),
-                    					            'edit' => array(
-                    					                'type' => 'Segment',
-                    					                'options' => array(
-                    					                    'route' => '/edit/:objectId',
-                    					                    'defaults' => array(
-                    					                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    					                        'action' => 'editObject',
-                    					                        'attributeId' => 0
-                    					                    )
-                    					                )
-                    					            ),
-                    					            'remove' => array(
-                    					                'type' => 'Segment',
-                    					                'options' => array(
-                    					                    'route' => '/remove/:objectId',
-                    					                    'defaults' => array(
-                    					                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
-                    					                        'action' => 'removeObject',
-                    					                        'attributeId' => 0
-                    					                    )
-                    					                )
-                    					            ),
-                    					        ),
-                    					    ),
-                    					),
-                    				),
-                    			),
-                    		),
-                    		'object' => array(
-                    			'type' => 'Segment',
-                    			'options' => array(
-               						'route' => '/object',
-               						'defaults' => array(
-          								'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
-                  						'action'     => 'list',
-                   					),
-                   				),
-               					'may_terminate' => true,
-               					'child_routes' =>array(
-               						'pagination' => array(
-               							'type' => 'Segment',
-                  						'options' => array(
-                   						'route' => '/:p',
-                    						'defaults' => array(
-                    							'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
-                    							'action'     => 'list',
-                    						),
-                   						),
-               						),
-           							'create' => array(
-               							'type' => 'Segment',
-              							'options' => array(
-                   							'route' => '/create/:objectId',
-                   							'defaults' => array(
-                   								'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
-                   								'action'     => 'create',
-                   								'objectId'     => 0
-               								),
-               							),
-           							),
-           							'edit' => array(
-               							'type' => 'Segment',
-               							'options' => array(
-                   							'route' => '/edit/:objectId',
-                   							'defaults' => array(
-                   								'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
-                  								'action'     => 'edit',
-                    							'objectId'     => 0
-                   							),
-                   						),
-                   					),
-                 					'remove' => array(
-                   						'type' => 'Segment',
-               							'options' => array(
-               								'route' => '/remove/:objectId',
-               								'defaults' => array(
-               									'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
-               									'action'     => 'remove',
-           										'objectId'     => 0
-           									),
-               							),
-               						),
-               						'attribute' => array(
-               							'type' => 'Segment',
-               							'options' => array(
-           									'route' => '/:objectId/attribute',
-        									'defaults' => array(
-               									'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
-               									'action'     => 'listAttribute',
-        									    'objectId'   => 0
-        									    
-               								),
-               							),
-               							'may_terminate' => true,
-               							'child_routes' =>array(
-               								'pagination' => array(
-               									'type' => 'Segment',
-       											'options' => array(
-               										'route' => '/:p',
-               										'defaults' => array(
-               											'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
-														'action'     => 'listAttribute',
-               										),
-               									),
-               								),
-               								'create' => array(
-               									'type' => 'Segment',
-               									'options' => array(
-               										'route' => '/create/:attributeId',
-               										'defaults' => array(
-               											'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
-														'action'     => 'createAttribute',
-               											'attributeId'     => 0
-               										),
-       											),
-        									),
-               								'edit' => array(
-               									'type' => 'Segment',
-               									'options' => array(
-               										'route' => '/edit/:attributeId',
-               										'defaults' => array(
-               											'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
-               											'action'     => 'editAttribute',
-               											'attributeId'     => 0
-               										),
-               									),
-       										),
-               								'remove' => array(
-               									'type' => 'Segment',
-               									'options' => array(
-       												'route' => '/remove/:attributeId',
-               										'defaults' => array(
-               											'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
-               											'action'     => 'removeAttribute',
-               											'attributeId'     => 0
-               										),
-               									),
-               								),
-               							),
-               						),
-                    			),
-                    		),
-                   		),
-                   	),
+                                                ),
+                                            ),
+                                            'object' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/:mappingId/object',
+                                                    'defaults' => array(
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                        'action' => 'listObject',
+                                                        'mappingId' => 0
+                                                    )
+                                                ),
+                                                'may_terminate' => true,
+                                                'child_routes' => array(
+                                                    'pagination' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/:p',
+                                                            'defaults' => array(
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                                'action' => 'listObject'
+                                                            )
+                                                        )
+                                                    ),
+                                                    'create' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/create/:objectId',
+                                                            'defaults' => array(
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                                'action' => 'createObject',
+                                                                'attributeId' => 0
+                                                            )
+                                                        )
+                                                    ),
+                                                    'edit' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/edit/:objectId',
+                                                            'defaults' => array(
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                                'action' => 'editObject',
+                                                                'attributeId' => 0
+                                                            )
+                                                        )
+                                                    ),
+                                                    'remove' => array(
+                                                        'type' => 'Segment',
+                                                        'options' => array(
+                                                            'route' => '/remove/:objectId',
+                                                            'defaults' => array(
+                                                                'controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,
+                                                                'action' => 'removeObject',
+                                                                'attributeId' => 0
+                                                            )
+                                                        )
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            'object' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/object',
+                                    'defaults' => array(
+                                        'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
+                                        'action'     => 'list',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes' =>array(
+                                    'pagination' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                        'route' => '/:p',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
+                                                'action'     => 'list',
+                                            ),
+                                        ),
+                                    ),
+                                    'create' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/create/:objectId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
+                                                'action'     => 'create',
+                                                'objectId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'edit' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/edit/:objectId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
+                                                'action'     => 'edit',
+                                                'objectId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'remove' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/remove/:objectId',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
+                                                'action'     => 'remove',
+                                                'objectId'     => 0
+                                            ),
+                                        ),
+                                    ),
+                                    'attribute' => array(
+                                        'type' => 'Segment',
+                                        'options' => array(
+                                            'route' => '/:objectId/attribute',
+                                            'defaults' => array(
+                                                'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
+                                                'action'     => 'listAttribute',
+                                                'objectId'   => 0
+                                                
+                                            ),
+                                        ),
+                                        'may_terminate' => true,
+                                        'child_routes' =>array(
+                                            'pagination' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/:p',
+                                                    'defaults' => array(
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
+                                                        'action'     => 'listAttribute',
+                                                    ),
+                                                ),
+                                            ),
+                                            'create' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/create/:attributeId',
+                                                    'defaults' => array(
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
+                                                        'action'     => 'createAttribute',
+                                                        'attributeId'     => 0
+                                                    ),
+                                                ),
+                                            ),
+                                            'edit' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/edit/:attributeId',
+                                                    'defaults' => array(
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
+                                                        'action'     => 'editAttribute',
+                                                        'attributeId'     => 0
+                                                    ),
+                                                ),
+                                            ),
+                                            'remove' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/remove/:attributeId',
+                                                    'defaults' => array(
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
+                                                        'action'     => 'removeAttribute',
+                                                        'attributeId'     => 0
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
@@ -1069,58 +1069,58 @@ return array(
     ),
 
     'navigation' => array(
-    	'admin' => array(
-    		'playgroundflow'     => array(
-    			'label'     => 'Open Graph',
-    			'route'     => 'admin/playgroundflow/story',
-    			'resource'  => 'flow',
-    			'privilege' => 'list',
+        'admin' => array(
+            'playgroundflow'     => array(
+                'label'     => 'Open Graph',
+                'route'     => 'admin/playgroundflow/story',
+                'resource'  => 'flow',
+                'privilege' => 'list',
                 'target' => 'nav-icon icon-share',
-    			'pages' => array(
-    				'list' => array(
-    					'label'     => 'Stories list',
-    					'route'     => 'admin/playgroundflow/story',
-    					'resource'  => 'flow',
-    					'privilege' => 'list',
-    				),
-					'create' => array(
-						'label'     => 'Create story',
-						'route'     => 'admin/playgroundflow/story/create',
-						'resource'  => 'flow',
-						'privilege' => 'list',
-					),
-					'listactions' => array(
-						'label'     => 'Actions list',
-						'route'     => 'admin/playgroundflow/action',
-						'resource'  => 'flow',
-						'privilege' => 'list',
-					),
-					'listobjects' => array(
-						'label'     => 'Objects list',
-						'route'     => 'admin/playgroundflow/object',
-						'resource'  => 'flow',
-						'privilege' => 'list',
-					),
-					'listapps' => array(
-						'label'     => 'Domains list',
-						'route'     => 'admin/playgroundflow/domain',
-						'resource'  => 'flow',
-						'privilege' => 'list',
-					),
-    			    'listwidgets' => array(
-    			        'label'     => 'Widgets list',
-    			        'route'     => 'admin/playgroundflow/widget',
-    			        'resource'  => 'flow',
-    			        'privilege' => 'list',
-    			    ),
+                'pages' => array(
+                    'list' => array(
+                        'label'     => 'Stories list',
+                        'route'     => 'admin/playgroundflow/story',
+                        'resource'  => 'flow',
+                        'privilege' => 'list',
+                    ),
+                    'create' => array(
+                        'label'     => 'Create story',
+                        'route'     => 'admin/playgroundflow/story/create',
+                        'resource'  => 'flow',
+                        'privilege' => 'list',
+                    ),
+                    'listactions' => array(
+                        'label'     => 'Actions list',
+                        'route'     => 'admin/playgroundflow/action',
+                        'resource'  => 'flow',
+                        'privilege' => 'list',
+                    ),
+                    'listobjects' => array(
+                        'label'     => 'Objects list',
+                        'route'     => 'admin/playgroundflow/object',
+                        'resource'  => 'flow',
+                        'privilege' => 'list',
+                    ),
+                    'listapps' => array(
+                        'label'     => 'Domains list',
+                        'route'     => 'admin/playgroundflow/domain',
+                        'resource'  => 'flow',
+                        'privilege' => 'list',
+                    ),
+                    'listwidgets' => array(
+                        'label'     => 'Widgets list',
+                        'route'     => 'admin/playgroundflow/widget',
+                        'resource'  => 'flow',
+                        'privilege' => 'list',
+                    ),
                     'listwebtechnos' => array(
                         'label'     => 'WebTechnos list',
                         'route'     => 'admin/playgroundflow/webtechno',
                         'resource'  => 'flow',
                         'privilege' => 'list',
                     ),
-    			),
-    		),
-    	),
+                ),
+            ),
+        ),
     ),
 );

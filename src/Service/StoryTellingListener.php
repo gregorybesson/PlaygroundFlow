@@ -53,33 +53,34 @@ class StoryTellingListener implements ListenerAggregateInterface
         $app = $sm->get('Application');
         $uri = $app->getRequest()->getUri();
         $domainId = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
-        
+
         $domainService = $sm->get('playgroundflow_domain_service');
         $storyTellingService = $sm->get('playgroundflow_storytelling_service');
         
-        $domain = $domainService->getDomainMapper()->findOneBy(array('domain'=>$domainId));
+        $domain = $domainService->getDomainMapper()->findOneBy(['domain'=>$domainId]);
         
-        $storymappings = $storyTellingService->getStoryMappingMapper()->findBy(array(
-            'domain' => $domain
-        ));
+        $storymappings = $storyTellingService->getStoryMappingMapper()->findBy(
+            ['domain' => $domain]
+        );
 
         foreach ($storymappings as $storyMapping) {
+
             if ($storyMapping->getEventBeforeUrl()) {
-                $this->listeners[] = $events->getSharedManager()->attach(array(
-                    '*'
-                ), $storyMapping->getEventBeforeUrl(), array(
-                    $this,
-                    'tellStoryBefore'
-                ), 100);
+                $this->listeners[] = $events->getSharedManager()->attach(
+                    '*',
+                    $storyMapping->getEventBeforeUrl(),
+                    [$this, 'tellStoryBefore'],
+                    100
+                );
             }
             
             if ($storyMapping->getEventAfterUrl()) {
-                $this->listeners[] = $events->getSharedManager()->attach(array(
-                    '*'
-                ), $storyMapping->getEventAfterUrl(), array(
-                    $this,
-                    'tellStoryAfter'
-                ), 100);
+                $this->listeners[] = $events->getSharedManager()->attach(
+                    '*',
+                    $storyMapping->getEventAfterUrl(),
+                    [$this, 'tellStoryAfter'],
+                    100
+                );
             }
         }
     }
@@ -272,7 +273,7 @@ class StoryTellingListener implements ListenerAggregateInterface
         
         $domain = $domainService->getDomainMapper()->findOneBy(array('domain'=>$domainId));
     
-        // If the secretKey is not empty, I search th user associated with it as I want him to live the story
+        // If the secretKey is not empty, I search the user associated with it as I want him to live the story
         if (!empty($secretKey)) {
             $sponsorStory = $storyTellingService->getStoryTellingMapper()->findOneBySecretKey($secretKey);
             if ($sponsorStory) {
@@ -288,38 +289,70 @@ class StoryTellingListener implements ListenerAggregateInterface
         
         foreach ($stories as $storyMapping) {
             $objectArray = array();
+            $createStoryTelling = true;
             // an event before has been triggered
             $key = $storyMapping->getEventBeforeUrl();
             if (!empty($key) && isset($this->eventsArray[$key]) && $this->eventsArray[$key] !== null) {
                 $objectArray = $this->eventsArray[$key];
-            } // No before event triggered
-            else {
+            } else {
                 foreach ($storyMapping->getObjects() as $objectMapping) {
                     $objectCode = $e->getParam($objectMapping->getObject()->getCode());
+
                     foreach ($objectMapping->getAttributes() as $attributeMapping) {
-                        //echo "object : " . $objectMapping->getObject()->getCode() . "<br>";
-                        //echo "object id : " . $objectMapping->getObject()->getId() . "<br>";
-                        //echo "attribut : " . $attributeMapping->getAttribute()->getCode() . "<br>";
+                        // echo "object : " . $objectMapping->getObject()->getCode() . "<br>";
+                        // echo "object id : " . $objectMapping->getObject()->getId() . "<br>";
+                        // echo "attribut : " . $attributeMapping->getAttribute()->getCode() . "<br>";
                         if (method_exists($objectCode, $method = ('get' . ucfirst($attributeMapping->getAttribute()->getCode())))) {
-                            $objectArray[$objectMapping->getObject()->getCode()][$attributeMapping->getAttribute()->getCode()] = $objectCode->$method();
+                            $result = $objectCode->$method();
+                            $objectArray[$objectMapping->getObject()->getCode()][$attributeMapping->getAttribute()->getCode()] = $result;
+                            $operator = $attributeMapping->getComparison();
+
+                            if ($operator !== null
+                                && (!$this->$operator($result, $attributeMapping->getValue()))
+                            ) {
+                                // echo $result . "nest pas " . $operator . " vs " . $attributeMapping->getValue();
+                                // die('---');
+                                $createStoryTelling = false;
+                            }
+
+                            // echo "resultat de l'object reflexion:";
+                            // print_r($objectCode->$method());
                         }
                     }
                 }
             }
-            $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
-            $storyTelling->setOpenGraphStoryMapping($storyMapping)
-                ->setUser($user)
-                ->setProspect($prospect)
-                ->setObject(json_encode($objectArray))
-                ->setPoints($storyMapping->getPoints())
-                ->setSecretKey($secretKey);
-            $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
 
-            $storyTellingService->tellStory($storyTelling);
-            $this->getLeaderboardService()->addPoints($storyMapping, $user);
-    
-            $e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId(), $this, array('storyTelling' => $storyTelling));
+            if ($createStoryTelling) {
+                $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
+                $storyTelling->setOpenGraphStoryMapping($storyMapping)
+                    ->setUser($user)
+                    ->setProspect($prospect)
+                    ->setObject(json_encode($objectArray))
+                    ->setPoints($storyMapping->getPoints())
+                    ->setSecretKey($secretKey);
+                $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
+
+                $storyTellingService->tellStory($storyTelling);
+                $this->getLeaderboardService()->addPoints($storyMapping, $user);
+
+                $e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId(), $this, array('storyTelling' => $storyTelling));
+            }
         }
+    }
+    
+    public function equals($op1, $op2)
+    {
+        return $op1 == $op2;
+    }
+
+    public function more_than($op1, $op2)
+    {
+        return $op1 >= $op2;
+    }
+
+    public function less_than($op1, $op2)
+    {
+        return $op1 <= $op2;
     }
 
      /**
@@ -344,5 +377,10 @@ class StoryTellingListener implements ListenerAggregateInterface
             );
         }
         return $this->event;
+    }
+
+    public function getServiceManager()
+    {
+        return $this->serviceLocator;
     }
 }
