@@ -9,8 +9,9 @@ use Zend\Form\Element;
 use Zend\Mvc\I18n\Translator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\ServiceManager\ServiceManager;
+use Zend\InputFilter\InputFilterProviderInterface;
 
-class ObjectAttributeMappingFieldset extends Fieldset
+class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProviderInterface
 {
     public function __construct($name = null, ServiceManager $serviceManager, Translator $translator)
     {
@@ -50,7 +51,6 @@ class ObjectAttributeMappingFieldset extends Fieldset
                 'label' => $translator->translate('Xpath', 'playgroundflow')
             ),
             'attributes' => array(
-                'required' => false,
                 'type' => 'text',
                 'placeholder' => $translator->translate('Xpath', 'playgroundflow')
             )
@@ -68,19 +68,31 @@ class ObjectAttributeMappingFieldset extends Fieldset
                     ),
                     'label' => $translator->translate('Comparison', 'playgroundflow'),
             ),
+            'attributes' => array(
+                'required' => false,
+            )
         ));
 
         $this->add(array(
             'name' => 'value',
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
-                'required' => false,
                 'placeholder' => $translator->translate('Value', 'playgroundflow'),
             ),
             'options' => array(
                 'label' => $translator->translate('Value', 'playgroundflow'),
             ),
         ));
+
+        $this->add(
+            [
+                'name' => 'overloadPoints',
+                'type' => 'Zend\Form\Element\Checkbox',
+                'options' => array(
+                    'label' => $translator->translate('Overload the points from the story added to the leaderboard', 'playgroundflow'),
+                ),
+            ]
+        );
 
         $this->add(array(
             'type' => 'Zend\Form\Element\Button',
@@ -92,6 +104,16 @@ class ObjectAttributeMappingFieldset extends Fieldset
                 'class' => 'delete-button',
             )
         ));
+    }
+
+    public function getInputFilterSpecification()
+    {
+        return array(
+            'comparison' => array(
+                'required' => false, 
+                'allowEmpty' => true,
+            )
+        );
     }
     
     /**
