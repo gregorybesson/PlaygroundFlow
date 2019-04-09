@@ -50,6 +50,13 @@ class OpenGraphObjectAttributeMapping
      * @ORM\Column(type="string", nullable=true)
      */
     protected $value;
+
+    /**
+     * This attribute defines if this OpenGraphObjectAttributeMapping represents the points to add to the leaderboards
+     * The best example being the entry->getPoints() method used on the Playground games (quiz) but it could be any numeric attribute
+     * @ORM\Column(name="overload_points", type="boolean", nullable=true)
+     */
+    protected $overloadPoints = 0;
     
     /**
      * @ORM\Column(type="datetime")
@@ -190,6 +197,24 @@ class OpenGraphObjectAttributeMapping
     }
 
     /**
+     * @return the $overloadPoints
+     */
+    public function getOverloadPoints()
+    {
+        return $this->overloadPoints;
+    }
+
+    /**
+     * @param field_type $overloadPoints
+     */
+    public function setOverloadPoints($overloadPoints)
+    {
+        $this->overloadPoints = $overloadPoints;
+        
+        return $this;
+    }
+
+    /**
      * @return the $created_at
      */
     public function getCreatedAt()
@@ -254,7 +279,7 @@ class OpenGraphObjectAttributeMapping
         if (!$this->inputFilter) {
             $inputFilter = new InputFilter();
             $factory = new InputFactory();
-            
+
             $inputFilter->add(
                 $factory->createInput(
                     array(
@@ -268,7 +293,7 @@ class OpenGraphObjectAttributeMapping
             $inputFilter->add(
                 $factory->createInput(
                     array(
-                        'name' => 'value',
+                        'name' => 'comparison',
                         'required' => false,
                         'allowEmpty' => true,
                     )
