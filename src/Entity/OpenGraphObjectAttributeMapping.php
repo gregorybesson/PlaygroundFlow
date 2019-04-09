@@ -255,11 +255,25 @@ class OpenGraphObjectAttributeMapping
             $inputFilter = new InputFilter();
             $factory = new InputFactory();
             
-            $inputFilter->add($factory->createInput(array(
-                'name' => 'attribute',
-                'required' => false,
-                'allowEmpty' => true,
-            )));
+            $inputFilter->add(
+                $factory->createInput(
+                    array(
+                        'name' => 'attribute',
+                        'required' => false,
+                        'allowEmpty' => true,
+                    )
+                )
+            );
+
+            $inputFilter->add(
+                $factory->createInput(
+                    array(
+                        'name' => 'value',
+                        'required' => false,
+                        'allowEmpty' => true,
+                    )
+                )
+            );
     
             $this->inputFilter = $inputFilter;
         }

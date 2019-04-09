@@ -63,24 +63,33 @@ class StoryTellingListener implements ListenerAggregateInterface
             ['domain' => $domain]
         );
 
+        // We deduplicate the events "$storyMapping->getEventBeforeUrl()" and "$storyMapping->getEventAfterUrl()"
+        // So that we trigger this event only once
+        $storyBefore = [];
+        $storyAfter = [];
         foreach ($storymappings as $storyMapping) {
-
-            if ($storyMapping->getEventBeforeUrl()) {
+            if ($storyMapping->getEventBeforeUrl()
+                && !in_array($storyMapping->getEventBeforeUrl(), $storyBefore)
+            ) {
                 $this->listeners[] = $events->getSharedManager()->attach(
                     '*',
                     $storyMapping->getEventBeforeUrl(),
                     [$this, 'tellStoryBefore'],
                     100
                 );
+                $storyBefore[] = $storyMapping->getEventBeforeUrl();
             }
             
-            if ($storyMapping->getEventAfterUrl()) {
+            if ($storyMapping->getEventAfterUrl()
+                && !in_array($storyMapping->getEventAfterUrl(), $storyAfter)
+            ) {
                 $this->listeners[] = $events->getSharedManager()->attach(
                     '*',
                     $storyMapping->getEventAfterUrl(),
                     [$this, 'tellStoryAfter'],
                     100
                 );
+                $storyAfter[] = $storyMapping->getEventAfterUrl();
             }
         }
     }

@@ -50,6 +50,7 @@ class ObjectAttributeMappingFieldset extends Fieldset
                 'label' => $translator->translate('Xpath', 'playgroundflow')
             ),
             'attributes' => array(
+                'required' => false,
                 'type' => 'text',
                 'placeholder' => $translator->translate('Xpath', 'playgroundflow')
             )
@@ -73,6 +74,7 @@ class ObjectAttributeMappingFieldset extends Fieldset
             'name' => 'value',
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
+                'required' => false,
                 'placeholder' => $translator->translate('Value', 'playgroundflow'),
             ),
             'options' => array(
