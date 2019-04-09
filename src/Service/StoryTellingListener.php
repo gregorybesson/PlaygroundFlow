@@ -315,13 +315,19 @@ class StoryTellingListener implements ListenerAggregateInterface
                             $result = $objectCode->$method();
                             $objectArray[$objectMapping->getObject()->getCode()][$attributeMapping->getAttribute()->getCode()] = $result;
                             $operator = $attributeMapping->getComparison();
+                            $overloadPoints = $attributeMapping->getOverloadPoints();
 
                             if ($operator !== null
+                                && $operator !== ''
                                 && (!$this->$operator($result, $attributeMapping->getValue()))
                             ) {
                                 // echo $result . "nest pas " . $operator . " vs " . $attributeMapping->getValue();
                                 // die('---');
                                 $createStoryTelling = false;
+                            }
+
+                            if ($overloadPoints) {
+                                $storyMapping->setPoints($result);
                             }
 
                             // echo "resultat de l'object reflexion:";
