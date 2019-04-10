@@ -43,7 +43,7 @@ class RestAuthentController extends AbstractRestfulController
         
         $origin = parse_url($this->getRequest()->getHeader('Referer'));
         $uri = $this->getRequest()->getUri();
-        $domainId = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
+        $domainId = $uri->getHost();
         if (isset($origin['query'])) {
             parse_str($origin['query'], $query);
             $domainId = $query['xdm_e'];

@@ -52,7 +52,7 @@ class StoryTellingListener implements ListenerAggregateInterface
         
         $app = $sm->get('Application');
         $uri = $app->getRequest()->getUri();
-        $domainId = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
+        $domainId = $uri->getHost();
 
         $domainService = $sm->get('playgroundflow_domain_service');
         $storyTellingService = $sm->get('playgroundflow_storytelling_service');
@@ -275,7 +275,7 @@ class StoryTellingListener implements ListenerAggregateInterface
         
         $app = $sm->get('Application');
         $uri = $app->getRequest()->getUri();
-        $domainId = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
+        $domainId = $uri->getHost();
         
         $domainService = $sm->get('playgroundflow_domain_service');
         $storyTellingService = $sm->get('playgroundflow_storytelling_service');
@@ -291,11 +291,12 @@ class StoryTellingListener implements ListenerAggregateInterface
             }
         }
         
-        $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
-            'domain' => $domain,
-            'eventAfterUrl' => $e->getName()
-        ));
-        
+        $stories = $storyTellingService->getStoryMappingMapper()->findBy(
+            [
+                'domain' => $domain,
+                'eventAfterUrl' => $e->getName()
+            ]
+        );
         foreach ($stories as $storyMapping) {
             $objectArray = array();
             $createStoryTelling = true;
@@ -321,8 +322,6 @@ class StoryTellingListener implements ListenerAggregateInterface
                                 && $operator !== ''
                                 && (!$this->$operator($result, $attributeMapping->getValue()))
                             ) {
-                                // echo $result . "nest pas " . $operator . " vs " . $attributeMapping->getValue();
-                                // die('---');
                                 $createStoryTelling = false;
                             }
 
