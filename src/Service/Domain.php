@@ -273,7 +273,7 @@ class Domain
     {
         $origin = parse_url($controller->getRequest()->getHeader('Referer'));
         $uri = $controller->getRequest()->getUri();
-        $domainId = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
+        $domainId = $uri->getHost();
 
         if (isset($origin['query'])) {
             parse_str($origin['query'], $query);
