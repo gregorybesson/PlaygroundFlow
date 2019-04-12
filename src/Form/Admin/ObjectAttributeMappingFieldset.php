@@ -65,6 +65,8 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
                         'less_than'  => $translator->translate('Less than', 'playgroundflow'),
                         'equals' => $translator->translate('Equals', 'playgroundflow'),
                         'more_than' => $translator->translate('More than', 'playgroundflow'),
+                        'not_empty' => $translator->translate('Not empty', 'playgroundflow'),
+                        'empty' => $translator->translate('Empty', 'playgroundflow'),
                     ),
                     'label' => $translator->translate('Comparison', 'playgroundflow'),
             ),
