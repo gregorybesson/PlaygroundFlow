@@ -302,6 +302,8 @@ class StoryTellingListener implements ListenerAggregateInterface
             $createStoryTelling = true;
             // an event before has been triggered
             $key = $storyMapping->getEventBeforeUrl();
+            $limitNumber = $storyMapping->getCountLimit();
+
             if (!empty($key) && isset($this->eventsArray[$key]) && $this->eventsArray[$key] !== null) {
                 $objectArray = $this->eventsArray[$key];
             } else {
@@ -336,6 +338,19 @@ class StoryTellingListener implements ListenerAggregateInterface
                 }
             }
 
+            // let's check if the limit of this storytelling has not been reached
+            if ($limitNumber > 0 && $createStoryTelling) {
+                $stories = $storyTellingService->getStoryTellingMapper()->findBy(
+                    [
+                        'openGraphStoryMapping' => $storyMapping,
+                        'user' => $user
+                    ]
+                );
+                if (count($stories) >= $limitNumber) {
+                    $createStoryTelling = false;
+                }
+            }
+
             if ($createStoryTelling) {
                 $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
                 $storyTelling->setOpenGraphStoryMapping($storyMapping)
@@ -353,7 +368,17 @@ class StoryTellingListener implements ListenerAggregateInterface
             }
         }
     }
-    
+
+    public function empty($op1, $op2)
+    {
+        return empty($op1);
+    }
+
+    public function not_empty($op1, $op2)
+    {
+        return !empty($op1);
+    }
+
     public function equals($op1, $op2)
     {
         return $op1 == $op2;
