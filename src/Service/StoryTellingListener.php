@@ -309,30 +309,34 @@ class StoryTellingListener implements ListenerAggregateInterface
             } else {
                 foreach ($storyMapping->getObjects() as $objectMapping) {
                     $objectCode = $e->getParam($objectMapping->getObject()->getCode());
+                    if (is_string($objectCode) || is_numeric($objectCode)) {
+                        $objectArray[$objectMapping->getObject()->getCode()] = $objectCode;
+                    } else {
+                        foreach ($objectMapping->getAttributes() as $attributeMapping) {
+                            // echo "object : " . $objectMapping->getObject()->getCode() . "<br>";
+                            // echo "object id : " . $objectMapping->getObject()->getId() . "<br>";
+                            // echo "attribut : " . $attributeMapping->getAttribute()->getCode() . "<br>";
+                            if (method_exists($objectCode, $method = ('get' . ucfirst($attributeMapping->getAttribute()->getCode())))) {
+                                $result = $objectCode->$method();
 
-                    foreach ($objectMapping->getAttributes() as $attributeMapping) {
-                        // echo "object : " . $objectMapping->getObject()->getCode() . "<br>";
-                        // echo "object id : " . $objectMapping->getObject()->getId() . "<br>";
-                        // echo "attribut : " . $attributeMapping->getAttribute()->getCode() . "<br>";
-                        if (method_exists($objectCode, $method = ('get' . ucfirst($attributeMapping->getAttribute()->getCode())))) {
-                            $result = $objectCode->$method();
-                            $objectArray[$objectMapping->getObject()->getCode()][$attributeMapping->getAttribute()->getCode()] = $result;
-                            $operator = $attributeMapping->getComparison();
-                            $overloadPoints = $attributeMapping->getOverloadPoints();
+                                $objectArray[$objectMapping->getObject()->getCode()][$attributeMapping->getAttribute()->getCode()] = $result;
+                                $operator = $attributeMapping->getComparison();
+                                $overloadPoints = $attributeMapping->getOverloadPoints();
 
-                            if ($operator !== null
-                                && $operator !== ''
-                                && (!$this->$operator($result, $attributeMapping->getValue()))
-                            ) {
-                                $createStoryTelling = false;
+                                if ($operator !== null
+                                    && $operator !== ''
+                                    && (!$this->$operator($result, $attributeMapping->getValue()))
+                                ) {
+                                    $createStoryTelling = false;
+                                }
+
+                                if ($overloadPoints) {
+                                    $storyMapping->setPoints($result);
+                                }
+
+                                // echo "resultat de l'object reflexion:";
+                                // print_r($objectCode->$method());
                             }
-
-                            if ($overloadPoints) {
-                                $storyMapping->setPoints($result);
-                            }
-
-                            // echo "resultat de l'object reflexion:";
-                            // print_r($objectCode->$method());
                         }
                     }
                 }
