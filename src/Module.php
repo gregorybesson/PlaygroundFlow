@@ -42,6 +42,21 @@ class Module
         return include __DIR__ . '/../config/module.config.php';
     }
 
+    /**
+     * @return array
+     */
+    public function getViewHelperConfig()
+    {
+        return [
+            'factories' => [
+                \PlaygroundFlow\View\Helper\StoryTellingWidget::class =>  \PlaygroundFlow\View\Helper\StoryTellingWidgetFactory::class,
+            ],
+            'aliases' => [
+                'storytellingWidget' => \PlaygroundFlow\View\Helper\StoryTellingWidget::class,
+            ]
+        ];
+    }
+
     public function getServiceConfig()
     {
         return array(
