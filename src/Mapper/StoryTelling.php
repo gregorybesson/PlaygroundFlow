@@ -40,9 +40,9 @@ class StoryTelling
         return $this->getEntityRepository()->find($id);
     }
 
-    public function findBy($array)
+    public function findBy($array, $sortBy = array())
     {
-        return $this->getEntityRepository()->findBy($array);
+        return $this->getEntityRepository()->findBy($array, $sortBy);
     }
 
     public function findOneBy($array = array(), $sortBy = array('updated_at' => 'desc'))
