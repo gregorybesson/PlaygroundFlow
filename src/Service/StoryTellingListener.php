@@ -92,6 +92,16 @@ class StoryTellingListener implements ListenerAggregateInterface
                 $storyAfter[] = $storyMapping->getEventAfterUrl();
             }
         }
+        // This event can be triggered to add or remove points from the leaderboard 
+        // $this->listeners[] = $events->getSharedManager()->attach(
+        //     '*',
+        //     'leaderboardUserUpdate',
+        //     [
+        //         $this,
+        //         'leaderboardUserUpdate'
+        //     ],
+        //     100
+        // );
     }
 
     /**
@@ -371,6 +381,42 @@ class StoryTellingListener implements ListenerAggregateInterface
                 $e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId(), $this, array('storyTelling' => $storyTelling));
             }
         }
+    }
+
+    /**
+     * This method updates the default leaderboard of a user
+     *
+     * @param  EventManager $e
+     * @return array
+     */
+    public function leaderboardUserUpdate($e)
+    {
+        // $user = $e->getParam('user');
+        // $game = $e->getParam('game');
+        // $entry = $e->getParam('entry');
+        // $points = $e->getParam('points');
+        // $sm = $e->getTarget()->getServiceManager();
+
+        // $objectArray = [];
+        // $objectArray['game'] = ['title' => $game->getTitle(), 'identifier' => $game->getIdentifier()];
+        // $objectArray['entry'] = ['id' => $entry->getId(), 'paidAmount' => $entry->getPaidAmount()];
+        
+        // $storyTellingService = $sm->get('playgroundflow_storytelling_service');
+        // $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
+        // $storyTelling->setOpenGraphStoryMapping(null)
+        //     ->setUser($user)
+        //     ->setObject(json_encode($objectArray))
+        //     ->setPoints($entry->getPaidAmount());
+        // $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
+
+        // //$storyTellingService->tellStory($storyTelling);
+
+        // $leaderboardType = $this->getLeaderboardService()->getLeaderboardTypeService()->getLeaderboardTypeDefault();
+        // $userPoints = $this->getLeaderboardService()->add($points, $user, $leaderboardType);
+
+        // $e->getTarget()->getEventManager()->trigger('leaderboardUSerUpdate.post', $this, array('storyTelling' => $storyTelling));
+
+        // return $userPoints;
     }
 
     public function empty($op1, $op2)

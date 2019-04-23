@@ -41,7 +41,8 @@ class StoryTellingWidget extends AbstractHelper
 
                 if ($storyMapping) {
                     $stories = $this->getStoryTellingService()->getStoryTellingMapper()->findBy(
-                        ['openGraphStoryMapping' => $storyMapping, 'user' => $user]
+                        ['openGraphStoryMapping' => $storyMapping, 'user' => $user],
+                        ['createdAt' => 'DESC']
                     );
                 }
             }
