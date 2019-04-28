@@ -15,7 +15,7 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\Entity @HasLifecycleCallbacks
  * @ORM\Table(name="opengraph_object_attribute")
  */
-class OpenGraphObjectAttribute
+class OpenGraphObjectAttribute implements \JsonSerializable
 {
     protected $inputFilter;
     
@@ -32,7 +32,7 @@ class OpenGraphObjectAttribute
     protected $code;
     
     /**
-     * @ORM\ManyToOne(targetEntity="OpenGraphObject")
+     * @ORM\ManyToOne(targetEntity="OpenGraphObject", cascade={"persist","remove"})
      */
     protected $object;
 
@@ -52,6 +52,13 @@ class OpenGraphObjectAttribute
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $type;
+
+    /**
+     * If the attribute type is array, you can set the object type of the
+     * array elements
+     * @ORM\ManyToOne(targetEntity="OpenGraphObject")
+     */
+    protected $arrayType;
     
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -204,6 +211,24 @@ class OpenGraphObjectAttribute
     }
 
     /**
+     * @return the $arrayType
+     */
+    public function getArrayType()
+    {
+        return $this->arrayType;
+    }
+
+    /**
+     * @param field_type $arrayType
+     */
+    public function setArrayType($arrayType)
+    {
+        $this->arrayType = $arrayType;
+        
+        return $this;
+    }
+
+    /**
      * @return the $createdAt
      */
     public function getCreatedAt()
@@ -246,7 +271,23 @@ class OpenGraphObjectAttribute
      */
     public function getArrayCopy()
     {
-        return get_object_vars($this);
+        $obj_vars = get_object_vars($this);
+        // keeping the object in each element produce an infinite loop...
+        if (isset($obj_vars['object'])) {
+            $obj_vars['object'] = $obj_vars['object']->getCode();
+        }
+
+        return $obj_vars;
+    }
+
+    /**
+    * Convert the object to json.
+    *
+    * @return array
+    */
+    public function jsonSerialize()
+    {
+        return $this->getArrayCopy();
     }
 
     /**
@@ -279,6 +320,16 @@ class OpenGraphObjectAttribute
         if (!$this->inputFilter) {
             $inputFilter = new InputFilter();
             $factory = new InputFactory();
+
+            $inputFilter->add(
+                $factory->createInput(
+                    array(
+                        'name' => 'arrayType',
+                        'required' => false,
+                        'allowEmpty' => true,
+                    )
+                )
+            );
     
             $this->inputFilter = $inputFilter;
         }

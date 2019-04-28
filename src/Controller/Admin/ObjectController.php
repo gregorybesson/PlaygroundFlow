@@ -5,6 +5,7 @@ namespace PlaygroundFlow\Controller\Admin;
 use Zend\Paginator\Paginator;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use PlaygroundFlow\Entity\OpenGraphObject;
 use PlaygroundFlow\Entity\OpenGraphObjectAttribute as Attribute;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -214,7 +215,25 @@ class ObjectController extends AbstractActionController
             )
         );
     }
+
+    public function getAttributeAction()
+    {
+        $viewModel = new JsonModel();
+        $service    = $this->getAdminObjectService();
+        $objectId = $this->getEvent()->getRouteMatch()->getParam('objectId');
+        $attributeId = $this->getEvent()->getRouteMatch()->getParam('attributeId');
     
+        if (!$attributeId) {
+            return $viewModel;
+        }
+    
+        $attribute = $service->getObjectAttributeMapper()->findById($attributeId);
+
+        $viewModel->setVariables(['attribute' => $attribute]);
+
+        return $viewModel;
+    }
+
     public function editAttributeAction()
     {
         $service    = $this->getAdminObjectService();

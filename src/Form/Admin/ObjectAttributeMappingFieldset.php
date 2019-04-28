@@ -21,70 +21,105 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
         
         $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
 
-        $this->setHydrator(new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphObjectAttributeMapping'))
-        ->setObject(new OpenGraphObjectAttributeMapping());
+        $this->setHydrator(
+            new DoctrineHydrator(
+                $entityManager,
+                'PlaygroundFlow\Entity\OpenGraphObjectAttributeMapping'
+            )
+        )
+            ->setObject(new OpenGraphObjectAttributeMapping());
 
-        $this->add(array(
-            'type' => 'Zend\Form\Element\Hidden',
-            'name' => 'id'
-        ));
+        $this->add(
+            array(
+                'type' => 'Zend\Form\Element\Hidden',
+                'name' => 'id'
+            )
+        );
         
-        $this->add(array(
-            'name' => 'attribute',
-            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
-            'options' => array(
-                'empty_option' => $translator->translate('Select an attribute', 'playgroundflow'),
-                'label' => $translator->translate('Attribute', 'playgroundflow'),
-                'object_manager' => $entityManager,
-                'target_class' => 'PlaygroundFlow\Entity\OpenGraphObjectAttribute',
-                'property' => 'label'
-            ),
-            'attributes' => array(
-                'required' => false,
-                //'multiple' => 'multiple',
+        $this->add(
+            array(
+                'name' => 'attribute',
+                'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+                'options' => array(
+                    'empty_option' => $translator->translate('Select an attribute', 'playgroundflow'),
+                    'label' => $translator->translate('Attribute', 'playgroundflow'),
+                    'object_manager' => $entityManager,
+                    'target_class' => 'PlaygroundFlow\Entity\OpenGraphObjectAttribute',
+                    'property' => 'label'
+                ),
+                'attributes' => array(
+                    'required' => false,
+                    //'multiple' => 'multiple',
+                )
             )
-        ));
+        );
         
-        $this->add(array(
-            'name' => 'xpath',
-            'options' => array(
-                'label' => $translator->translate('Xpath', 'playgroundflow')
-            ),
-            'attributes' => array(
-                'type' => 'text',
-                'placeholder' => $translator->translate('Xpath', 'playgroundflow')
+        $this->add(
+            array(
+                'name' => 'attributeArray',
+                'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+                'options' => array(
+                    'empty_option' => $translator->translate('Select an attribute', 'playgroundflow'),
+                    'label' => $translator->translate('Attribute Array', 'playgroundflow'),
+                    'object_manager' => $entityManager,
+                    'target_class' => 'PlaygroundFlow\Entity\OpenGraphObjectAttribute',
+                    'property' => 'label'
+                ),
+                'attributes' => array(
+                    'required' => false,
+                    //'multiple' => 'multiple',
+                )
             )
-        ));
-
-        $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
-            'name' => 'comparison',
-            'options' => array(
-                    'empty_option' => $translator->translate('Comparison ?', 'playgroundflow'),
-                    'value_options' => array(
-                        'less_than'  => $translator->translate('Less than', 'playgroundflow'),
-                        'equals' => $translator->translate('Equals', 'playgroundflow'),
-                        'more_than' => $translator->translate('More than', 'playgroundflow'),
-                        'not_empty' => $translator->translate('Not empty', 'playgroundflow'),
-                        'empty' => $translator->translate('Empty', 'playgroundflow'),
-                    ),
-                    'label' => $translator->translate('Comparison', 'playgroundflow'),
-            ),
-            'attributes' => array(
-                'required' => false,
+        );
+        
+        $this->add(
+            array(
+                'name' => 'xpath',
+                'options' => array(
+                    'label' => $translator->translate('Xpath', 'playgroundflow')
+                ),
+                'attributes' => array(
+                    'type' => 'text',
+                    'placeholder' => $translator->translate('Xpath', 'playgroundflow')
+                )
             )
-        ));
+        );
 
-        $this->add(array(
-            'name' => 'value',
-            'type' => 'Zend\Form\Element\Text',
-            'attributes' => array(
-                'placeholder' => $translator->translate('Value', 'playgroundflow'),
-            ),
-            'options' => array(
-                'label' => $translator->translate('Value', 'playgroundflow'),
-            ),
-        ));
+        $this->add(
+            array(
+                'type' => 'Zend\Form\Element\Select',
+                'name' => 'comparison',
+                'options' => array(
+                        'empty_option' => $translator->translate('Comparison ?', 'playgroundflow'),
+                        'value_options' => array(
+                            'less_than'  => $translator->translate('Less than', 'playgroundflow'),
+                            'equals' => $translator->translate('Equals', 'playgroundflow'),
+                            'more_than' => $translator->translate('More than', 'playgroundflow'),
+                            'not_empty' => $translator->translate('Not empty', 'playgroundflow'),
+                            'empty' => $translator->translate('Empty', 'playgroundflow'),
+                            'contains' => $translator->translate('Contains', 'playgroundflow'),
+                            'does_not_contain' => $translator->translate('Does not contain', 'playgroundflow'),
+                        ),
+                        'label' => $translator->translate('Comparison', 'playgroundflow'),
+                ),
+                'attributes' => array(
+                    'required' => false,
+                )
+            )
+        );
+
+        $this->add(
+            array(
+                'name' => 'value',
+                'type' => 'Zend\Form\Element\Text',
+                'attributes' => array(
+                    'placeholder' => $translator->translate('Value', 'playgroundflow'),
+                ),
+                'options' => array(
+                    'label' => $translator->translate('Value', 'playgroundflow'),
+                ),
+            )
+        );
 
         $this->add(
             [
@@ -96,25 +131,31 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
             ]
         );
 
-        $this->add(array(
-            'type' => 'Zend\Form\Element\Button',
-            'name' => 'remove',
-            'options' => array(
-                'label' => $translator->translate('Delete', 'playgroundflow'),
-            ),
-            'attributes' => array(
-                'class' => 'delete-button',
+        $this->add(
+            array(
+                'type' => 'Zend\Form\Element\Button',
+                'name' => 'remove',
+                'options' => array(
+                    'label' => $translator->translate('Delete', 'playgroundflow'),
+                ),
+                'attributes' => array(
+                    'class' => 'delete-button',
+                )
             )
-        ));
+        );
     }
 
     public function getInputFilterSpecification()
     {
         return array(
             'comparison' => array(
-                'required' => false, 
+                'required' => false,
                 'allowEmpty' => true,
-            )
+            ),
+            'attributeArray' => array(
+                'required' => false,
+                'allowEmpty' => true,
+            ),
         );
     }
     

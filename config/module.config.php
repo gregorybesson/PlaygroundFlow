@@ -1023,6 +1023,17 @@ return array(
                                                     ),
                                                 ),
                                             ),
+                                            'get' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                    'route' => '/get/:attributeId',
+                                                    'defaults' => array(
+                                                        'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
+                                                        'action'     => 'getAttribute',
+                                                        'attributeId'     => 0
+                                                    ),
+                                                ),
+                                            ),
                                             'edit' => array(
                                                 'type' => 'Segment',
                                                 'options' => array(

@@ -16,7 +16,7 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\Entity @HasLifecycleCallbacks
  * @ORM\Table(name="opengraph_object")
  */
-class OpenGraphObject
+class OpenGraphObject implements \JsonSerializable
 {
     protected $inputFilter;
 
@@ -38,7 +38,7 @@ class OpenGraphObject
     protected $parent;
     
     /**
-     * @ORM\OneToMany(targetEntity="OpenGraphObjectAttribute", mappedBy="object")
+     * @ORM\OneToMany(targetEntity="OpenGraphObjectAttribute", mappedBy="object", cascade={"persist","remove"})
      */
     protected $attributes;
     
@@ -264,7 +264,24 @@ class OpenGraphObject
      */
     public function getArrayCopy()
     {
-        return get_object_vars($this);
+        $obj_vars = get_object_vars($this);
+
+        if (isset($obj_vars['attributes'])) {
+            
+            $obj_vars['attributes'] = $this->getAttributes()->toArray();
+        }
+
+        return $obj_vars;
+    }
+
+    /**
+    * Convert the object to json.
+    *
+    * @return array
+    */
+    public function jsonSerialize()
+    {
+        return $this->getArrayCopy();
     }
 
     /**

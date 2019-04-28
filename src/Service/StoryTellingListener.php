@@ -329,9 +329,23 @@ class StoryTellingListener implements ListenerAggregateInterface
                             if (method_exists($objectCode, $method = ('get' . ucfirst($attributeMapping->getAttribute()->getCode())))) {
                                 $result = $objectCode->$method();
 
-                                $objectArray[$objectMapping->getObject()->getCode()][$attributeMapping->getAttribute()->getCode()] = $result;
                                 $operator = $attributeMapping->getComparison();
                                 $overloadPoints = $attributeMapping->getOverloadPoints();
+
+                                /*  If the attribute type is an array of objects and the admin a set an attribute in attributeArray
+                                 *    Then I get the array of this attribute as the $result
+                                 */
+                                if ($attributeMapping->getAttribute()->getType() == 'array' && !empty($attributeMapping->getAttributeArray())) {
+                                    $ar = [];
+                                    foreach ($result as $o) {
+                                        if (method_exists($o, $method = ('get' . ucfirst($attributeMapping->getAttributeArray()->getCode())))) {
+                                            $ar[] = $o->$method();
+                                        }
+                                    }
+                                    $result = $ar;
+                                }
+
+                                $objectArray[$objectMapping->getObject()->getCode()][$attributeMapping->getAttribute()->getCode()] = $result;
 
                                 if ($operator !== null
                                     && $operator !== ''
@@ -427,6 +441,24 @@ class StoryTellingListener implements ListenerAggregateInterface
     public function not_empty($op1, $op2)
     {
         return !empty($op1);
+    }
+
+    public function contains($op1, $op2)
+    {
+        if (is_array($op1)) {
+            return in_array($op2, $op1);
+        }
+        
+        return false;
+    }
+
+    public function does_not_contain($op1, $op2)
+    {
+        if (is_array($op1)) {
+            return !in_array($op2, $op1);
+        }
+        
+        return false;
     }
 
     public function equals($op1, $op2)

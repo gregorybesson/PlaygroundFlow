@@ -35,6 +35,13 @@ class OpenGraphObjectAttributeMapping
      * @ORM\ManyToOne(targetEntity="OpenGraphObjectAttribute")
      **/
     protected $attribute;
+
+    /**
+     * if the attribute is an array, it may be an array of objects
+     * This 'attributeArray' then represents the attribute of the objects array to get
+     * @ORM\ManyToOne(targetEntity="OpenGraphObjectAttribute")
+     **/
+    protected $attributeArray;
     
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -137,6 +144,24 @@ class OpenGraphObjectAttributeMapping
     public function setAttribute($attribute)
     {
         $this->attribute = $attribute;
+        
+        return $this;
+    }
+
+    /**
+     * @return the $attributeArray
+     */
+    public function getAttributeArray()
+    {
+        return $this->attributeArray;
+    }
+
+    /**
+     * @param field_type $attributeArray
+     */
+    public function setAttributeArray($attributeArray)
+    {
+        $this->attributeArray = $attributeArray;
         
         return $this;
     }
@@ -284,6 +309,16 @@ class OpenGraphObjectAttributeMapping
                 $factory->createInput(
                     array(
                         'name' => 'attribute',
+                        'required' => false,
+                        'allowEmpty' => true,
+                    )
+                )
+            );
+
+            $inputFilter->add(
+                $factory->createInput(
+                    array(
+                        'name' => 'attributeArray',
                         'required' => false,
                         'allowEmpty' => true,
                     )
