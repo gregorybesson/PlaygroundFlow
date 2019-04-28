@@ -448,9 +448,12 @@ class DomainController extends AbstractActionController
             ->getRouteMatch()
             ->getParam('objectId');
         if (! $mappingId) {
-            return $this->redirect()->toRoute('admin/playgroundflow/domain/story', array(
-                'domainId' => $domainId
-            ));
+            return $this->redirect()->toRoute(
+                'admin/playgroundflow/domain/story',
+                array(
+                    'domainId' => $domainId
+                )
+            );
         }
         $storyMapping = $service->getStoryMappingMapper()->findById($mappingId);
         $objectMapping = $service->getObjectMappingMapper()->findById($objectId);
@@ -466,36 +469,49 @@ class DomainController extends AbstractActionController
         $form = $this->getServiceLocator()->get('playgroundflow_objectmapping_form');
         $form->get('object')->setAttribute('options', $objectsArray);
         $form->bind($objectMapping);
-        $form->setAttribute('action', $this->url()
-            ->fromRoute('admin/playgroundflow/domain/story/object/edit', array(
-            'domainId' => $domainId,
-            'mappingId' => $mappingId,
-            'objectId' => $objectMapping->getId()
-            )));
+        $form->setAttribute(
+            'action',
+            $this->url()->fromRoute(
+                'admin/playgroundflow/domain/story/object/edit',
+                array(
+                    'domainId' => $domainId,
+                    'mappingId' => $mappingId,
+                    'objectId' => $objectMapping->getId()
+                )
+            )
+        );
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
         
         if ($this->getRequest()->isPost()) {
-            $data = array_merge($this->getRequest()
-                ->getPost()
-                ->toArray(), $this->getRequest()
-                ->getFiles()
-                ->toArray());
+            $data = array_merge(
+                $this->getRequest()
+                    ->getPost()
+                    ->toArray(),
+                $this->getRequest()
+                    ->getFiles()
+                    ->toArray()
+            );
             $result = $service->editObject($data, $objectMapping);
             
             if ($result) {
-                return $this->redirect()->toRoute('admin/playgroundflow/domain/story/object', array(
-                    'domainId' => $domainId,
-                    'mappingId' => $mappingId
-                ));
+                return $this->redirect()->toRoute(
+                    'admin/playgroundflow/domain/story/object',
+                    array(
+                        'domainId' => $domainId,
+                        'mappingId' => $mappingId
+                    )
+                );
             }
         }
         
-        return $viewModel->setVariables(array(
-            'form' => $form,
-            'domainId' => $domainId,
-            'mappingId' => $mappingId
-        ));
+        return $viewModel->setVariables(
+            array(
+                'form' => $form,
+                'domainId' => $domainId,
+                'mappingId' => $mappingId
+            )
+        );
     }
 
     public function removeObjectAction()

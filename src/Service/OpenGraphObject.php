@@ -88,11 +88,10 @@ class OpenGraphObject
         if (!$form->isValid()) {
             return false;
         }
-        
-        $attribute->setObject($object);
+        $object->addAttribute($attribute);
         
         $this->getEventManager()->trigger(__FUNCTION__, $this, array('attribute' => $attribute, 'data' => $data));
-        $this->getObjectAttributeMapper()->insert($attribute);
+        $this->getObjectMapper()->update($object);
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('attribute' => $attribute, 'data' => $data));
          
         return $attribute;

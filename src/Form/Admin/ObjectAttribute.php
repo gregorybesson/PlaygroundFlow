@@ -87,26 +87,46 @@ class ObjectAttribute extends ProvidesEventsForm
             )
         ));
         
-        $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
-            'name' => 'type',
-            'attributes' =>  array(
-                'id' => 'type',
-                'options' => array(
-                    'boolean' => $translator->translate('Boolean', 'playgroundflow'),
-                    'float' => $translator->translate('Float', 'playgroundflow'),
-                    'integer' => $translator->translate('Integer', 'playgroundflow'),
-                    'string' => $translator->translate('String', 'playgroundflow'),
-                    'array' => $translator->translate('Array', 'playgroundflow'),
-                    'datetime' => $translator->translate('DateTime', 'playgroundflow'),
-                    'date' => $translator->translate('Date', 'playgroundflow'),
+        $this->add(
+            array(
+                'type' => 'Zend\Form\Element\Select',
+                'name' => 'type',
+                'attributes' =>  array(
+                    'id' => 'type',
+                    'options' => array(
+                        'boolean' => $translator->translate('Boolean', 'playgroundflow'),
+                        'float' => $translator->translate('Float', 'playgroundflow'),
+                        'integer' => $translator->translate('Integer', 'playgroundflow'),
+                        'string' => $translator->translate('String', 'playgroundflow'),
+                        'array' => $translator->translate('Array', 'playgroundflow'),
+                        'datetime' => $translator->translate('DateTime', 'playgroundflow'),
+                        'date' => $translator->translate('Date', 'playgroundflow'),
+                    ),
                 ),
-            ),
-            'options' => array(
-                'empty_option' => $translator->translate('Type de l\'attribut', 'playgroundflow'),
-                'label' => $translator->translate('Type de l\'attribut', 'playgroundflow'),
-            ),
-        ));
+                'options' => array(
+                    'empty_option' => $translator->translate('Type de l\'attribut', 'playgroundflow'),
+                    'label' => $translator->translate('Type de l\'attribut', 'playgroundflow'),
+                ),
+            )
+        );
+
+        $this->add(
+            array(
+                'name' => 'arrayType',
+                'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+                'options' => array(
+                    'empty_option' => $translator->translate('Select an object', 'playgroundflow'),
+                    'label' => $translator->translate('Array type', 'playgroundflow'),
+                    'object_manager' => $entityManager,
+                    'target_class' => 'PlaygroundFlow\Entity\OpenGraphObject',
+                    'property' => 'label'
+                ),
+                'attributes' => array(
+                    'required' => false,
+                    //'multiple' => 'multiple',
+                )
+            )
+        );
 
         $this->add(array(
             'type' => 'Zend\Form\Element\Select',
@@ -122,13 +142,18 @@ class ObjectAttribute extends ProvidesEventsForm
         
         $submitElement = new Element\Button('submit');
         $submitElement->setLabel($translator->translate('Create', 'playgroundflow'))
-            ->setAttributes(array(
-            'type' => 'submit'
-            ));
+            ->setAttributes(
+                array(
+                    'type' => 'submit'
+                )
+            );
 
-        $this->add($submitElement, array(
-            'priority' => - 100
-        ));
+        $this->add(
+            $submitElement,
+            array(
+                'priority' => - 100
+            )
+        );
     }
 
     /**
