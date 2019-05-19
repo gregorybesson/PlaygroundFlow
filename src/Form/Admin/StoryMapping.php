@@ -44,6 +44,17 @@ class StoryMapping extends ProvidesEventsForm
                 'value' => 0
             )
         ));
+
+        $this->add(array(
+            'name' => 'title',
+            'options' => array(
+                'label' => $translator->translate('Title', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => $translator->translate('Title', 'playgroundflow')
+            )
+        ));
         
         $this->add(array(
             'name' => 'domainId',
