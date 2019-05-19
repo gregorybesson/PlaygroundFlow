@@ -28,6 +28,11 @@ class OpenGraphStoryMapping
     protected $id;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $title;
+
+    /**
      * @ORM\ManyToOne(targetEntity="OpenGraphStory")
      **/
     protected $story;
@@ -300,6 +305,24 @@ class OpenGraphStoryMapping
     public function setHint($hint)
     {
         $this->hint = $hint;
+        
+        return $this;
+    }
+
+    /**
+     * @return the $title
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param field_type $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
         
         return $this;
     }
@@ -611,9 +634,6 @@ class OpenGraphStoryMapping
                 'name'       => 'widget',
                 'required'   => false,
                 'allowEmpty' => true,
-                'filters'    => array(
-                    array('name' => 'Int'),
-                ),
             )));
     
             $this->inputFilter = $inputFilter;
