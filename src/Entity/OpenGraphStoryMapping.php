@@ -62,6 +62,12 @@ class OpenGraphStoryMapping
      * @ORM\Column(type="integer")
      */
     protected $points;
+
+    /**
+     * Recipient of the points. May be 'user', 'team', or 'sponsor'
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $recipient = 'user';
     
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -269,6 +275,24 @@ class OpenGraphStoryMapping
     public function setPoints($points)
     {
         $this->points = $points;
+        
+        return $this;
+    }
+
+    /**
+     * @return the $recipient
+     */
+    public function getRecipient()
+    {
+        return $this->recipient;
+    }
+
+    /**
+     * @param field_type $recipient
+     */
+    public function setRecipient($recipient)
+    {
+        $this->recipient = $recipient;
         
         return $this;
     }
