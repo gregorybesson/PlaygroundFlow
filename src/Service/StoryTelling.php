@@ -73,6 +73,39 @@ class StoryTelling
             
             $this->sendRequest($url, $args);
         }
+
+        if ($storyTelling->getOpenGraphStoryMapping()->getSendMail()) {
+            $mailContent = str_replace($placeholders, $values, $storyTelling->getOpenGraphStoryMapping()->getMailContent());
+
+            $mailService = $this->serviceLocator->get('playgroundgame_message');
+            $from = $this->serviceLocator->get('playgroundgame_module_options')->getEmailFromAddress();
+            $to = $storyTelling->getUser()->getEmail();
+            $subject = $this->serviceLocator->get('MvcTranslator')->translate(
+                $storyTelling->getOpenGraphStoryMapping()->getTitle(),
+                'playgroundgame'
+            );
+            $renderer = $this->serviceLocator->get('Zend\View\Renderer\RendererInterface');
+            $skinUrl = $renderer->url(
+                'frontend',
+                array(),
+                array('force_canonical' => true)
+            );
+
+            $message = $mailService->createHtmlMessage(
+                $from,
+                $to,
+                $subject, 
+                'playground-flow/email/storytelling',
+                array(
+                    'storytelling' => $storyTelling,
+                    'user' => $storyTelling->getUser(),
+                    'message' => $mailContent,
+                    'skinUrl' => $skinUrl
+                )
+            );
+
+            $mailService->send($message);
+        }
         
         if ($storyTelling->getOpenGraphStoryMapping()->getDisplayActivityStream()) {
             $activityStream = str_replace($placeholders, $values, $storyTelling->getOpenGraphStoryMapping()->getActivityStream());

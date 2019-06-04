@@ -93,6 +93,16 @@ class OpenGraphStoryMapping
      * @ORM\Column(type="text", nullable=true)
      */
     protected $notification;
+
+    /**
+     * @ORM\Column(name="send_mail", type="boolean", nullable=true)
+     */
+    protected $sendMail = 0;
+    
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $mailContent;
     
     /**
      * @ORM\Column(name="display_activity_stream", type="boolean", nullable=true)
@@ -381,6 +391,42 @@ class OpenGraphStoryMapping
     public function setDisplayNotification($displayNotification)
     {
         $this->displayNotification = $displayNotification;
+        
+        return $this;
+    }
+
+    /**
+     * @return the $sendMail
+     */
+    public function getSendMail()
+    {
+        return $this->sendMail;
+    }
+
+    /**
+     * @param number $sendMail
+     */
+    public function setSendMail($sendMail)
+    {
+        $this->sendMail = $sendMail;
+        
+        return $this;
+    }
+
+    /**
+     * @return the $mailContent
+     */
+    public function getMailContent()
+    {
+        return $this->mailContent;
+    }
+
+    /**
+     * @param number $mailContent
+     */
+    public function setMailContent($mailContent)
+    {
+        $this->mailContent = $mailContent;
         
         return $this;
     }
