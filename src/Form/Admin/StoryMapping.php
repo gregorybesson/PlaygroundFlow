@@ -176,6 +176,30 @@ class StoryMapping extends ProvidesEventsForm
         
         $this->add(array(
             'type' => 'Zend\Form\Element\Checkbox',
+            'name' => 'sendMail',
+            'options' => array(
+                'label' => $translator->translate('Send a mail to the recipient', 'playgroundflow'),
+            ),
+            'attributes' => array(
+                //'checked' => true
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'mailContent',
+            'type' => 'Zend\Form\Element\Textarea',
+            'options' => array(
+                'label' => $translator->translate('Mail Message', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'cols' => '10',
+                'rows' => '10',
+                'id' => 'mailContent'
+            )
+        ));
+
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Checkbox',
             'name' => 'displayActivityStream',
             'options' => array(
                 'label' => $translator->translate('Display on activity Stream', 'playgroundflow'),
