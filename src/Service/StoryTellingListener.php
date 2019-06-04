@@ -280,8 +280,10 @@ class StoryTellingListener implements ListenerAggregateInterface
         $user       = $e->getParam('user');
         $prospect   = $e->getParam('prospect');
         $secretKey  = $e->getParam('secretKey');
+        $sponsor    = null;
+        $sponsorKey = null;
         
-        $sm         = $e->getTarget()->getServiceManager();
+        $sm  = $e->getTarget()->getServiceManager();
         
         $app = $sm->get('Application');
         $uri = $app->getRequest()->getUri();
@@ -292,12 +294,14 @@ class StoryTellingListener implements ListenerAggregateInterface
         
         $domain = $domainService->getDomainMapper()->findOneBy(array('domain'=>$domainId));
     
-        // If the secretKey is not empty, I search the user associated with it as I want him to live the story
-        if (!empty($secretKey)) {
-            $sponsorStory = $storyTellingService->getStoryTellingMapper()->findOneBySecretKey($secretKey);
+        // If the sponsorKey is not empty, I search the user associated with it as I want him to live the story
+        if (isset($_COOKIE['key'])) {
+            $sponsorKey  = $_COOKIE['key'];
+        }
+        if (!empty($sponsorKey)) {
+            $sponsorStory = $storyTellingService->getStoryTellingMapper()->findOneBySecretKey($sponsorKey);
             if ($sponsorStory) {
-                $user = $sponsorStory->getUser();
-                $prospect = null;
+                $sponsor = $sponsorStory->getUser();
             }
         }
         
@@ -379,10 +383,20 @@ class StoryTellingListener implements ListenerAggregateInterface
                 }
             }
 
+            $recipient = $user;
+            if ($storyMapping->getRecipient() == 'sponsor') {
+                if (!empty($sponsor)) {
+                    $recipient = $sponsor;
+                } else {
+                    $createStoryTelling = false;
+                }
+            }
+
             if ($createStoryTelling) {
+                
                 $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
                 $storyTelling->setOpenGraphStoryMapping($storyMapping)
-                    ->setUser($user)
+                    ->setUser($recipient)
                     ->setProspect($prospect)
                     ->setObject(json_encode($objectArray))
                     ->setPoints($storyMapping->getPoints())
@@ -390,7 +404,7 @@ class StoryTellingListener implements ListenerAggregateInterface
                 $storyTellingService->getStoryTellingMapper()->insert($storyTelling);
 
                 $storyTellingService->tellStory($storyTelling);
-                $this->getLeaderboardService()->addPoints($storyMapping, $user);
+                $this->getLeaderboardService()->addPoints($storyMapping, $recipient);
 
                 $e->getTarget()->getEventManager()->trigger('story.'.$storyMapping->getId(), $this, array('storyTelling' => $storyTelling));
             }

@@ -65,11 +65,11 @@ class StoryMapping extends ProvidesEventsForm
         ));
 
         $this->add(array(
-          'name' => 'webTechnoId',
-          'type'  => 'Zend\Form\Element\Hidden',
-          'attributes' => array(
+            'name' => 'webTechnoId',
+            'type'  => 'Zend\Form\Element\Hidden',
+            'attributes' => array(
             'value' => 0,
-          ),
+            ),
         ));
         
         $stories = $this->getStories();
@@ -111,6 +111,20 @@ class StoryMapping extends ProvidesEventsForm
             'attributes' => array(
                 'type' => 'text',
                 'placeholder' => $translator->translate('Points', 'playgroundflow')
+            )
+        ));
+
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'recipient',
+            'options' => array(
+                //'empty_option' => $translator->translate('Recipient of the points', 'playgroundflow'),
+                'value_options' => array(
+                    'user' => $translator->translate('User', 'playgroundflow'),
+                    'team' => $translator->translate('Team', 'playgroundflow'),
+                    'sponsor' => $translator->translate('Sponsor', 'playgroundflow'),
+                ),
+                'label' => $translator->translate('Recipient', 'playgroundflow')
             )
         ));
         
@@ -272,7 +286,7 @@ class StoryMapping extends ProvidesEventsForm
         $submitElement = new Element\Button('submit');
         $submitElement->setLabel($translator->translate('Create', 'playgroundflow'))
             ->setAttributes(array(
-            'type' => 'submit'
+                'type' => 'submit'
             ));
 
         $this->add($submitElement, array(
