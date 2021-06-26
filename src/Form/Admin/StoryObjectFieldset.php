@@ -3,34 +3,34 @@
 namespace PlaygroundFlow\Form\Admin;
 
 use PlaygroundFlow\Entity\OpenGraphObject;
-use Zend\Form\Fieldset;
-use Zend\Form\Form;
-use Zend\Form\Element;
-use Zend\Mvc\I18n\Translator;
+use Laminas\Form\Fieldset;
+use Laminas\Form\Form;
+use Laminas\Form\Element;
+use Laminas\Mvc\I18n\Translator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class StoryObjectFieldset extends Fieldset
 {
     public function __construct($name = null, ServiceManager $serviceManager, Translator $translator)
     {
         parent::__construct($name);
-        
+
         $this->setServiceManager($serviceManager);
-        
+
         $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
 
         $this->setHydrator(new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphObject'))
         ->setObject(new OpenGraphObject());
 
         $this->add(array(
-            'type' => 'Zend\Form\Element\Hidden',
+            'type' => 'Laminas\Form\Element\Hidden',
             'name' => 'id'
         ));
-        
+
         $objects = $this->getObjects();
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'object',
             'options' => array(
                 'value_options' => $objects,
@@ -39,17 +39,17 @@ class StoryObjectFieldset extends Fieldset
         ));
 
         $this->add(array(
-            'type' => 'Zend\Form\Element\Button',
+            'type' => 'Laminas\Form\Element\Button',
             'name' => 'remove',
             'options' => array(
-                'label' => $translator->translate('Delete', 'playgroundreward'),
+                'label' => $translator->translate('Delete', 'playgroundflow'),
             ),
             'attributes' => array(
                 'class' => 'delete-button',
             )
         ));
     }
-    
+
     /**
      *
      * @return array
@@ -59,14 +59,14 @@ class StoryObjectFieldset extends Fieldset
         $objectsArray = array();
         $objectService = $this->getServiceManager()->get('playgroundflow_object_service');
         $objects = $objectService->getObjectMapper()->findAll();
-    
+
         foreach ($objects as $object) {
             $objectsArray[$object->getId()] = $object->getLabel();
         }
-    
+
         return $objectsArray;
     }
-    
+
     /**
      * Retrieve service manager instance
      *
@@ -76,7 +76,7 @@ class StoryObjectFieldset extends Fieldset
     {
         return $this->serviceManager;
     }
-    
+
     /**
      * Set service manager instance
      *
@@ -86,7 +86,7 @@ class StoryObjectFieldset extends Fieldset
     public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
-    
+
         return $this;
     }
 }

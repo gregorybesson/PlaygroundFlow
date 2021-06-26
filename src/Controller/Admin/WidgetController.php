@@ -2,11 +2,11 @@
 
 namespace PlaygroundFlow\Controller\Admin;
 
-use Zend\Paginator\Paginator;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Laminas\Paginator\Paginator;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 use PlaygroundFlow\Entity\OpenGraphWidget as Widget;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class WidgetController extends AbstractActionController
 {
@@ -38,7 +38,7 @@ class WidgetController extends AbstractActionController
         $widgets = $service->getWidgetMapper()->findAll();
         
         if (is_array($widgets)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($widgets));
+            $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($widgets));
             $paginator->setItemCountPerPage(25);
             $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
         } else {

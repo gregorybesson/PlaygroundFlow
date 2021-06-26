@@ -2,7 +2,7 @@
 namespace PlaygroundFlow\Service;
 
 use PlaygroundFlow\Service\StoryTelling;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class StoryTellingFactory implements FactoryInterface

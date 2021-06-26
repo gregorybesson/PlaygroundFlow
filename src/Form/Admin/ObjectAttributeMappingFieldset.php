@@ -3,13 +3,13 @@
 namespace PlaygroundFlow\Form\Admin;
 
 use PlaygroundFlow\Entity\OpenGraphObjectAttributeMapping;
-use Zend\Form\Fieldset;
-use Zend\Form\Form;
-use Zend\Form\Element;
-use Zend\Mvc\I18n\Translator;
+use Laminas\Form\Fieldset;
+use Laminas\Form\Form;
+use Laminas\Form\Element;
+use Laminas\Mvc\I18n\Translator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Zend\ServiceManager\ServiceManager;
-use Zend\InputFilter\InputFilterProviderInterface;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\InputFilter\InputFilterProviderInterface;
 
 class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProviderInterface
 {
@@ -31,7 +31,7 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
 
         $this->add(
             array(
-                'type' => 'Zend\Form\Element\Hidden',
+                'type' => 'Laminas\Form\Element\Hidden',
                 'name' => 'id'
             )
         );
@@ -87,7 +87,7 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
 
         $this->add(
             array(
-                'type' => 'Zend\Form\Element\Select',
+                'type' => 'Laminas\Form\Element\Select',
                 'name' => 'comparison',
                 'options' => array(
                         'empty_option' => $translator->translate('Comparison ?', 'playgroundflow'),
@@ -111,7 +111,7 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
         $this->add(
             array(
                 'name' => 'value',
-                'type' => 'Zend\Form\Element\Text',
+                'type' => 'Laminas\Form\Element\Text',
                 'attributes' => array(
                     'placeholder' => $translator->translate('Value', 'playgroundflow'),
                 ),
@@ -124,7 +124,7 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
         $this->add(
             [
                 'name' => 'overloadPoints',
-                'type' => 'Zend\Form\Element\Checkbox',
+                'type' => 'Laminas\Form\Element\Checkbox',
                 'options' => array(
                     'label' => $translator->translate('Overload the points from the story added to the leaderboard', 'playgroundflow'),
                 ),
@@ -133,7 +133,7 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
 
         $this->add(
             array(
-                'type' => 'Zend\Form\Element\Button',
+                'type' => 'Laminas\Form\Element\Button',
                 'name' => 'remove',
                 'options' => array(
                     'label' => $translator->translate('Delete', 'playgroundflow'),

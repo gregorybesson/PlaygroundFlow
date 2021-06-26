@@ -1,9 +1,9 @@
 <?php
 namespace PlaygroundFlow\Controller;
 
-use Zend\Mvc\Controller\AbstractRestfulController;
-use Zend\View\Model\JsonModel;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Mvc\Controller\AbstractRestfulController;
+use Laminas\View\Model\JsonModel;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class RestAuthentController extends AbstractRestfulController
 {
@@ -114,7 +114,7 @@ class RestAuthentController extends AbstractRestfulController
         
         $response = $this->getResponse();
         $contentType = 'application/json';
-        $adapter = '\Zend\Serializer\Adapter\Json';
+        $adapter = '\Laminas\Serializer\Adapter\Json';
         $response->getHeaders()->addHeaderLine('Content-Type', $contentType);
         $adapter = new $adapter();
         
@@ -140,7 +140,7 @@ class RestAuthentController extends AbstractRestfulController
     {
         $response = $this->getResponse();
         $contentType = 'application/json';
-        $adapter = '\Zend\Serializer\Adapter\Json';
+        $adapter = '\Laminas\Serializer\Adapter\Json';
         $response->getHeaders()->addHeaderLine('Content-Type', $contentType);
         $adapter = new $adapter();
         

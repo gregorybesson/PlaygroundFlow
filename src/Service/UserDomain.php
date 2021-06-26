@@ -2,9 +2,9 @@
 
 namespace PlaygroundFlow\Service;
 
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 use PlaygroundFlow\Entity\OpenGraphUserDomain as UserDomainEntity;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class UserDomain
 {

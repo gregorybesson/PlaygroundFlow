@@ -2,10 +2,10 @@
 
 namespace PlaygroundFlow\Service;
 
-use Zend\ServiceManager\ServiceManager;
-use Zend\EventManager\EventManagerAwareTrait;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\EventManager\EventManagerAwareTrait;
 use PlaygroundFlow\Options\ModuleOptions;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class StoryTelling
 {
@@ -84,7 +84,7 @@ class StoryTelling
                 $storyTelling->getOpenGraphStoryMapping()->getTitle(),
                 'playgroundgame'
             );
-            $renderer = $this->serviceLocator->get('Zend\View\Renderer\RendererInterface');
+            $renderer = $this->serviceLocator->get('Laminas\View\Renderer\RendererInterface');
             $skinUrl = $renderer->url(
                 'frontend',
                 array(),

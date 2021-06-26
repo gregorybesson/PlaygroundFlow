@@ -2,13 +2,13 @@
 
 namespace PlaygroundFlow\Controller\Admin;
 
-use Zend\Paginator\Paginator;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-use Zend\View\Model\JsonModel;
+use Laminas\Paginator\Paginator;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
+use Laminas\View\Model\JsonModel;
 use PlaygroundFlow\Entity\OpenGraphObject;
 use PlaygroundFlow\Entity\OpenGraphObjectAttribute as Attribute;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class ObjectController extends AbstractActionController
 {
@@ -40,7 +40,7 @@ class ObjectController extends AbstractActionController
         $objects = $service->getObjectMapper()->findAll();
         
         if (is_array($objects)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($objects));
+            $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($objects));
             $paginator->setItemCountPerPage(25);
             $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
         } else {
@@ -161,7 +161,7 @@ class ObjectController extends AbstractActionController
         $attributes = $service->getObjectAttributeMapper()->findByObjectId($objectId);
     
         if (is_array($attributes)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($attributes));
+            $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($attributes));
             $paginator->setItemCountPerPage(25);
             $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
         } else {

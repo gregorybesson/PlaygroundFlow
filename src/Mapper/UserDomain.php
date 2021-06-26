@@ -3,7 +3,7 @@
 namespace PlaygroundFlow\Mapper;
 
 use Doctrine\ORM\EntityManager;
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 
 
 class UserDomain

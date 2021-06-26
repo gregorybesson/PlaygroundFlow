@@ -199,7 +199,7 @@ return array(
                 ),
             ),
             'flow' => array(
-                'type' => 'Zend\Router\Http\Segment',
+                'type' => 'Laminas\Router\Http\Segment',
                 'options' => array(
                     'route'    => '/flow[/:appId]',
                     'defaults' => array(
@@ -224,7 +224,7 @@ return array(
             'frontend' => array(
                 'child_routes' => array(
                     'easyxdmindex' => array(
-                        'type' => 'Zend\Router\Http\Segment',
+                        'type' => 'Laminas\Router\Http\Segment',
                         'options' => array(
                             'route'    => 'easyxdm/index',
                             'defaults' => array(
@@ -235,7 +235,7 @@ return array(
                     ),
             
                     'easyxdmname' => array(
-                        'type' => 'Zend\Router\Http\Segment',
+                        'type' => 'Laminas\Router\Http\Segment',
                         'options' => array(
                             'route'    => 'easyxdm/name',
                             'defaults' => array(
@@ -246,7 +246,7 @@ return array(
                     ),
                     
                     'sponsorfriends' => array(
-                        'type' => 'Zend\Router\Http\Literal',
+                        'type' => 'Laminas\Router\Http\Literal',
                         'options' => array(
                             'route' => 'mon-compte/sponsor-friends',
                             'defaults' => array(
@@ -257,7 +257,7 @@ return array(
                         'may_terminate' => true,
                         'child_routes' => array(
                             'fbshare' => array(
-                                'type' => 'Zend\Router\Http\Literal',
+                                'type' => 'Laminas\Router\Http\Literal',
                                 'options' => array(
                                     'route' => '/fbshare',
                                     'defaults' => array(
@@ -267,7 +267,7 @@ return array(
                                 ),
                             ),
                             'tweet' => array(
-                                'type' => 'Zend\Router\Http\Literal',
+                                'type' => 'Laminas\Router\Http\Literal',
                                 'options' => array(
                                     'route' => '/tweet',
                                     'defaults' => array(
@@ -277,7 +277,7 @@ return array(
                                 ),
                             ),
                             'google' => array(
-                                'type' => 'Zend\Router\Http\Literal',
+                                'type' => 'Laminas\Router\Http\Literal',
                                 'options' => array(
                                     'route' => '/google',
                                     'defaults' => array(
@@ -293,7 +293,7 @@ return array(
             'admin' => array(
                 'child_routes' => array(
                     'playgroundflow' => array(
-                        'type' => 'Zend\Router\Http\Literal',
+                        'type' => 'Laminas\Router\Http\Literal',
                         'options' => array(
                             'route' => '/flow',
                             'defaults' => array(

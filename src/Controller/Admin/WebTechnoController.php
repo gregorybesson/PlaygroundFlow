@@ -2,13 +2,13 @@
 
 namespace PlaygroundFlow\Controller\Admin;
 
-use Zend\Paginator\Paginator;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Laminas\Paginator\Paginator;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 use PlaygroundFlow\Entity\OpenGraphStoryMapping as Mapping;
 use PlaygroundFlow\Entity\OpenGraphWebTechno as WebTechno;
 use PlaygroundFlow\Entity\OpenGraphObjectMapping as ObjectMapping;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class WebTechnoController extends AbstractActionController
 {
@@ -40,7 +40,7 @@ class WebTechnoController extends AbstractActionController
         $webtechnos = $service->getWebTechnoMapper()->findAll();
         
         if (is_array($webtechnos)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($webtechnos));
+            $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($webtechnos));
             $paginator->setItemCountPerPage(25);
             $paginator->setCurrentPageNumber(
                 $this->getEvent()->getRouteMatch()->getParam('p')
@@ -180,7 +180,7 @@ class WebTechnoController extends AbstractActionController
         $mapping = $service->getStoryMappingMapper()->findByWebTechnoId($webTechnoId);
         
         if (is_array($mapping)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($mapping));
+            $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($mapping));
             $paginator->setItemCountPerPage(25);
             $paginator->setCurrentPageNumber($this->getEvent()
                 ->getRouteMatch()
@@ -359,7 +359,7 @@ class WebTechnoController extends AbstractActionController
         $objects = $storyMapping->getObjects()->toArray();
         
         if (is_array($objects)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($objects));
+            $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($objects));
             $paginator->setItemCountPerPage(25);
             $paginator->setCurrentPageNumber($this->getEvent()
                 ->getRouteMatch()
