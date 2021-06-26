@@ -2,7 +2,7 @@
 namespace PlaygroundFlow\Service;
 
 use PlaygroundFlow\Service\Prospect;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class ProspectFactory implements FactoryInterface

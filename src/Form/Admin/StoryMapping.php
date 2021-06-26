@@ -2,12 +2,12 @@
 namespace PlaygroundFlow\Form\Admin;
 
 use PlaygroundFlow\Options\ModuleOptions;
-use Zend\Form\Form;
-use Zend\Form\Element;
+use Laminas\Form\Form;
+use Laminas\Form\Element;
 use ZfcUser\Form\ProvidesEventsForm;
-use Zend\Mvc\I18n\Translator;
+use Laminas\Mvc\I18n\Translator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class StoryMapping extends ProvidesEventsForm
 {
@@ -39,7 +39,7 @@ class StoryMapping extends ProvidesEventsForm
 
         $this->add(array(
             'name' => 'id',
-            'type' => 'Zend\Form\Element\Hidden',
+            'type' => 'Laminas\Form\Element\Hidden',
             'attributes' => array(
                 'value' => 0
             )
@@ -58,7 +58,7 @@ class StoryMapping extends ProvidesEventsForm
         
         $this->add(array(
             'name' => 'domainId',
-            'type'  => 'Zend\Form\Element\Hidden',
+            'type'  => 'Laminas\Form\Element\Hidden',
             'attributes' => array(
                 'value' => 0,
             ),
@@ -66,7 +66,7 @@ class StoryMapping extends ProvidesEventsForm
 
         $this->add(array(
             'name' => 'webTechnoId',
-            'type'  => 'Zend\Form\Element\Hidden',
+            'type'  => 'Laminas\Form\Element\Hidden',
             'attributes' => array(
             'value' => 0,
             ),
@@ -74,7 +74,7 @@ class StoryMapping extends ProvidesEventsForm
         
         $stories = $this->getStories();
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'story',
             'options' => array(
                 'value_options' => $stories,
@@ -84,7 +84,7 @@ class StoryMapping extends ProvidesEventsForm
 
         $leaderboardTypes = $this->getLeaderboardTypes();
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'leaderboardType',
             'options' => array(
                 'value_options' => $leaderboardTypes,
@@ -94,7 +94,7 @@ class StoryMapping extends ProvidesEventsForm
         
         $widgets = $this->getWidgets();
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'widget',
             'options' => array(
                 'empty_option' => $translator->translate('Default widget', 'playgroundflow'),
@@ -115,7 +115,7 @@ class StoryMapping extends ProvidesEventsForm
         ));
 
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'recipient',
             'options' => array(
                 //'empty_option' => $translator->translate('Recipient of the points', 'playgroundflow'),
@@ -151,7 +151,7 @@ class StoryMapping extends ProvidesEventsForm
         ));
         
         $this->add(array(
-            'type' => 'Zend\Form\Element\Checkbox',
+            'type' => 'Laminas\Form\Element\Checkbox',
             'name' => 'displayNotification',
             'options' => array(
                 'label' => $translator->translate('Display notication to player', 'playgroundflow'),
@@ -163,7 +163,7 @@ class StoryMapping extends ProvidesEventsForm
         
         $this->add(array(
             'name' => 'notification',
-            'type' => 'Zend\Form\Element\Textarea',
+            'type' => 'Laminas\Form\Element\Textarea',
             'options' => array(
                 'label' => $translator->translate('Notification Message', 'playgroundflow')
             ),
@@ -175,7 +175,7 @@ class StoryMapping extends ProvidesEventsForm
         ));
         
         $this->add(array(
-            'type' => 'Zend\Form\Element\Checkbox',
+            'type' => 'Laminas\Form\Element\Checkbox',
             'name' => 'sendMail',
             'options' => array(
                 'label' => $translator->translate('Send a mail to the recipient', 'playgroundflow'),
@@ -187,7 +187,7 @@ class StoryMapping extends ProvidesEventsForm
         
         $this->add(array(
             'name' => 'mailContent',
-            'type' => 'Zend\Form\Element\Textarea',
+            'type' => 'Laminas\Form\Element\Textarea',
             'options' => array(
                 'label' => $translator->translate('Mail Message', 'playgroundflow')
             ),
@@ -199,7 +199,7 @@ class StoryMapping extends ProvidesEventsForm
         ));
 
         $this->add(array(
-            'type' => 'Zend\Form\Element\Checkbox',
+            'type' => 'Laminas\Form\Element\Checkbox',
             'name' => 'displayActivityStream',
             'options' => array(
                 'label' => $translator->translate('Display on activity Stream', 'playgroundflow'),
@@ -211,7 +211,7 @@ class StoryMapping extends ProvidesEventsForm
         
         $this->add(array(
             'name' => 'activityStream',
-            'type' => 'Zend\Form\Element\Textarea',
+            'type' => 'Laminas\Form\Element\Textarea',
             'options' => array(
                 'label' => $translator->translate('Activity Stream Message', 'playgroundflow')
             ),
@@ -235,7 +235,7 @@ class StoryMapping extends ProvidesEventsForm
         ));
         $this->add(array(
             'name' => 'picto',
-            'type' => 'Zend\Form\Element\Hidden',
+            'type' => 'Laminas\Form\Element\Hidden',
             'attributes' => array(
                 'value' => ''
             )

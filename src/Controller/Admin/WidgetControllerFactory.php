@@ -2,7 +2,7 @@
 namespace PlaygroundFlow\Controller\Admin;
 
 use PlaygroundFlow\Controller\Admin\WidgetController;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class WidgetControllerFactory implements FactoryInterface

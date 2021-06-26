@@ -2,7 +2,7 @@
 namespace PlaygroundFlow\Controller\Admin;
 
 use PlaygroundFlow\Controller\Admin\StoryController;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class StoryControllerFactory implements FactoryInterface

@@ -2,7 +2,7 @@
 namespace PlaygroundFlow\Controller;
 
 use PlaygroundFlow\Controller\RestSendController;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class RestSendControllerFactory implements FactoryInterface

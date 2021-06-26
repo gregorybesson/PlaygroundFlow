@@ -4,7 +4,7 @@ namespace PlaygroundFlow\Mapper;
 
 use Doctrine\ORM\EntityManager;
 
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 use PlaygroundFlow\Options\ModuleOptions;
 
 class Story

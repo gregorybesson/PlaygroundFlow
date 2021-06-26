@@ -2,11 +2,11 @@
 
 namespace PlaygroundFlow\Controller\Admin;
 
-use Zend\Paginator\Paginator;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Laminas\Paginator\Paginator;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 use PlaygroundFlow\Entity\OpenGraphAction as Action;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class ActionController extends AbstractActionController
 {
@@ -38,7 +38,7 @@ class ActionController extends AbstractActionController
         $actions = $service->getActionMapper()->findAll();
         
         if (is_array($actions)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($actions));
+            $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($actions));
             $paginator->setItemCountPerPage(25);
             $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
         } else {

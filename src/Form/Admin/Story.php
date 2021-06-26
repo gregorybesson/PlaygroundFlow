@@ -2,12 +2,12 @@
 namespace PlaygroundFlow\Form\Admin;
 
 use PlaygroundFlow\Options\ModuleOptions;
-use Zend\Form\Form;
-use Zend\Form\Element;
+use Laminas\Form\Form;
+use Laminas\Form\Element;
 use ZfcUser\Form\ProvidesEventsForm;
-use Zend\Mvc\I18n\Translator;
+use Laminas\Mvc\I18n\Translator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class Story extends ProvidesEventsForm
 {
@@ -27,7 +27,7 @@ class Story extends ProvidesEventsForm
         $this->setServiceManager($sm);
 
         $entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
-        
+
         $hydrator = new DoctrineHydrator($entityManager, 'PlaygroundFlow\Entity\OpenGraphStory');
         //$hydrator->addStrategy('object', new \PlaygroundCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
         $hydrator->addStrategy('action', new \PlaygroundCore\Stdlib\Hydrator\Strategy\ObjectStrategy());
@@ -37,7 +37,7 @@ class Story extends ProvidesEventsForm
 
         $this->add(array(
             'name' => 'id',
-            'type' => 'Zend\Form\Element\Hidden',
+            'type' => 'Laminas\Form\Element\Hidden',
             'attributes' => array(
                 'value' => 0
             )
@@ -66,7 +66,7 @@ class Story extends ProvidesEventsForm
         ));
 
         $this->add(array(
-            'type' => 'Zend\Form\Element\Textarea',
+            'type' => 'Laminas\Form\Element\Textarea',
             'name' => 'definition',
             'options' => array(
                 'label' => $translator->translate('Definition', 'playgroundflow')
@@ -77,17 +77,17 @@ class Story extends ProvidesEventsForm
                 'id' => 'definition'
             )
         ));
-        
+
         $actions = $this->getActions();
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'action',
             'options' => array(
                 'value_options' => $actions,
                 'label' => $translator->translate('Action', 'playgroundflow')
             )
         ));
-        
+
         $this->add(array(
          'name' => 'objects',
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
@@ -103,14 +103,14 @@ class Story extends ProvidesEventsForm
                 //'multiple' => 'multiple',
             )
         ));
-        
+
 /*        $storyObjectFieldset = new StoryObjectFieldset(null,$sm,$translator);
         $this->add(array(
-            'type'    => 'Zend\Form\Element\Collection',
+            'type'    => 'Laminas\Form\Element\Collection',
             'name'    => 'objects',
             'options' => array(
                 'id'    => 'objects',
-                'label' => $translator->translate('Objects', 'playgroundreward'),
+                'label' => $translator->translate('Objects', 'playgroundflow'),
                 'count' => 0,
                 'should_create_template' => true,
                 'allow_add' => true,
@@ -152,7 +152,7 @@ class Story extends ProvidesEventsForm
 
         return $this;
     }
-    
+
     /**
      *
      * @return array
@@ -162,14 +162,14 @@ class Story extends ProvidesEventsForm
         $objectsArray = array();
         $objectService = $this->getServiceManager()->get('playgroundflow_object_service');
         $objects = $objectService->getObjectMapper()->findAll();
-    
+
         foreach ($objects as $object) {
             $objectsArray[$object->getId()] = $object->getLabel();
         }
-    
+
         return $objectsArray;
     }
-    
+
     /**
      *
      * @return array
@@ -179,11 +179,11 @@ class Story extends ProvidesEventsForm
         $actionsArray = array();
         $actionService = $this->getServiceManager()->get('playgroundflow_action_service');
         $actions = $actionService->getActionMapper()->findAll();
-    
+
         foreach ($actions as $action) {
             $actionsArray[$action->getId()] = $action->getLabel();
         }
-    
+
         return $actionsArray;
     }
 }

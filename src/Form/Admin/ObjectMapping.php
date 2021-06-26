@@ -2,12 +2,12 @@
 namespace PlaygroundFlow\Form\Admin;
 
 use PlaygroundFlow\Options\ModuleOptions;
-use Zend\Form\Form;
-use Zend\Form\Element;
+use Laminas\Form\Form;
+use Laminas\Form\Element;
 use ZfcUser\Form\ProvidesEventsForm;
-use Zend\Mvc\I18n\Translator;
+use Laminas\Mvc\I18n\Translator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class ObjectMapping extends ProvidesEventsForm
 {
@@ -27,7 +27,7 @@ class ObjectMapping extends ProvidesEventsForm
         $this->setServiceManager($sm);
 
         $entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
-        
+
         // Mapping of an Entity to get value by getId()... Should be taken in charge by Doctrine Hydrator Strategy...
         // having to fix a DoctrineModule bug :( https://github.com/doctrine/DoctrineModule/issues/180
         // so i've extended DoctrineHydrator ...
@@ -39,12 +39,12 @@ class ObjectMapping extends ProvidesEventsForm
 
         $this->add(array(
             'name' => 'id',
-            'type' => 'Zend\Form\Element\Hidden',
+            'type' => 'Laminas\Form\Element\Hidden',
             'attributes' => array(
                 'value' => 0
             )
         ));
-        
+
         $this->add(array(
             'name' => 'object',
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
@@ -59,7 +59,7 @@ class ObjectMapping extends ProvidesEventsForm
                 //'multiple' => 'multiple',
             )
         ));
-        
+
         $this->add(array(
             'name' => 'xpath',
             'options' => array(
@@ -70,14 +70,14 @@ class ObjectMapping extends ProvidesEventsForm
                 'placeholder' => $translator->translate('Xpath', 'playgroundflow')
             )
         ));
-        
+
         $objectAttributeMappingFieldset = new ObjectAttributeMappingFieldset(null, $sm, $translator);
         $this->add(array(
-            'type'    => 'Zend\Form\Element\Collection',
+            'type'    => 'Laminas\Form\Element\Collection',
             'name'    => 'attributes',
             'options' => array(
                 'id'    => 'attributes',
-                'label' => $translator->translate('Attributes', 'playgroundreward'),
+                'label' => $translator->translate('Attributes', 'playgroundflow'),
                 'count' => 0,
                 'should_create_template' => true,
                 'allow_add' => true,
@@ -119,7 +119,7 @@ class ObjectMapping extends ProvidesEventsForm
 
         return $this;
     }
-    
+
     /**
      *
      * @return array
@@ -129,11 +129,11 @@ class ObjectMapping extends ProvidesEventsForm
         $objectsArray = array();
         $objectService = $this->getServiceManager()->get('playgroundflow_object_service');
         $objects = $objectService->getObjectMapper()->findAll();
-    
+
         foreach ($objects as $object) {
             $objectsArray[$object->getId()] = $object->getLabel();
         }
-    
+
         return $objectsArray;
     }
 }

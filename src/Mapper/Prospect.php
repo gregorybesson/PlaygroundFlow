@@ -3,7 +3,9 @@
 namespace PlaygroundFlow\Mapper;
 
 use Doctrine\ORM\EntityManager;
-use Zend\Hydrator\HydratorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Hydrator\HydratorInterface;
+use PlaygroundFlow\Options\ModuleOptions;
 
 
 class Prospect
@@ -13,25 +15,42 @@ class Prospect
      */
     protected $em;
 
-    public function __construct(EntityManager $em)
+    /**
+     * @var \Doctrine\ORM\EntityRepository
+     */
+    protected $er;
+
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
+
+    /**
+     * @var \PlaygroundGame\Options\ModuleOptions
+     */
+    protected $options;
+
+    public function __construct(EntityManager $em, ModuleOptions $options, ServiceLocatorInterface $locator)
     {
-        $this->em = $em;
+        $this->em      = $em;
+        $this->options = $options;
+        $this->serviceLocator = $locator;
     }
 
     public function findBy($filters)
     {
-        return $this->getRepository()->findBy($filters);
+        return $this->getEntityRepository()->findBy($filters);
     }
 
     public function findOneBy($filters)
     {
-        return $this->getRepository()->findOneBy($filters);
+        return $this->getEntityRepository()->findOneBy($filters);
     }
 
 
     public function findById($id)
     {
-        return $this->getRepository()->find($id);
+        return $this->getEntityRepository()->find($id);
     }
 
     public function insert($entity, $tableName = null, HydratorInterface $hydrator = null)
@@ -54,7 +73,7 @@ class Prospect
 
     public function findAll()
     {
-        return $this->getRepository()->findAll();
+        return $this->getEntityRepository()->findAll();
     }
 
     public function remove($entity)
@@ -63,8 +82,12 @@ class Prospect
         $this->em->flush();
     }
 
-    public function getRepository()
+    public function getEntityRepository()
     {
-        return $this->em->getRepository('\PlaygroundFlow\Entity\OpenGraphProspect');
+        if (null === $this->er) {
+            $this->er = $this->em->getRepository('\PlaygroundFlow\Entity\OpenGraphProspect');
+        }
+
+        return $this->er;
     }
 }

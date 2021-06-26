@@ -2,13 +2,13 @@
 
 namespace PlaygroundFlow\Service;
 
-use Zend\ServiceManager\ServiceManager;
-use Zend\EventManager\EventManagerAwareTrait;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\EventManager\EventManagerAwareTrait;
 use PlaygroundFlow\Options\ModuleOptions;
 use PlaygroundCore\Filter\Sanitize;
-use Zend\Stdlib\ErrorHandler;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\EventManager\EventManager;
+use Laminas\Stdlib\ErrorHandler;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\EventManager\EventManager;
 
 class Domain
 {

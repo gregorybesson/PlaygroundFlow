@@ -2,7 +2,7 @@
 namespace PlaygroundFlow\Controller\Frontend;
 
 use PlaygroundFlow\Controller\Frontend\EasyXDMController;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class EasyXDMControllerFactory implements FactoryInterface

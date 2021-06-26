@@ -1,14 +1,14 @@
 <?php
 namespace PlaygroundFlow\Service;
 
-use Zend\Session\Container;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\ListenerAggregateInterface;
-use Zend\EventManager\Event;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\ServiceManager\ServiceManager;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\EventManager\EventManager;
+use Laminas\Session\Container;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\ListenerAggregateInterface;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\EventManager\EventManager;
 
 /**
  * This listener is used to gather the stories from the managed domains
@@ -21,7 +21,7 @@ class StoryTellingListener implements ListenerAggregateInterface
 
     /**
      *
-     * @var \Zend\Stdlib\CallbackHandler[]
+     * @var \Laminas\Stdlib\CallbackHandler[]
      */
     protected $listeners = array();
 
@@ -118,9 +118,9 @@ class StoryTellingListener implements ListenerAggregateInterface
 
     /**
      * differences :  RECHERCHE DE 1 OCCURENCE EXISTENTE
-     * @param \Zend\EventManager\Event $e
+     * @param \Laminas\EventManager\Event $e
      */
-    public function sponsorAfter(\Zend\EventManager\Event $e)
+    public function sponsorAfter(\Laminas\EventManager\Event $e)
     {
         $user = $e->getParam('user');
         $secretKey = $e->getParam('secretKey');
@@ -153,9 +153,9 @@ class StoryTellingListener implements ListenerAggregateInterface
 
     /**
      * differences : BEFORE !! et data et calcul
-     * @param \Zend\EventManager\Event $e
+     * @param \Laminas\EventManager\Event $e
      */
-    public function newsletterBefore(\Zend\EventManager\Event $e)
+    public function newsletterBefore(\Laminas\EventManager\Event $e)
     {
         $data = $e->getParam('data');
         $user = $e->getParam('user');
@@ -205,9 +205,9 @@ class StoryTellingListener implements ListenerAggregateInterface
 
     /**
      * differences : je parcours une var en memoire
-     * @param \Zend\EventManager\Event $e
+     * @param \Laminas\EventManager\Event $e
      */
-    public function newsletterAfter(\Zend\EventManager\Event $e)
+    public function newsletterAfter(\Laminas\EventManager\Event $e)
     {
         $user = $e->getParam('user');
         $sm = $e->getTarget()->getServiceManager();
@@ -235,7 +235,7 @@ class StoryTellingListener implements ListenerAggregateInterface
         $this->eventsArray[$e->getName()] = false;
     }
     
-    public function tellStoryBefore(\Zend\EventManager\Event $e)
+    public function tellStoryBefore(\Laminas\EventManager\Event $e)
     {
         $data = $e->getParam('data');
         $user = $e->getParam('user');
@@ -275,7 +275,7 @@ class StoryTellingListener implements ListenerAggregateInterface
      *
      * @param Event $e
      */
-    public function tellStoryAfter(\Zend\EventManager\Event $e)
+    public function tellStoryAfter(\Laminas\EventManager\Event $e)
     {
         $user       = $e->getParam('user');
         $prospect   = $e->getParam('prospect');

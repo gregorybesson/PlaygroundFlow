@@ -7,11 +7,11 @@ use PlaygroundFlow\Entity\OpenGraphDomain;
 use PlaygroundUser\Entity\User;
 use PlaygroundFlow\Entity\OpenGraphProspect as ProspectEntity;
 
-class ProspectTest extends \PHPUnit_Framework_TestCase
+class ProspectTest extends \PHPUnit\Framework\TestCase
 {
     protected $traceError = true;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->sm = Bootstrap::getServiceManager();
@@ -37,8 +37,8 @@ class ProspectTest extends \PHPUnit_Framework_TestCase
         $prospect = new ProspectEntity();
         $prospect->setDomain($domain)
             ->setProspect($prospectId);
-        
-       
+
+
         $mapper = $this->getMockBuilder('PlaygroundFlow\Mapper\Prospect')
             ->disableOriginalConstructor()
             ->getMock();
@@ -49,7 +49,7 @@ class ProspectTest extends \PHPUnit_Framework_TestCase
         $prospectService->setProspectMapper($mapper);
 
         $prospects = $prospectService->findProspectOrCreateByProspectAndDomain($prospect, $domain);
-        $this->assertEquals(count($prospects), 1);
+        $this->assertEquals(count([$prospects]), 1);
 
         $mapper->expects($this->any())
             ->method('findBy')
@@ -58,6 +58,6 @@ class ProspectTest extends \PHPUnit_Framework_TestCase
         $prospectService->setProspectMapper($mapper);
 
         $prospects = $prospectService->findProspectOrCreateByProspectAndDomain($prospect, $domain);
-        $this->assertEquals(count($prospects), 1);
+        $this->assertEquals(count([$prospects]), 1);
     }
 }

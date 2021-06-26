@@ -2,7 +2,7 @@
 namespace PlaygroundFlow\Service;
 
 use PlaygroundFlow\Service\WebTechno;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class WebTechnoFactory implements FactoryInterface

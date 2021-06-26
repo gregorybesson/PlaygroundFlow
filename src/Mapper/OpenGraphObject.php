@@ -3,10 +3,10 @@
 namespace PlaygroundFlow\Mapper;
 
 use Doctrine\ORM\EntityManager;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 use PlaygroundFlow\Options\ModuleOptions;
 
 class OpenGraphObject

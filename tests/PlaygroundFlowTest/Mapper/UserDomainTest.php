@@ -2,20 +2,20 @@
 
 namespace PlaygroundFlowTest\Mapper;
 
-use Zend\Crypt\Password\Bcrypt;
+use Laminas\Crypt\Password\Bcrypt;
 use PlaygroundFlowTest\Bootstrap;
 use PlaygroundFlow\Entity\OpenGraphDomain;
 use PlaygroundUser\Entity\User;
 use PlaygroundFlow\Entity\OpenGraphUserDomain as UserDomain;
 
-class UserDomainTest extends \PHPUnit_Framework_TestCase
+class UserDomainTest extends \PHPUnit\Framework\TestCase
 {
     protected $traceError = true;
 
     protected $userDomainData;
 
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->sm = Bootstrap::getServiceManager();
         $this->em = $this->sm->get('doctrine.entitymanager.orm_default');
@@ -85,7 +85,7 @@ class UserDomainTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($userDomains[0]->getDomain()->getId(), $this->domain2->getId());
 
         $userDomain = $this->tm->findById($userDomain->getId());
-        $this->assertEquals(count($userDomain), 1);
+        $this->assertEquals(count([$userDomain]), 1);
         $this->assertEquals($userDomain->getId(), 1);
 
         $userDomain2->setDomain($this->domain);
@@ -100,7 +100,7 @@ class UserDomainTest extends \PHPUnit_Framework_TestCase
     }
  
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         $dbh = $this->em->getConnection();
         unset($this->tm);
