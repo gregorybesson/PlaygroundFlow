@@ -30,7 +30,7 @@ class EasyXDMController extends AbstractActionController
         $viewModel->setTerminal(true);
         return $viewModel;
     }
-    
+
     public function nameAction()
     {
         $viewModel = new ViewModel();
