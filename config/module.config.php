@@ -16,13 +16,13 @@ return array(
         )
     ),
     'bjyauthorize' => array(
-    
+
         'resource_providers' => array(
             'BjyAuthorize\Provider\Resource\Config' => array(
                 'flow'          => array(),
             ),
         ),
-    
+
         'rule_providers' => array(
             'BjyAuthorize\Provider\Rule\Config' => array(
                 'allow' => array(
@@ -30,9 +30,10 @@ return array(
                 ),
             ),
         ),
-    
+
         'guards' => array(
-            'BjyAuthorize\Guard\Controller' => array( 
+            'BjyAuthorize\Guard\Controller' => array(
+                array('controller' => \PlaygroundFlow\Controller\Frontend\EasyXDMController::class,  'roles' => array('guest', 'user')),
                 array('controller' => \PlaygroundFlow\Controller\Frontend\IndexController::class,    'roles' => array('guest', 'user')),
                 array('controller' => \PlaygroundFlow\Controller\Admin\ActionController::class,      'roles' => array('admin')),
                 array('controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,      'roles' => array('admin')),
@@ -40,55 +41,6 @@ return array(
                 array('controller' => \PlaygroundFlow\Controller\Admin\DomainController::class,      'roles' => array('admin')),
                 array('controller' => \PlaygroundFlow\Controller\Admin\WebTechnoController::class,   'roles' => array('admin')),
                 array('controller' => \PlaygroundFlow\Controller\Admin\WidgetController::class,      'roles' => array('admin')),
-            ),
-        ),
-    ),
-    
-    'assetic_configuration' => array(
-        'modules' => array(
-            'lib' => array(
-                'collections' => array(
-                    'frontend_mouth_css' => array(
-                        'assets' => array(
-                            'mouth.css'              => __DIR__ . '/../view/lib/css/mouth.css',
-                        ),
-                        'filters' => array(),
-                        'options' => array(
-                            'output' => 'lib/css/mouth'
-                        ),
-                    ),
-                    'frontend_pg' => array(
-                        'assets' => array(
-                            'json2'             => __DIR__ . '/../view/lib/js/playground/json2.js',
-                            'wgxpath.install'   => __DIR__ . '/../view/lib/js/playground/wgxpath.install.js',
-                            'pg'                => __DIR__ . '/../view/lib/js/playground/pg.min.js',
-                            'pg.connect'        => __DIR__ . '/../view/lib/js/playground/pg.connect.js',
-                            'ears.min'          => __DIR__ . '/../view/lib/js/playground/ears.min.js',
-                        ),
-                        'filters' => array(),
-                        'options' => array(
-                            'move_raw' => true,
-                            'output' => 'lib/js/playground',
-                        )
-                    ),
-                    'frontend_easyxdm' => array(
-                        'assets' => array(
-                            'easyxdm.min' => __DIR__ . '/../view/lib/js/easyxdm/easyxdm.min.js',
-                            'easyxdm'     => __DIR__ . '/../view/lib/js/easyxdm/easyxdm.swf',
-                            'json2'       => __DIR__ . '/../view/lib/js/easyxdm/json2.js',
-                        ),
-                        'options' => array(
-                            'move_raw' => true,
-                            'output' => 'lib/js/easyxdm',
-                        )
-                    ),
-                ),
-            ),
-        ),
-    
-        'routes' => array(
-            'frontend.*' => array(
-                '@frontend_mouth_css' => '@frontend_mouth_css',
             ),
         ),
     ),
@@ -223,8 +175,8 @@ return array(
             ),
             'frontend' => array(
                 'child_routes' => array(
-                    'easyxdmindex' => array(
-                        'type' => 'Laminas\Router\Http\Segment',
+                    'index' => array(
+                        'type' => 'Laminas\Router\Http\Literal',
                         'options' => array(
                             'route'    => 'easyxdm/index',
                             'defaults' => array(
@@ -233,9 +185,9 @@ return array(
                             ),
                         ),
                     ),
-            
-                    'easyxdmname' => array(
-                        'type' => 'Laminas\Router\Http\Segment',
+
+                    'name' => array(
+                        'type' => 'Laminas\Router\Http\Literal',
                         'options' => array(
                             'route'    => 'easyxdm/name',
                             'defaults' => array(
@@ -244,7 +196,7 @@ return array(
                             ),
                         ),
                     ),
-                    
+
                     'sponsorfriends' => array(
                         'type' => 'Laminas\Router\Http\Literal',
                         'options' => array(
@@ -997,7 +949,7 @@ return array(
                                                 'controller' => \PlaygroundFlow\Controller\Admin\ObjectController::class,
                                                 'action'     => 'listAttribute',
                                                 'objectId'   => 0
-                                                
+
                                             ),
                                         ),
                                         'may_terminate' => true,

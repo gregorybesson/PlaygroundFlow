@@ -73,7 +73,7 @@ class IndexController extends AbstractActionController
         $topic       = "Parrainage depuis l'espace client";
         $statusMail  = null;
         $sg          = $this->getGameService();
-        
+
         $form = $this->getServiceLocator()->get('playgroundgame_sharemail_form');
         $form->setAttribute('method', 'post');
 
@@ -104,7 +104,7 @@ class IndexController extends AbstractActionController
         $this->getViewHelper('HeadMeta')->setProperty('bt:user', $bitlyuser);
         $this->getViewHelper('HeadMeta')->setProperty('bt:key', $bitlykey);
         $this->getViewHelper('HeadMeta')->setProperty('og:image', $fbShareImage);
-        
+
         $stories = $this->getStoryTellingService()->getStoryTellingMapper()->findWithStoryMappingByUser($user);
 
         $activities = array();
