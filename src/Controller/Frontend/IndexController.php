@@ -68,7 +68,7 @@ class IndexController extends AbstractActionController
      */
     public function sponsorfriendsAction()
     {
-        $user        = $this->zfcUserAuthentication()->getIdentity();
+        $user        = $this->lmcUserAuthentication()->getIdentity();
         $subjectMail = "Gagnez pleins de cadeaux sur Playground";
         $topic       = "Parrainage depuis l'espace client";
         $statusMail  = null;
@@ -147,7 +147,7 @@ class IndexController extends AbstractActionController
         $topic = "Partage Facebook depuis l'espace client";
 
         $fbId = $this->params()->fromQuery('fbId');
-        $user = $this->zfcUserAuthentication()->getIdentity();
+        $user = $this->lmcUserAuthentication()->getIdentity();
 
         if (!$fbId) {
             return false;
@@ -166,7 +166,7 @@ class IndexController extends AbstractActionController
         $topic = "Partage Twitter depuis l'espace client";
 
         $tweetId = $this->params()->fromQuery('tweetId');
-        $user = $this->zfcUserAuthentication()->getIdentity();
+        $user = $this->lmcUserAuthentication()->getIdentity();
 
         if (!$tweetId) {
             return false;
@@ -185,7 +185,7 @@ class IndexController extends AbstractActionController
         $topic = "Partage Google depuis l'espace client";
 
         $googleId = $this->params()->fromQuery('googleId');
-        $user = $this->zfcUserAuthentication()->getIdentity();
+        $user = $this->lmcUserAuthentication()->getIdentity();
 
         if (!$googleId) {
             return false;
