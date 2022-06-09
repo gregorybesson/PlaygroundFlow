@@ -7,7 +7,7 @@ use Laminas\Form\Fieldset;
 use Laminas\Form\Form;
 use Laminas\Form\Element;
 use Laminas\Mvc\I18n\Translator;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
+use Doctrine\Laminas\Hydrator\DoctrineObject as DoctrineHydrator;
 use Laminas\ServiceManager\ServiceManager;
 
 class StoryObjectFieldset extends Fieldset
