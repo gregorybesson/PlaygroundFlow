@@ -27,7 +27,7 @@ class StoryMapping extends ProvidesEventsForm
         $this->setServiceManager($sm);
 
         $entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
-        
+
         // Mapping of an Entity to get value by getId()... Should be taken in charge by Doctrine Hydrator Strategy...
         // having to fix a DoctrineModule bug :( https://github.com/doctrine/DoctrineModule/issues/180
         // so i've extended DoctrineHydrator ...
@@ -55,7 +55,7 @@ class StoryMapping extends ProvidesEventsForm
                 'placeholder' => $translator->translate('Title', 'playgroundflow')
             )
         ));
-        
+
         $this->add(array(
             'name' => 'domainId',
             'type'  => 'Laminas\Form\Element\Hidden',
@@ -71,7 +71,7 @@ class StoryMapping extends ProvidesEventsForm
             'value' => 0,
             ),
         ));
-        
+
         $stories = $this->getStories();
         $this->add(array(
             'type' => 'Laminas\Form\Element\Select',
@@ -91,7 +91,7 @@ class StoryMapping extends ProvidesEventsForm
                 'label' => $translator->translate('leaderboardType', 'playgroundflow')
             )
         ));
-        
+
         $widgets = $this->getWidgets();
         $this->add(array(
             'type' => 'Laminas\Form\Element\Select',
@@ -102,7 +102,7 @@ class StoryMapping extends ProvidesEventsForm
                 'label' => $translator->translate('Widget', 'playgroundflow')
             )
         ));
-        
+
         $this->add(array(
             'name' => 'points',
             'options' => array(
@@ -127,7 +127,7 @@ class StoryMapping extends ProvidesEventsForm
                 'label' => $translator->translate('Recipient', 'playgroundflow')
             )
         ));
-        
+
         $this->add(array(
             'name' => 'countLimit',
             'options' => array(
@@ -138,7 +138,7 @@ class StoryMapping extends ProvidesEventsForm
                 'placeholder' => $translator->translate('Limite du nombre', 'playgroundflow')
             )
         ));
-        
+
         $this->add(array(
             'name' => 'hint',
             'options' => array(
@@ -149,18 +149,18 @@ class StoryMapping extends ProvidesEventsForm
                 'placeholder' => $translator->translate('Hint', 'playgroundflow')
             )
         ));
-        
+
         $this->add(array(
             'type' => 'Laminas\Form\Element\Checkbox',
             'name' => 'displayNotification',
+            'attributes' => array(
+                'class' => 'switch-input',
+            ),
             'options' => array(
                 'label' => $translator->translate('Display notication to player', 'playgroundflow'),
-            ),
-            'attributes' => array(
-                //'checked' => true
             )
         ));
-        
+
         $this->add(array(
             'name' => 'notification',
             'type' => 'Laminas\Form\Element\Textarea',
@@ -173,7 +173,7 @@ class StoryMapping extends ProvidesEventsForm
                 'id' => 'notification'
             )
         ));
-        
+
         $this->add(array(
             'type' => 'Laminas\Form\Element\Checkbox',
             'name' => 'sendMail',
@@ -181,10 +181,10 @@ class StoryMapping extends ProvidesEventsForm
                 'label' => $translator->translate('Send a mail to the recipient', 'playgroundflow'),
             ),
             'attributes' => array(
-                //'checked' => true
-            )
+                'class' => 'switch-input',
+            ),
         ));
-        
+
         $this->add(array(
             'name' => 'mailContent',
             'type' => 'Laminas\Form\Element\Textarea',
@@ -205,10 +205,10 @@ class StoryMapping extends ProvidesEventsForm
                 'label' => $translator->translate('Display on activity Stream', 'playgroundflow'),
             ),
             'attributes' => array(
-                //'checked' => true
-            )
+                'class' => 'switch-input',
+            ),
         ));
-        
+
         $this->add(array(
             'name' => 'activityStream',
             'type' => 'Laminas\Form\Element\Textarea',
@@ -221,7 +221,7 @@ class StoryMapping extends ProvidesEventsForm
                 'id' => 'activityStream'
             )
         ));
-        
+
         // Adding an empty upload field to be able to correctly handle this on
         // the service side.
         $this->add(array(
@@ -240,7 +240,7 @@ class StoryMapping extends ProvidesEventsForm
                 'value' => ''
             )
         ));
-        
+
         $this->add(array(
             'name' => 'eventBeforeUrl',
             'options' => array(
@@ -251,7 +251,7 @@ class StoryMapping extends ProvidesEventsForm
                     'placeholder' => $translator->translate('Event before Url', 'playgroundflow')
             )
         ));
-        
+
         $this->add(array(
             'name' => 'eventBeforeXpath',
             'options' => array(
@@ -262,7 +262,7 @@ class StoryMapping extends ProvidesEventsForm
                 'placeholder' => $translator->translate('Event before Xpath', 'playgroundflow')
             )
         ));
-        
+
         $this->add(array(
             'name' => 'eventAfterUrl',
             'options' => array(
@@ -273,7 +273,7 @@ class StoryMapping extends ProvidesEventsForm
                 'placeholder' => $translator->translate('Event after Url', 'playgroundflow')
             )
         ));
-        
+
         $this->add(array(
             'name' => 'eventAfterXpath',
             'options' => array(
@@ -284,7 +284,7 @@ class StoryMapping extends ProvidesEventsForm
                 'placeholder' => $translator->translate('Event after Xpath', 'playgroundflow')
             )
         ));
-        
+
         $this->add(array(
             'name' => 'conditionsUrl',
             'options' => array(
@@ -295,7 +295,7 @@ class StoryMapping extends ProvidesEventsForm
                 'placeholder' => $translator->translate('Conditions URL', 'playgroundflow')
             )
         ));
-        
+
         $this->add(array(
             'name' => 'conditionsXpath',
             'options' => array(
@@ -340,7 +340,7 @@ class StoryMapping extends ProvidesEventsForm
 
         return $this;
     }
-    
+
     /**
      *
      * @return array
@@ -350,11 +350,11 @@ class StoryMapping extends ProvidesEventsForm
         $storiesArray = array();
         $storyService = $this->getServiceManager()->get('playgroundflow_story_service');
         $stories = $storyService->getStoryMapper()->findAll();
-    
+
         foreach ($stories as $story) {
             $storiesArray[$story->getId()] = $story->getLabel();
         }
-    
+
         return $storiesArray;
     }
 
@@ -368,14 +368,14 @@ class StoryMapping extends ProvidesEventsForm
         $leaderboardTypesArray = array();
         $leaderboardTypesService = $this->getServiceManager()->get('playgroundreward_leaderboardtype_service');
         $leaderboardTypes = $leaderboardTypesService->getLeaderboardTypeMapper()->findAll();
-    
+
         foreach ($leaderboardTypes as $leaderboardType) {
             $leaderboardTypesArray[$leaderboardType->getId()] = $leaderboardType->getName();
         }
 
         return $leaderboardTypesArray;
     }
-    
+
     /**
      *
      * @return array
@@ -385,11 +385,11 @@ class StoryMapping extends ProvidesEventsForm
         $widgetsArray = array();
         $widgetService = $this->getServiceManager()->get('playgroundflow_widget_service');
         $widgets = $widgetService->getWidgetMapper()->findAll();
-    
+
         foreach ($widgets as $widget) {
             $widgetsArray[$widget->getId()] = $widget->getTitle();
         }
-    
+
         return $widgetsArray;
     }
 }
