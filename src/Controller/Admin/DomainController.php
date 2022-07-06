@@ -37,9 +37,9 @@ class DomainController extends AbstractActionController
     public function listAction()
     {
         $service = $this->getAdminDomainService();
-        
+
         $domains = $service->getDomainMapper()->findAll();
-        
+
         if (is_array($domains)) {
             $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($domains));
             $paginator->setItemCountPerPage(25);
@@ -49,7 +49,7 @@ class DomainController extends AbstractActionController
         } else {
             $paginator = $domains;
         }
-        
+
         return array(
             'domains' => $paginator
         );
@@ -60,9 +60,9 @@ class DomainController extends AbstractActionController
         $service = $this->getAdminDomainService();
         $viewModel = new ViewModel();
         $viewModel->setTemplate('playground-flow/admin/domain/domain');
-        
+
         $domain = new Domain();
-        
+
         $form = $this->getServiceLocator()->get('playgroundflow_domain_form');
         $form->bind($domain);
         $form->get('submit')->setLabel('Add');
@@ -71,7 +71,7 @@ class DomainController extends AbstractActionController
             'domainId' => 0
             )));
         $form->setAttribute('method', 'post');
-        
+
         $request = $this->getRequest();
         if ($request->isPost()) {
             $data = array_merge($this->getRequest()
@@ -84,11 +84,11 @@ class DomainController extends AbstractActionController
                 $this->flashMessenger()
                     ->setNamespace('playgroundflow')
                     ->addMessage('The domain was created');
-                
+
                 return $this->redirect()->toRoute('admin/playgroundflow/domain');
             }
         }
-        
+
         return $viewModel->setVariables(array(
             'form' => $form
         ));
@@ -100,15 +100,15 @@ class DomainController extends AbstractActionController
         $domainId = $this->getEvent()
             ->getRouteMatch()
             ->getParam('domainId');
-        
+
         if (! $domainId) {
             return $this->redirect()->toRoute('admin/playgroundflow/domain/create');
         }
-        
+
         $domain = $service->getDomainMapper()->findById($domainId);
         $viewModel = new ViewModel();
         $viewModel->setTemplate('playground-flow/admin/domain/domain');
-        
+
         $form = $this->getServiceLocator()->get('playgroundflow_domain_form');
         $form->bind($domain);
         $form->get('submit')->setLabel('Add');
@@ -118,7 +118,7 @@ class DomainController extends AbstractActionController
             )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
-        
+
         if ($this->getRequest()->isPost()) {
             $data = array_merge($this->getRequest()
                 ->getPost()
@@ -126,12 +126,12 @@ class DomainController extends AbstractActionController
                 ->getFiles()
                 ->toArray());
             $result = $service->edit($data, $domain);
-            
+
             if ($result) {
                 return $this->redirect()->toRoute('admin/playgroundflow/domain');
             }
         }
-        
+
         return $viewModel->setVariables(array(
             'form' => $form
         ));
@@ -143,11 +143,11 @@ class DomainController extends AbstractActionController
         $domainId = $this->getEvent()
             ->getRouteMatch()
             ->getParam('domainId');
-        
+
         if (! $domainId) {
             return $this->redirect()->toRoute('admin/playgroundflow/domain/create');
         }
-        
+
         $domain = $service->getDomainMapper()->findById($domainId);
         if ($domain) {
             try {
@@ -162,7 +162,7 @@ class DomainController extends AbstractActionController
                 // throw $e;
             }
         }
-        
+
         return $this->redirect()->toRoute('admin/playgroundflow/domain');
     }
 
@@ -175,10 +175,10 @@ class DomainController extends AbstractActionController
             return $this->redirect()->toRoute('admin/playgroundflow/domain');
         }
         $service = $this->getAdminDomainService();
-        
+
         $domain = $service->getDomainMapper()->findById($domainId);
         $mapping = $service->getStoryMappingMapper()->findByDomainId($domainId);
-        
+
         if (is_array($mapping)) {
             $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($mapping));
             $paginator->setItemCountPerPage(25);
@@ -188,7 +188,7 @@ class DomainController extends AbstractActionController
         } else {
             $paginator = $mapping;
         }
-        
+
         return array(
             'mapping' => $paginator,
             'domainId' => $domainId,
@@ -204,13 +204,13 @@ class DomainController extends AbstractActionController
         $domainId = $this->getEvent()
             ->getRouteMatch()
             ->getParam('domainId');
-        
+
         if (! $domainId) {
             return $this->redirect()->toRoute('admin/playgroundflow/domain');
         }
-        
+
+        $domain = $service->getDomainMapper()->findById($domainId);
         $mapping = new Mapping();
-        
         $form = $this->getServiceLocator()->get('playgroundflow_storymapping_form');
         $form->bind($mapping);
         $form->get('submit')->setLabel('Add');
@@ -221,7 +221,7 @@ class DomainController extends AbstractActionController
             'mappingId' => 0
             )));
         $form->setAttribute('method', 'post');
-        
+
         $request = $this->getRequest();
         if ($request->isPost()) {
             $data = array_merge($this->getRequest()
@@ -234,15 +234,16 @@ class DomainController extends AbstractActionController
                 $this->flashMessenger()
                     ->setNamespace('playgroundflow')
                     ->addMessage('The story was created');
-                
+
                 return $this->redirect()->toRoute('admin/playgroundflow/domain/story', array(
                     'domainId' => $domainId
                 ));
             }
         }
-        
+
         return $viewModel->setVariables(array(
-            'form' => $form
+            'form' => $form,
+            'domain' => $domain
         ));
     }
 
@@ -255,17 +256,18 @@ class DomainController extends AbstractActionController
         $mappingId = $this->getEvent()
             ->getRouteMatch()
             ->getParam('mappingId');
-        
+
         if (! $mappingId) {
             return $this->redirect()->toRoute('admin/playgroundflow/domain/story', array(
                 'domainId' => $domainId
             ));
         }
-        
+
+        $domain = $service->getDomainMapper()->findById($domainId);
         $storyMapping = $service->getStoryMappingMapper()->findById($mappingId);
         $viewModel = new ViewModel();
         $viewModel->setTemplate('playground-flow/admin/domain/story');
-        
+
         $form = $this->getServiceLocator()->get('playgroundflow_storymapping_form');
         $form->bind($storyMapping);
         $form->get('domainId')->setAttribute('value', $domainId);
@@ -276,25 +278,26 @@ class DomainController extends AbstractActionController
             )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
-        
+
         if ($this->getRequest()->isPost()) {
             $data = array_merge($this->getRequest()
                 ->getPost()
                 ->toArray(), $this->getRequest()
                 ->getFiles()
                 ->toArray());
-            
+
             $result = $service->editStory($data, $storyMapping);
-            
+
             if ($result) {
                 return $this->redirect()->toRoute('admin/playgroundflow/domain/story', array(
                     'domainId' => $domainId
                 ));
             }
         }
-        
+
         return $viewModel->setVariables(array(
-            'form' => $form
+            'form' => $form,
+            'domain' => $domain,
         ));
     }
 
@@ -307,13 +310,13 @@ class DomainController extends AbstractActionController
         $mappingId = $this->getEvent()
             ->getRouteMatch()
             ->getParam('mappingId');
-        
+
         if (! $mappingId) {
             return $this->redirect()->toRoute('admin/playgroundflow/domain/story', array(
                 'domainId' => $domainId
             ));
         }
-        
+
         $storyMapping = $service->getStoryMappingMapper()->findById($mappingId);
         if ($storyMapping) {
             try {
@@ -328,7 +331,7 @@ class DomainController extends AbstractActionController
                 // throw $e;
             }
         }
-        
+
         return $this->redirect()->toRoute('admin/playgroundflow/domain/story', array(
             'domainId' => $domainId
         ));
@@ -349,9 +352,9 @@ class DomainController extends AbstractActionController
             ));
         }
         $storyMapping = $service->getStoryMappingMapper()->findById($mappingId);
-        
+
         $objects = $storyMapping->getObjects()->toArray();
-        
+
         if (is_array($objects)) {
             $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($objects));
             $paginator->setItemCountPerPage(25);
@@ -361,7 +364,7 @@ class DomainController extends AbstractActionController
         } else {
             $paginator = $objects;
         }
-        
+
         return array(
             'mapping' => $paginator,
             'mappingId' => $mappingId,
@@ -390,15 +393,15 @@ class DomainController extends AbstractActionController
         $storyMapping = $service->getStoryMappingMapper()->findById($mappingId);
         $objectMapping = new ObjectMapping();
         $objectMapping->setStoryMapping($storyMapping);
-        
+
         $viewModel = new ViewModel();
         $viewModel->setTemplate('playground-flow/admin/domain/object');
-        
+
         $objectsArray = array();
         foreach ($storyMapping->getStory()->getObjects() as $object) {
             $objectsArray[$object->getId()] = $object->getLabel();
         }
-        
+
         $form = $this->getServiceLocator()->get('playgroundflow_objectmapping_form');
         $form->get('object')->setAttribute('options', $objectsArray);
 
@@ -411,7 +414,7 @@ class DomainController extends AbstractActionController
             )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
-        
+
         if ($this->getRequest()->isPost()) {
             $data = array_merge($this->getRequest()
                 ->getPost()
@@ -419,7 +422,7 @@ class DomainController extends AbstractActionController
                 ->getFiles()
                 ->toArray());
             $result = $service->createObject($data, $objectMapping);
-            
+
             if ($result) {
                 return $this->redirect()->toRoute('admin/playgroundflow/domain/story/object', array(
                     'domainId' => $domainId,
@@ -427,7 +430,7 @@ class DomainController extends AbstractActionController
                 ));
             }
         }
-        
+
         return $viewModel->setVariables(array(
             'form' => $form,
             'domainId' => $domainId,
@@ -457,15 +460,15 @@ class DomainController extends AbstractActionController
         }
         $storyMapping = $service->getStoryMappingMapper()->findById($mappingId);
         $objectMapping = $service->getObjectMappingMapper()->findById($objectId);
-        
+
         $viewModel = new ViewModel();
         $viewModel->setTemplate('playground-flow/admin/domain/object');
-        
+
         $objectsArray = array();
         foreach ($storyMapping->getStory()->getObjects() as $object) {
             $objectsArray[$object->getId()] = $object->getLabel();
         }
-        
+
         $form = $this->getServiceLocator()->get('playgroundflow_objectmapping_form');
         $form->get('object')->setAttribute('options', $objectsArray);
         $form->bind($objectMapping);
@@ -482,7 +485,7 @@ class DomainController extends AbstractActionController
         );
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
-        
+
         if ($this->getRequest()->isPost()) {
             $data = array_merge(
                 $this->getRequest()
@@ -493,7 +496,7 @@ class DomainController extends AbstractActionController
                     ->toArray()
             );
             $result = $service->editObject($data, $objectMapping);
-            
+
             if ($result) {
                 return $this->redirect()->toRoute(
                     'admin/playgroundflow/domain/story/object',
@@ -504,7 +507,7 @@ class DomainController extends AbstractActionController
                 );
             }
         }
-        
+
         return $viewModel->setVariables(
             array(
                 'form' => $form,
@@ -526,7 +529,7 @@ class DomainController extends AbstractActionController
         $objectId = $this->getEvent()
             ->getRouteMatch()
             ->getParam('objectId');
-        
+
         if (! $objectId) {
             return $this->redirect()->toRoute('admin/playgroundflow/domaine/story/object', array(
                 'domainId' => $domainId,
@@ -534,7 +537,7 @@ class DomainController extends AbstractActionController
                 'objectId' => $objectId
             ));
         }
-        
+
         $object = $service->getObjectMappingMapper()->findById($objectId);
         if ($object) {
             try {
@@ -549,13 +552,13 @@ class DomainController extends AbstractActionController
                 // throw $e;
             }
         }
-        
+
         return $this->redirect()->toRoute('admin/playgroundflow/domain/story/object', array(
             'domainId' => $domainId,
             'mappingId' => $mappingId,
         ));
     }
-    
+
     /*
      * public function removeAttributeAction() { $service 	= $this->getAdminObjectService(); $objectId = $this->getEvent()->getRouteMatch()->getParam('objectId'); $attributeId = $this->getEvent()->getRouteMatch()->getParam('attributeId'); if (!$attributeId) { return $this->redirect()->toRoute('admin/playgroundflow/object/attribute/create', array('objectId' => $objectId)); } $attribute = $service->getObjectAttributeMapper()->findById($attributeId); if ($attribute) { try { $service->getObjectAttributeMapper()->remove($attribute); $this->flashMessenger()->setNamespace('playgroundflow')->addMessage('The attribute has been removed'); } catch (\Doctrine\DBAL\DBALException $e) { $this->flashMessenger()->setNamespace('playgroundflow')->addMessage('This attribute is included in a story and can\'t be removed'); //throw $e; } } return $this->redirect()->toRoute('admin/playgroundflow/object/attribute', array('objectId' => $objectId)); }
      */
@@ -564,14 +567,14 @@ class DomainController extends AbstractActionController
         if (! $this->adminDomainService) {
             $this->adminDomainService = $this->getServiceLocator()->get('playgroundflow_domain_service');
         }
-        
+
         return $this->adminDomainService;
     }
 
     public function setAdminDomainService(AdminDomainService $adminDomainService)
     {
         $this->adminDomainService = $adminDomainService;
-        
+
         return $this;
     }
 }
