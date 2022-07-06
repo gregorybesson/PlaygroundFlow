@@ -1033,26 +1033,51 @@ return array(
         'target' => 'nav-icon icon-share',
         'use_route_match' => true,
         'pages' => array(
-          'create' => array(
-            'label'     => 'Create story',
-            'route'     => 'admin/playgroundflow/story/create',
+          'list' => array(
+            'label'     => 'Stories list',
+            'route'     => 'admin/playgroundflow/story',
             'resource'  => 'flow',
             'privilege' => 'list',
             'use_route_match' => true,
-          ),
-          'list' => array(
-              'label'     => 'Stories list',
-              'route'     => 'admin/playgroundflow/story',
-              'resource'  => 'flow',
-              'privilege' => 'list',
-              'use_route_match' => true,
+            'pages' => [
+              'create' => [
+                'label'     => 'Create story',
+                'route'     => 'admin/playgroundflow/story/create',
+                'resource'  => 'flow',
+                'privilege' => 'list',
+                'use_route_match' => true,
+              ],
+              'edit' => [
+                'label'     => 'Edit story',
+                'route'     => 'admin/playgroundflow/story/edit',
+                'resource'  => 'flow',
+                'privilege' => 'list',
+                'use_route_match' => true,
+              ],
+            ]
           ),
           'listactions' => array(
-              'label'     => 'Actions list',
-              'route'     => 'admin/playgroundflow/action',
-              'resource'  => 'flow',
-              'privilege' => 'list',
-              'use_route_match' => true,
+            'label'     => 'Actions list',
+            'route'     => 'admin/playgroundflow/action',
+            'resource'  => 'flow',
+            'privilege' => 'list',
+            'use_route_match' => true,
+            'pages' => [
+              'create' => [
+                'label'     => 'Create action',
+                'route'     => 'admin/playgroundflow/action/create',
+                'resource'  => 'flow',
+                'privilege' => 'list',
+                'use_route_match' => true,
+              ],
+              'edit' => [
+                'label'     => 'Edit action',
+                'route'     => 'admin/playgroundflow/action/edit',
+                'resource'  => 'flow',
+                'privilege' => 'list',
+                'use_route_match' => true,
+              ],
+            ],
           ),
           'listobjects' => array(
             'label'     => 'Objects list',
@@ -1060,6 +1085,22 @@ return array(
             'resource'  => 'flow',
             'privilege' => 'list',
             'use_route_match' => true,
+            'pages' => [
+              'create' => [
+                'label'     => 'Create object',
+                'route'     => 'admin/playgroundflow/object/create',
+                'resource'  => 'flow',
+                'privilege' => 'list',
+                'use_route_match' => true,
+              ],
+              'edit' => [
+                'label'     => 'Edit object',
+                'route'     => 'admin/playgroundflow/object/edit',
+                'resource'  => 'flow',
+                'privilege' => 'list',
+                'use_route_match' => true,
+              ],
+            ],
           ),
           'listapps' => array(
             'label'     => 'Domains list',
@@ -1138,6 +1179,22 @@ return array(
               'resource'  => 'flow',
               'privilege' => 'list',
               'use_route_match' => true,
+              'pages' => [
+                  'create' => [
+                      'label'     => 'Create a widget',
+                      'route'     => 'admin/playgroundflow/widget/create',
+                      'resource'  => 'flow',
+                      'privilege' => 'edit',
+                      'use_route_match' => true,
+                  ],
+                  'edit' => [
+                      'label'     => 'Edit a widget',
+                      'route'     => 'admin/playgroundflow/widget/edit',
+                      'resource'  => 'flow',
+                      'privilege' => 'edit',
+                      'use_route_match' => true,
+                  ],
+              ]
           ),
           'listwebtechnos' => array(
               'label'     => 'WebTechnos list',
@@ -1145,6 +1202,68 @@ return array(
               'resource'  => 'flow',
               'privilege' => 'list',
               'use_route_match' => true,
+              'pages' => [
+                'create' => [
+                  'label'     => 'Create a webtechno',
+                  'route'     => 'admin/playgroundflow/webtechno/create',
+                  'resource'  => 'flow',
+                  'privilege' => 'edit',
+                  'use_route_match' => true,
+                ],
+                'edit' => [
+                  'label'     => 'Edit a webtechno',
+                  'route'     => 'admin/playgroundflow/webtechno/edit',
+                  'resource'  => 'flow',
+                  'privilege' => 'edit',
+                  'use_route_match' => true,
+                ],
+                'story' => [
+                  'label'     => 'Stories list',
+                  'route'     => 'admin/playgroundflow/webtechno/story',
+                  'resource'  => 'flow',
+                  'privilege' => 'list',
+                  'use_route_match' => true,
+                  'pages' => [
+                    'create' => [
+                      'label'     => 'Create a story',
+                      'route'     => 'admin/playgroundflow/webtechno/story/create',
+                      'resource'  => 'flow',
+                      'privilege' => 'edit',
+                      'use_route_match' => true,
+                    ],
+                    'edit' => [
+                      'label'     => 'Edit a story',
+                      'route'     => 'admin/playgroundflow/webtechno/story/edit',
+                      'resource'  => 'flow',
+                      'privilege' => 'edit',
+                      'use_route_match' => true,
+                    ],
+                    'object' => [
+                      'label'     => 'Objects list',
+                      'route'     => 'admin/playgroundflow/webtechno/story/object',
+                      'resource'  => 'flow',
+                      'privilege' => 'list',
+                      'use_route_match' => true,
+                      'pages' => [
+                        'create' => [
+                          'label'     => 'Create an object',
+                          'route'     => 'admin/playgroundflow/webtechno/story/object/create',
+                          'resource'  => 'flow',
+                          'privilege' => 'edit',
+                          'use_route_match' => true,
+                        ],
+                        'edit' => [
+                          'label'     => 'Edit an object',
+                          'route'     => 'admin/playgroundflow/webtechno/story/object/edit',
+                          'resource'  => 'flow',
+                          'privilege' => 'edit',
+                          'use_route_match' => true,
+                        ],
+                      ],
+                    ],
+                  ],
+                ]
+              ]
           ),
         ),
       ),
