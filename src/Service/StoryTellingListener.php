@@ -49,16 +49,15 @@ class StoryTellingListener implements ListenerAggregateInterface
     {
         //Creating the Pre-events
         $sm = $this->serviceLocator;
-        
+
         $app = $sm->get('Application');
         $uri = $app->getRequest()->getUri();
         $domainId = $uri->getHost();
-
         $domainService = $sm->get('playgroundflow_domain_service');
         $storyTellingService = $sm->get('playgroundflow_storytelling_service');
-        
+
         $domain = $domainService->getDomainMapper()->findOneBy(['domain'=>$domainId]);
-        
+
         $storymappings = $storyTellingService->getStoryMappingMapper()->findBy(
             ['domain' => $domain]
         );
@@ -79,7 +78,7 @@ class StoryTellingListener implements ListenerAggregateInterface
                 );
                 $storyBefore[] = $storyMapping->getEventBeforeUrl();
             }
-            
+
             if ($storyMapping->getEventAfterUrl()
                 && !in_array($storyMapping->getEventAfterUrl(), $storyAfter)
             ) {
@@ -92,7 +91,7 @@ class StoryTellingListener implements ListenerAggregateInterface
                 $storyAfter[] = $storyMapping->getEventAfterUrl();
             }
         }
-        // This event can be triggered to add or remove points from the leaderboard 
+        // This event can be triggered to add or remove points from the leaderboard
         // $this->listeners[] = $events->getSharedManager()->attach(
         //     '*',
         //     'leaderboardUserUpdate',
@@ -124,12 +123,12 @@ class StoryTellingListener implements ListenerAggregateInterface
     {
         $user = $e->getParam('user');
         $secretKey = $e->getParam('secretKey');
-        
+
         $sm = $e->getTarget()->getServiceManager();
         $storyTellingService = $sm->get('playgroundflow_storytelling_service');
-        
+
         $sponsorStory = $storyTellingService->getStoryTellingMapper()->findOneBySecretKey($secretKey);
-        
+
         if ($sponsorStory) {
             $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
                 'eventAfterUrl' => $e->getName()
@@ -140,7 +139,7 @@ class StoryTellingListener implements ListenerAggregateInterface
                     'id' => $user->getId(),
                     'email' => $user->getEmail()
                 );
-                
+
                 $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
                 $storyTelling->setOpenGraphStoryMapping($story)
                     ->setUser($sponsorStory->getUser())
@@ -159,13 +158,13 @@ class StoryTellingListener implements ListenerAggregateInterface
     {
         $data = $e->getParam('data');
         $user = $e->getParam('user');
-        
+
         $sm = $e->getTarget()->getServiceManager();
         $storyTellingService = $sm->get('playgroundflow_storytelling_service');
         /*
          * $logText = 'optin avant : ' . $user->getOptin() . 'apres : ' . $data['optin'] . '<br/>'; $logText .= 'optinPartner avant : ' . $user->getOptinPartner() . 'apres : ' . $data['optinPartner']. '<br/>'; $sm->get('jhu.zdt_logger')->info($logText);
          */
-        
+
         // si avant !=1 et apres=1 => true
         if ($user->getOptin() != 1 && $data['optin'] == 1 && $e->getName() == 'updateNewsletter.pre') {
             $storiesMapping = $storyTellingService->getStoryMappingMapper()->findBy(array(
@@ -179,12 +178,12 @@ class StoryTellingListener implements ListenerAggregateInterface
                 ));
                 $nbStories += count($stories);
             }
-            
+
             if ($nbStories == 0) {
                 $this->eventsArray['updateNewsletter.post'] = true;
             }
         }
-        
+
         if ($user->getOptinPartner() != 1 && $data['optinPartner'] == 1 && $e->getName() == 'updateNewsletterPartner.pre') {
             $storiesMapping = $storyTellingService->getStoryMappingMapper()->findBy(array(
                 'eventAfterUrl' => 'updateNewsletterPartner.post'
@@ -212,7 +211,7 @@ class StoryTellingListener implements ListenerAggregateInterface
         $user = $e->getParam('user');
         $sm = $e->getTarget()->getServiceManager();
         $storyTellingService = $sm->get('playgroundflow_storytelling_service');
-        
+
         if (isset($this->eventsArray[$e->getName()]) && $this->eventsArray[$e->getName()] === true) {
             // On compte les events
             $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
@@ -234,23 +233,23 @@ class StoryTellingListener implements ListenerAggregateInterface
         }
         $this->eventsArray[$e->getName()] = false;
     }
-    
+
     public function tellStoryBefore(\Laminas\EventManager\Event $e)
     {
         $data = $e->getParam('data');
         $user = $e->getParam('user');
         $secretKey = $e->getParam('secretKey');
-        
+
         $sm = $e->getTarget()->getServiceManager();
         $storyTellingService = $sm->get('playgroundflow_storytelling_service');
-        
+
         // I reset the array before anything
         $this->eventsArray[$e->getName()] = null;
-        
+
         $stories = $storyTellingService->getStoryMappingMapper()->findBy(array(
             'eventBeforeUrl' => $e->getName()
         ));
-        
+
         foreach ($stories as $storyMapping) {
             $objectArray = array();
             foreach ($storyMapping->getObjects() as $objectMapping) {
@@ -270,7 +269,7 @@ class StoryTellingListener implements ListenerAggregateInterface
             }
         }
     }
-    
+
     /**
      *
      * @param Event $e
@@ -282,18 +281,18 @@ class StoryTellingListener implements ListenerAggregateInterface
         $secretKey  = $e->getParam('secretKey');
         $sponsor    = null;
         $sponsorKey = null;
-        
+
         $sm  = $e->getTarget()->getServiceManager();
-        
+
         $app = $sm->get('Application');
         $uri = $app->getRequest()->getUri();
         $domainId = $uri->getHost();
-        
+
         $domainService = $sm->get('playgroundflow_domain_service');
         $storyTellingService = $sm->get('playgroundflow_storytelling_service');
-        
+
         $domain = $domainService->getDomainMapper()->findOneBy(array('domain'=>$domainId));
-    
+
         // If the sponsorKey is not empty, I search the user associated with it as I want him to live the story
         if (isset($_COOKIE['key'])) {
             $sponsorKey  = $_COOKIE['key'];
@@ -304,7 +303,7 @@ class StoryTellingListener implements ListenerAggregateInterface
                 $sponsor = $sponsorStory->getUser();
             }
         }
-        
+
         $stories = $storyTellingService->getStoryMappingMapper()->findBy(
             [
                 'domain' => $domain,
@@ -393,7 +392,7 @@ class StoryTellingListener implements ListenerAggregateInterface
             }
 
             if ($createStoryTelling) {
-                
+
                 $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
                 $storyTelling->setOpenGraphStoryMapping($storyMapping)
                     ->setUser($recipient)
@@ -428,7 +427,7 @@ class StoryTellingListener implements ListenerAggregateInterface
         // $objectArray = [];
         // $objectArray['game'] = ['title' => $game->getTitle(), 'identifier' => $game->getIdentifier()];
         // $objectArray['entry'] = ['id' => $entry->getId(), 'paidAmount' => $entry->getPaidAmount()];
-        
+
         // $storyTellingService = $sm->get('playgroundflow_storytelling_service');
         // $storyTelling = new \PlaygroundFlow\Entity\OpenGraphStoryTelling();
         // $storyTelling->setOpenGraphStoryMapping(null)
@@ -462,7 +461,7 @@ class StoryTellingListener implements ListenerAggregateInterface
         if (is_array($op1)) {
             return in_array($op2, $op1);
         }
-        
+
         return false;
     }
 
@@ -471,7 +470,7 @@ class StoryTellingListener implements ListenerAggregateInterface
         if (is_array($op1)) {
             return !in_array($op2, $op1);
         }
-        
+
         return false;
     }
 
@@ -500,7 +499,7 @@ class StoryTellingListener implements ListenerAggregateInterface
         if (! $this->leaderboardService) {
             $this->leaderboardService = $this->serviceLocator->get('playgroundreward_leaderboard_service');
         }
-    
+
         return $this->leaderboardService;
     }
 

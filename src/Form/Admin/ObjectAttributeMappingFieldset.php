@@ -16,9 +16,9 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
     public function __construct($name = null, ServiceManager $serviceManager, Translator $translator)
     {
         parent::__construct($name);
-        
+
         $this->setServiceManager($serviceManager);
-        
+
         $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
 
         $this->setHydrator(
@@ -35,7 +35,7 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
                 'name' => 'id'
             )
         );
-        
+
         $this->add(
             array(
                 'name' => 'attribute',
@@ -53,7 +53,7 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
                 )
             )
         );
-        
+
         $this->add(
             array(
                 'name' => 'attributeArray',
@@ -71,7 +71,7 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
                 )
             )
         );
-        
+
         $this->add(
             array(
                 'name' => 'xpath',
@@ -158,24 +158,24 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
             ),
         );
     }
-    
+
     /**
      *
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         $attributesArray = array();
         $objectService = $this->getServiceManager()->get('playgroundflow_object_service');
         $attributes = $objectService->getObjectAttributeMapper()->findAll();
-    
+
         foreach ($attributes as $attribute) {
-            $attributesArray[$attribute->getId()] = $attribute->getLabel();
+            $attributesArray["_".$attribute->getId()] = $attribute->getLabel();
         }
-    
+
         return $attributesArray;
     }
-    
+
     /**
      * Retrieve service manager instance
      *
@@ -185,7 +185,7 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
     {
         return $this->serviceManager;
     }
-    
+
     /**
      * Set service manager instance
      *
@@ -195,7 +195,7 @@ class ObjectAttributeMappingFieldset extends Fieldset implements InputFilterProv
     public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
-    
+
         return $this;
     }
 }
