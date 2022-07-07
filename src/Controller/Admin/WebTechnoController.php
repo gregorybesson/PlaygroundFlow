@@ -36,9 +36,9 @@ class WebTechnoController extends AbstractActionController
     public function listAction()
     {
         $service = $this->getAdminWebTechnoService();
-        
+
         $webtechnos = $service->getWebTechnoMapper()->findAll();
-        
+
         if (is_array($webtechnos)) {
             $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($webtechnos));
             $paginator->setItemCountPerPage(25);
@@ -48,7 +48,7 @@ class WebTechnoController extends AbstractActionController
         } else {
             $paginator = $webtechnos;
         }
-        
+
         return array(
             'webtechnos' => $paginator
         );
@@ -59,9 +59,9 @@ class WebTechnoController extends AbstractActionController
         $service = $this->getAdminWebTechnoService();
         $viewModel = new ViewModel();
         $viewModel->setTemplate('playground-flow/web-techno/webtechno');
-        
+
         $webtechno = new WebTechno();
-        
+
         $form = $this->getServiceLocator()->get('playgroundflow_webtechno_form');
         $form->bind($webtechno);
         $form->get('submit')->setLabel('Add');
@@ -73,7 +73,7 @@ class WebTechnoController extends AbstractActionController
             )
         );
         $form->setAttribute('method', 'post');
-        
+
         $request = $this->getRequest();
         if ($request->isPost()) {
             $data = array_merge(
@@ -85,11 +85,11 @@ class WebTechnoController extends AbstractActionController
                 $this->flashMessenger()
                     ->setNamespace('playgroundflow')
                     ->addMessage('The webtechno was created');
-                
+
                 return $this->redirect()->toRoute('admin/playgroundflow/webtechno');
             }
         }
-        
+
         return $viewModel->setVariables(
             ['form' => $form]
         );
@@ -101,15 +101,15 @@ class WebTechnoController extends AbstractActionController
         $webTechnoId = $this->getEvent()
             ->getRouteMatch()
             ->getParam('webTechnoId');
-        
+
         if (! $webTechnoId) {
             return $this->redirect()->toRoute('admin/playgroundflow/webtechno/create');
         }
-        
+
         $webTechno = $service->getWebTechnoMapper()->findById($webTechnoId);
         $viewModel = new ViewModel();
         $viewModel->setTemplate('playground-flow/web-techno/webtechno');
-        
+
         $form = $this->getServiceLocator()->get('playgroundflow_webtechno_form');
         $form->bind($webTechno);
         $form->setAttribute('action', $this->url()
@@ -118,7 +118,7 @@ class WebTechnoController extends AbstractActionController
             )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
-        
+
         if ($this->getRequest()->isPost()) {
             $data = array_merge($this->getRequest()
                 ->getPost()
@@ -126,12 +126,12 @@ class WebTechnoController extends AbstractActionController
                 ->getFiles()
                 ->toArray());
             $result = $service->edit($data, $webTechno);
-            
+
             if ($result) {
                 return $this->redirect()->toRoute('admin/playgroundflow/webtechno');
             }
         }
-        
+
         return $viewModel->setVariables(array(
             'form' => $form
         ));
@@ -143,11 +143,11 @@ class WebTechnoController extends AbstractActionController
         $webTechnoId = $this->getEvent()
             ->getRouteMatch()
             ->getParam('webTechnoId');
-        
+
         if (! $webTechnoId) {
             return $this->redirect()->toRoute('admin/playgroundflow/webtechno/create');
         }
-        
+
         $webTechno = $service->getWebTechnoMapper()->findById($webTechnoId);
         if ($webTechno) {
             try {
@@ -162,7 +162,7 @@ class WebTechnoController extends AbstractActionController
                 // throw $e;
             }
         }
-        
+
         return $this->redirect()->toRoute('admin/playgroundflow/webtechno');
     }
 
@@ -175,10 +175,10 @@ class WebTechnoController extends AbstractActionController
             return $this->redirect()->toRoute('admin/playgroundflow/webtechno');
         }
         $service = $this->getAdminWebTechnoService();
-        
+
         $webTechno = $service->getWebTechnoMapper()->findById($webTechnoId);
         $mapping = $service->getStoryMappingMapper()->findByWebTechnoId($webTechnoId);
-        
+
         if (is_array($mapping)) {
             $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($mapping));
             $paginator->setItemCountPerPage(25);
@@ -188,7 +188,7 @@ class WebTechnoController extends AbstractActionController
         } else {
             $paginator = $mapping;
         }
-        
+
         return array(
             'mapping' => $paginator,
             'webTechnoId' => $webTechnoId,
@@ -204,13 +204,15 @@ class WebTechnoController extends AbstractActionController
         $webTechnoId = $this->getEvent()
             ->getRouteMatch()
             ->getParam('webTechnoId');
-        
+
         if (! $webTechnoId) {
             return $this->redirect()->toRoute('admin/playgroundflow/webtechno');
         }
-        
+
+        $webTechno = $service->getWebTechnoMapper()->findById($webTechnoId);
+
         $mapping = new Mapping();
-        
+
         $form = $this->getServiceLocator()->get('playgroundflow_storymapping_form');
         $form->bind($mapping);
         $form->get('submit')->setLabel('Add');
@@ -226,7 +228,7 @@ class WebTechnoController extends AbstractActionController
             )
         );
         $form->setAttribute('method', 'post');
-        
+
         $request = $this->getRequest();
         if ($request->isPost()) {
             $data = array_merge(
@@ -238,16 +240,19 @@ class WebTechnoController extends AbstractActionController
                 $this->flashMessenger()
                     ->setNamespace('playgroundflow')
                     ->addMessage('The story was created');
-                
+
                 return $this->redirect()->toRoute(
                     'admin/playgroundflow/webtechno/story',
                     ['webTechnoId' => $webTechnoId]
                 );
             }
         }
-        
+
         return $viewModel->setVariables(
-            ['form' => $form]
+            [
+                'form' => $form,
+                'webTechno' => $webTechno,
+            ]
         );
     }
 
@@ -260,17 +265,19 @@ class WebTechnoController extends AbstractActionController
         $mappingId = $this->getEvent()
             ->getRouteMatch()
             ->getParam('mappingId');
-        
+
         if (! $mappingId) {
             return $this->redirect()->toRoute('admin/playgroundflow/webtechno/story', array(
                 'webTechnoId' => $webTechnoId
             ));
         }
-        
+
+        $webTechno = $service->getWebTechnoMapper()->findById($webTechnoId);
+
         $storyMapping = $service->getStoryMappingMapper()->findById($mappingId);
         $viewModel = new ViewModel();
         $viewModel->setTemplate('playground-flow/web-techno/story');
-        
+
         $form = $this->getServiceLocator()->get('playgroundflow_storymapping_form');
         $form->bind($storyMapping);
         $form->get('webTechnoId')->setAttribute('value', $webTechnoId);
@@ -281,26 +288,27 @@ class WebTechnoController extends AbstractActionController
             )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
-        
+
         if ($this->getRequest()->isPost()) {
             $data = array_merge($this->getRequest()
                 ->getPost()
                 ->toArray(), $this->getRequest()
                 ->getFiles()
                 ->toArray());
-            
+
             $result = $service->editStory($data, $storyMapping);
-            
+
             if ($result) {
                 return $this->redirect()->toRoute('admin/playgroundflow/webtechno/story', array(
                     'webTechnoId' => $webTechnoId
                 ));
             }
         }
-        
-        return $viewModel->setVariables(array(
-            'form' => $form
-        ));
+
+        return $viewModel->setVariables([
+            'form' => $form,
+            'webTechno' => $webTechno,
+        ]);
     }
 
     public function removeStoryAction()
@@ -312,13 +320,13 @@ class WebTechnoController extends AbstractActionController
         $mappingId = $this->getEvent()
             ->getRouteMatch()
             ->getParam('mappingId');
-        
+
         if (! $mappingId) {
             return $this->redirect()->toRoute('admin/playgroundflow/webtechno/story', array(
                 'webTechnoId' => $webTechnoId
             ));
         }
-        
+
         $storyMapping = $service->getStoryMappingMapper()->findById($mappingId);
 
         if ($storyMapping) {
@@ -334,7 +342,7 @@ class WebTechnoController extends AbstractActionController
                 // throw $e;
             }
         }
-        
+
         return $this->redirect()->toRoute('admin/playgroundflow/webtechno/story', array(
             'webTechnoId' => $webTechnoId
         ));
@@ -355,9 +363,9 @@ class WebTechnoController extends AbstractActionController
             ));
         }
         $storyMapping = $service->getStoryMappingMapper()->findById($mappingId);
-        
+
         $objects = $storyMapping->getObjects()->toArray();
-        
+
         if (is_array($objects)) {
             $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($objects));
             $paginator->setItemCountPerPage(25);
@@ -367,7 +375,7 @@ class WebTechnoController extends AbstractActionController
         } else {
             $paginator = $objects;
         }
-        
+
         return array(
             'mapping' => $paginator,
             'mappingId' => $mappingId,
@@ -397,15 +405,15 @@ class WebTechnoController extends AbstractActionController
         $storyMapping = $service->getStoryMappingMapper()->findById($mappingId);
         $objectMapping = new ObjectMapping();
         $objectMapping->setStoryMapping($storyMapping);
-        
+
         $viewModel = new ViewModel();
         $viewModel->setTemplate('playground-flow/web-techno/object');
-        
+
         $objectsArray = array();
         foreach ($storyMapping->getStory()->getObjects() as $object) {
             $objectsArray[$object->getId()] = $object->getLabel();
         }
-        
+
         $form = $this->getServiceLocator()->get('playgroundflow_objectmapping_form');
         $form->get('object')->setAttribute('options', $objectsArray);
 
@@ -423,14 +431,14 @@ class WebTechnoController extends AbstractActionController
         );
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
-        
+
         if ($this->getRequest()->isPost()) {
             $data = array_merge(
                 $this->getRequest()->getPost()->toArray(),
                 $this->getRequest()->getFiles()->toArray()
             );
             $result = $service->createObject($data, $objectMapping);
-            
+
             if ($result) {
                 return $this->redirect()->toRoute(
                     'admin/playgroundflow/webtechno/story/object',
@@ -441,7 +449,7 @@ class WebTechnoController extends AbstractActionController
                 );
             }
         }
-        
+
         return $viewModel->setVariables(
             [
                 'form' => $form,
@@ -470,15 +478,15 @@ class WebTechnoController extends AbstractActionController
         }
         $storyMapping = $service->getStoryMappingMapper()->findById($mappingId);
         $objectMapping = $service->getObjectMappingMapper()->findById($objectId);
-        
+
         $viewModel = new ViewModel();
         $viewModel->setTemplate('playground-flow/web-techno/object');
-        
+
         $objectsArray = array();
         foreach ($storyMapping->getStory()->getObjects() as $object) {
             $objectsArray[$object->getId()] = $object->getLabel();
         }
-        
+
         $form = $this->getServiceLocator()->get('playgroundflow_objectmapping_form');
         $form->get('object')->setAttribute('options', $objectsArray);
         $form->bind($objectMapping);
@@ -490,7 +498,7 @@ class WebTechnoController extends AbstractActionController
             )));
         $form->setAttribute('method', 'post');
         $form->get('submit')->setLabel('Edit');
-        
+
         if ($this->getRequest()->isPost()) {
             $data = array_merge($this->getRequest()
                 ->getPost()
@@ -498,7 +506,7 @@ class WebTechnoController extends AbstractActionController
                 ->getFiles()
                 ->toArray());
             $result = $service->editObject($data, $objectMapping);
-            
+
             if ($result) {
                 return $this->redirect()->toRoute('admin/playgroundflow/webtechno/story/object', array(
                     'webTechnoId' => $webTechnoId,
@@ -506,7 +514,7 @@ class WebTechnoController extends AbstractActionController
                 ));
             }
         }
-        
+
         return $viewModel->setVariables(array(
             'form' => $form,
             'webTechnoId' => $webTechnoId,
@@ -526,7 +534,7 @@ class WebTechnoController extends AbstractActionController
         $objectId = $this->getEvent()
             ->getRouteMatch()
             ->getParam('objectId');
-        
+
         if (! $objectId) {
             return $this->redirect()->toRoute('admin/playgroundflow/webtechno/story/object', array(
                 'webTechnoId' => $webTechnoId,
@@ -534,7 +542,7 @@ class WebTechnoController extends AbstractActionController
                 'objectId' => $objectId
             ));
         }
-        
+
         $object = $service->getObjectMappingMapper()->findById($objectId);
         if ($object) {
             try {
@@ -549,7 +557,7 @@ class WebTechnoController extends AbstractActionController
                 // throw $e;
             }
         }
-        
+
         return $this->redirect()->toRoute('admin/playgroundflow/webtechno/story/object', array(
             'webTechnoId' => $webTechnoId,
             'mappingId' => $mappingId,
@@ -561,7 +569,7 @@ class WebTechnoController extends AbstractActionController
         if (! $this->adminWebTechnoService) {
             $this->adminWebTechnoService = $this->getServiceLocator()->get('playgroundflow_webtechno_service');
         }
-        
+
         return $this->adminWebTechnoService;
     }
 }

@@ -13,7 +13,10 @@ return array(
           'PlaygroundFlow\Entity'  => 'playgroundflow_entity'
         )
       )
-    )
+    ),
+    'fixture' => array(
+        'PlaygroundUser' => __DIR__ . '/../src/DataFixtures/ORM',
+    ),
   ),
   'bjyauthorize' => array(
     'resource_providers' => array(
@@ -41,6 +44,9 @@ return array(
       ),
     ),
   ),
+  'data-fixture' => array(
+    'PlaygroundFlow_fixture' => __DIR__ . '/../src/DataFixtures/ORM',
+    ),
   'view_manager' => array(
     'template_map' => array(
     ),
@@ -1099,6 +1105,29 @@ return array(
                 'resource'  => 'flow',
                 'privilege' => 'list',
                 'use_route_match' => true,
+              ],
+              'attribute' => [
+                'label'     => 'Attributes list',
+                'route'     => 'admin/playgroundflow/object/attribute',
+                'resource'  => 'flow',
+                'privilege' => 'list',
+                'use_route_match' => true,
+                'pages' => [
+                  'create' => [
+                    'label'     => 'Create an attribute',
+                    'route'     => 'admin/playgroundflow/object/attribute/create',
+                    'resource'  => 'flow',
+                    'privilege' => 'edit',
+                    'use_route_match' => true,
+                  ],
+                  'edit' => [
+                    'label'     => 'Edit an attribute',
+                    'route'     => 'admin/playgroundflow/object/attribute/edit',
+                    'resource'  => 'flow',
+                    'privilege' => 'edit',
+                    'use_route_match' => true,
+                  ],
+                ],
               ],
             ],
           ),
